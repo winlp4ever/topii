@@ -1,6 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import Graph from './components/graph'
+import "@radix-ui/themes/styles.css";
 
 const Home: React.FC = () => {
   return (
@@ -12,7 +13,6 @@ const Home: React.FC = () => {
       </Head>
 
       <main>
-        <h1>Welcome to Next.js with React Flow</h1>
         <Graph />
       </main>
     </div>
