@@ -1,4 +1,6 @@
-import React, { useEffect } from 'react';
+'use client';
+
+import React from 'react';
 import Head from 'next/head';
 import Graph from './components/graph'
 import "@radix-ui/themes/styles.css";
@@ -9,18 +11,6 @@ const queryClient = new QueryClient();
 
 
 const Home: React.FC = () => {
-  useEffect(() => {
-    if (process.env.NODE_ENV === 'development') {
-      import('./mocks/browser')
-        .then(({ worker }) => {
-          worker.start();
-        })
-        .catch(err => {
-          console.error('Failed to start MSW:', err);
-        });
-    }
-  }
-  , []);
 
   return (
     <QueryClientProvider client={queryClient}>

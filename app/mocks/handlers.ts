@@ -1,7 +1,9 @@
+'use client';
+
 import { http, HttpResponse  } from 'msw';
 import { GraphData } from '../types/graph';
 
-const mockGraphData: GraphData = {
+export const mockGraphData: GraphData = {
   nodes: [
     { id: '1', name: 'Node 1' },
     { id: '2', name: 'Node 2' },
@@ -13,6 +15,7 @@ const mockGraphData: GraphData = {
 
 export const handlers = [
   http.get('/api/graph/:nodeId', () => {
+    console.log('mocking graph data');
     return HttpResponse.json(mockGraphData);
   }),
 ];
