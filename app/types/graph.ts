@@ -1,6 +1,29 @@
-export interface Node {
+export enum NodeType {
+  Document = 'document',
+  Concept = 'concept',
+  Corpus = 'corpus',
+  QA = 'qa',
+  Exercise = 'exercise',
+}
+
+export interface Doc {
+  id: number;
+  title: string | null;
+  shortSummary: string | null;
+  summary: string | null;
+}
+
+export interface Concept {
   id: string;
-  name: string;
+  label: string;
+  definition: string;
+}
+
+export interface Node_ {
+  id: string;
+  type: NodeType;
+  doc?: Doc;
+  concept?: Concept;
 }
 
 export interface Edge {
@@ -10,6 +33,6 @@ export interface Edge {
 }
 
 export interface GraphData {
-  nodes: Node[];
+  nodes: Node_[];
   edges: Edge[];
 }

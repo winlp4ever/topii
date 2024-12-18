@@ -25,7 +25,7 @@ const Graph: React.FC = () => {
       <ReactFlow defaultNodes={data?.nodes.map(v => {
         return {
           id: v.id,
-          data: { label: <GraphNode label={v.id} definition={v.name} /> },
+          data: { label: <GraphNode node={v} /> },
           position: { x: Math.random() * 1000, y: Math.random() * 1000 }
         }
       })} defaultEdges={data?.edges} fitView>
