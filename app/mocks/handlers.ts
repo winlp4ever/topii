@@ -13,7 +13,17 @@ export const mockGraphData: GraphData =  {
         id: 1,
         title: 'Introduction to Animals',
         shortSummary: 'A brief overview of the animal kingdom.',
-        summary: 'This document provides an introduction to the animal kingdom, covering various species and their characteristics.',
+        summary: `The animal kingdom is a vast and diverse group of living organisms that inhabit nearly every corner of the Earth. Animals are multicellular, eukaryotic organisms that form the biological kingdom Animalia. They are characterized by their ability to move, reproduce sexually, and consume organic material.
+
+The kingdom is divided into various phyla, with the most well-known being Chordata, which includes vertebrates such as mammals, birds, reptiles, amphibians, and fish. Each class of animals exhibits unique adaptations that allow them to thrive in their respective environments.
+
+- **Mammals** are warm-blooded and have hair or fur.
+- **Birds** are known for their feathers and ability to fly.
+- **Reptiles** and **amphibians** are primarily cold-blooded, with reptiles having scales and amphibians undergoing metamorphosis.
+- **Fish** are adapted to aquatic life with gills and fins.
+- **Insects** and **arachnids**, part of the arthropod phylum, are incredibly diverse and play crucial roles in ecosystems.
+
+Understanding the characteristics and classifications of animals provides insight into the complexity and interdependence of life on Earth.`,
       },
     },
     {
@@ -23,7 +33,16 @@ export const mockGraphData: GraphData =  {
         id: 2,
         title: 'Animal Habitats',
         shortSummary: 'An exploration of different animal habitats.',
-        summary: 'This document explores the various habitats where animals live, including forests, oceans, and deserts.',
+        summary: `Animal habitats are the natural environments where species live, grow, and reproduce. These habitats range from dense forests and expansive oceans to arid deserts and icy polar regions. Each habitat offers unique conditions and resources that influence the types of animals that can thrive there.
+
+- **Forests** provide shelter and abundant food sources for mammals, birds, and insects.
+- **Oceans**, covering over 70% of the Earth's surface, are home to a vast array of marine life, from microscopic plankton to the largest whales.
+- **Deserts**, with their extreme temperatures and scarce water, are inhabited by specially adapted species like reptiles and certain mammals.
+- **Polar regions**, characterized by their cold climates, are home to animals such as polar bears and penguins, which have adapted to the harsh conditions.
+- **Savannas** and **grasslands** support large herbivores and predators.
+- **Wetlands** and **rivers** are crucial for amphibians and aquatic birds.
+
+Understanding animal habitats is essential for conservation efforts, as it helps identify the environmental needs of species and the impact of human activities on these ecosystems.`,
       },
     },
     // Concepts
@@ -70,6 +89,25 @@ export const mockGraphData: GraphData =  {
     { id: 'edge18', source: 'doc2', target: 'concept18' },
     { id: 'edge19', source: 'doc2', target: 'concept19' },
     { id: 'edge20', source: 'doc2', target: 'concept20' },
+    { id: 'edge21', source: 'concept1', target: 'concept5' },  // Mammals and Amphibians
+    { id: 'edge22', source: 'concept2', target: 'concept8' },  // Birds and Forests
+    { id: 'edge23', source: 'concept3', target: 'concept10' }, // Reptiles and Deserts
+    { id: 'edge24', source: 'concept4', target: 'concept9' },  // Fish and Oceans
+    { id: 'edge25', source: 'concept5', target: 'concept15' }, // Amphibians and Wetlands
+    { id: 'edge26', source: 'concept6', target: 'concept13' }, // Insects and Rainforests
+    { id: 'edge27', source: 'concept7', target: 'concept14' }, // Arachnids and Coral Reefs
+    { id: 'edge28', source: 'concept8', target: 'concept13' }, // Forests and Rainforests
+    { id: 'edge29', source: 'concept9', target: 'concept14' }, // Oceans and Coral Reefs
+    { id: 'edge30', source: 'concept10', target: 'concept11' }, // Deserts and Savannas
+    { id: 'edge31', source: 'concept11', target: 'concept16' }, // Savannas and Grasslands
+    { id: 'edge32', source: 'concept12', target: 'concept17' }, // Polar Regions and Mountains
+    { id: 'edge33', source: 'concept13', target: 'concept15' }, // Rainforests and Wetlands
+    { id: 'edge34', source: 'concept14', target: 'concept18' }, // Coral Reefs and Rivers
+    { id: 'edge35', source: 'concept15', target: 'concept19' }, // Wetlands and Lakes
+    { id: 'edge36', source: 'concept16', target: 'concept20' }, // Grasslands and Urban Areas
+    { id: 'edge37', source: 'concept17', target: 'concept18' }, // Mountains and Rivers
+    { id: 'edge38', source: 'concept18', target: 'concept19' }, // Rivers and Lakes
+    { id: 'edge39', source: 'concept19', target: 'concept20' }, // Lakes and Urban Areas
   ],
 };
 

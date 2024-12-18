@@ -15,6 +15,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
+import ReactMarkdown from 'react-markdown';
+
 import { Node_, NodeType, Doc, Concept } from "../types/graph";
 
 
@@ -39,9 +41,9 @@ const DocNode: React.FC<{ doc: Doc }> = ({ doc }) => {
           </DialogDescription>
         </DialogHeader>
         <Separator className="my-4" />
-        <DialogDescription>
-          { doc.summary }
-        </DialogDescription>
+        <div className="prose">
+          <ReactMarkdown>{ doc.summary }</ReactMarkdown>
+        </div>
       </DialogContent>
     </Dialog>
   )

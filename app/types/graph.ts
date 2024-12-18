@@ -24,9 +24,11 @@ export interface Node_ {
   type: NodeType;
   doc?: Doc;
   concept?: Concept;
+  x?: number;
+  y?: number;
 }
 
-export interface Edge {
+export interface Edge_ {
   id: string;
   source: string;
   target: string;
@@ -34,5 +36,5 @@ export interface Edge {
 
 export interface GraphData {
   nodes: Node_[];
-  edges: Edge[];
+  edges: Edge_[];
 }
