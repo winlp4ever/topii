@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import ReactMarkdown from 'react-markdown';
+import Image from 'next/image';
 
 import { Node_, NodeType, Doc, Concept } from "../types/graph";
 
@@ -66,6 +67,17 @@ const ConceptNode: React.FC<{ concept: Concept }> = ({ concept }) => {
             <p className="text-sm">
               { concept.definition }
             </p>
+            { concept.image_url && (
+              <div className="w-4/5 mx-auto">
+                <Image
+                  src={ concept.image_url }
+                  alt={ concept.label }
+                  layout="responsive"
+                  width={100} // Placeholder value
+                  height={100} // Placeholder value
+                />
+              </div>
+            )}
           </div>
         </div>
       </PopoverContent>

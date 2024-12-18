@@ -17,6 +17,7 @@ export interface Concept {
   id: string;
   label: string;
   definition: string;
+  image_url?: string;
 }
 
 export interface Node_ {
