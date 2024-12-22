@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { ReactFlow } from '@xyflow/react';
+import { Background, BackgroundVariant, ReactFlow } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import GraphNode from '../assets/graph_node';
 import { useQuery } from '@tanstack/react-query';
@@ -26,9 +26,10 @@ const Graph: React.FC = () => {
         return {
           id: v.id,
           data: { label: <GraphNode node={v} /> },
-          position: { x: Math.random() * 1000, y: Math.random() * 1000 }
+          position: { x: v.x ? v.x: Math.random() * 1000, y: v.y ? v.y: Math.random() * 1000 }
         }
       })} defaultEdges={data?.edges} fitView>
+        <Background color='#ccc' variant={ BackgroundVariant.Dots } />
       </ReactFlow>
     </div>
   );

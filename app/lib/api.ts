@@ -10,7 +10,7 @@ export function computeForceLayoutPositions(nodes: Node_[], edges: Edge_[]): Nod
   const edgesCopy = edges.map(edge => ({ ...edge }));
   // Create a simulation with nodes
   const simulation = d3.forceSimulation<SimulationNode>(simulationNodes)
-    .force('link', d3.forceLink(edgesCopy).id((d) => (d as SimulationNode).id))
+    .force('link', d3.forceLink(edgesCopy).id((d) => (d as SimulationNode).id).distance(500))
     .force('charge', d3.forceManyBody().strength(-200))
     .force('center', d3.forceCenter(0, 0)) // Center the graph at (0, 0)
     .force('collision', d3.forceCollide().radius(50));
@@ -20,9 +20,9 @@ export function computeForceLayoutPositions(nodes: Node_[], edges: Edge_[]): Nod
 
   // Stop the simulation
   simulation.stop();
-
+  console.log('simulation nodes', simulationNodes);
   // Return nodes with updated positions
-  return nodes.map(node => ({
+  return simulationNodes.map(node => ({
     ...node,
     x: node.x,
     y: node.y
