@@ -2,9 +2,10 @@
 
 import React from 'react';
 import Head from 'next/head';
-import Graph from './components/graph'
 import "@radix-ui/themes/styles.css";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Graph_ from './components/graph_';
+import { ReactFlowProvider } from '@xyflow/react';
 
 
 const queryClient = new QueryClient();
@@ -22,7 +23,9 @@ const Home: React.FC = () => {
         </Head>
 
         <main>
-          <Graph />
+          <ReactFlowProvider>
+            <Graph_ />
+          </ReactFlowProvider>
         </main>
       </div>
     </QueryClientProvider>

@@ -6,6 +6,7 @@ import GraphNode from '../assets/graph_node';
 import { useQuery } from '@tanstack/react-query';
 import { GraphData } from '../types/graph';
 import { fetchGraph } from '../lib/api';
+import SearchBar from './search-bar';
 
 
 const Graph: React.FC = () => {
@@ -31,6 +32,7 @@ const Graph: React.FC = () => {
       })} defaultEdges={data?.edges} fitView>
         <Background color='#ccc' variant={ BackgroundVariant.Dots } />
       </ReactFlow>
+      <SearchBar />
     </div>
   );
 };

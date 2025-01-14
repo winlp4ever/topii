@@ -33,9 +33,7 @@ export async function fetchGraph(nodeId: string): Promise<GraphData> {
   console.log('fetching graph data');
   if (process.env.NODE_ENV === 'development') {
     console.log('using mock data');
-    const {nodes, edges} = mockGraphData;
-    const nodes_ = computeForceLayoutPositions(nodes, edges);
-    return {nodes: nodes_, edges};
+    return mockGraphData;
   }
 
   const response = await fetch(`/api/graph/${nodeId}`);

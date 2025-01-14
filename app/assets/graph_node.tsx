@@ -70,13 +70,13 @@ const ConceptNode: React.FC<{ concept: Concept }> = ({ concept }) => {
             </p>
             { concept.image_url && (
               <div className="w-4/5 mx-auto">
-                <AspectRatio ratio={16 / 9}>
+                <AspectRatio ratio={ 16 / 9 }>
                   <Image
                     src={ concept.image_url }
                     alt={ concept.label }
                     layout="responsive"
-                    width={100} // Placeholder value
-                    height={100} // Placeholder value
+                    width={ 100 } // Placeholder value
+                    height={ 100 } // Placeholder value
                     className='rounded-md object-cover'
                   />
                 </AspectRatio>
