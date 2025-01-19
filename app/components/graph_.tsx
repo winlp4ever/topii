@@ -30,7 +30,7 @@ type GraphProps = {
 
 const nodeOrigin: NodeOrigin = [0.5, 0.5];
 
-const defaultEdgeOptions = { style: { stroke: '#ff66aa', strokeWidth: 1 } };
+const defaultEdgeOptions = { style: { strokeWidth: 1 } };
 
 const initialNodes: Node[] = []
 

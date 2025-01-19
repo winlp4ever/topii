@@ -1,5 +1,4 @@
 "use client";
-import { Tickets, BookText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -30,10 +29,12 @@ const DocNode: React.FC<{ doc: Doc }> = ({ doc }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="default">
-          <BookText />
-          <span className="text-lg">{ doc.title }</span>
-        </Button>
+        <div className="relative flex items-center bg-transparent">
+          <Button className="w-10 h-10 p-0 rounded-full flex-shrink-0" variant='purple'>
+            {"📄"}
+          </Button>
+          <span className="absolute left-12 text-black font-bold">{ doc.title }</span>
+        </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -55,10 +56,10 @@ const ConceptNode: React.FC<{ concept: Concept }> = ({ concept }) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline">
-          <Tickets />
-          <span>{ concept.label }</span>
-        </Button>
+        <div className="relative flex items-center bg-transparent">
+          <Button className="w-8 h-8 p-0 rounded-full flex-shrink-0" variant='amber'></Button>
+          <span className="absolute left-10 text-black">{concept.label}</span>
+        </div>
       </PopoverTrigger>
       <PopoverContent className="w-80">
         <div className="flex justify-between space-x-4">
@@ -89,6 +90,7 @@ const ConceptNode: React.FC<{ concept: Concept }> = ({ concept }) => {
     </Popover>
   )
 }
+
 // Define the GraphNode component as an arrow function with typed props
 const GraphNode: React.FC<GraphNodeProps> = ({ node }) => {
   if (node.type === NodeType.Concept && node.concept) {
