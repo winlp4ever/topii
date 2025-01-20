@@ -18,19 +18,43 @@ import ReactMarkdown from 'react-markdown';
 import Image from 'next/image';
 import { AspectRatio } from "@/components/ui/aspect-ratio"
 
-import { Node_, NodeType, Doc, Concept } from "../types/graph";
+import { Node_, NodeType, Doc, Concept, Corpus } from "../types/graph";
+import QANode from "./qa-node";
 
 
-type GraphNodeProps = {
-  node: Node_
-};
+const CorpusNode: React.FC<{ corpus: Corpus }> = ({ corpus }) => {
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <div className="relative flex items-center bg-transparent">
+          <Button className="w-10 h-10 p-0 rounded-full flex-shrink-0" variant='purple'>
+            {"🗂️"}
+          </Button>
+          <span className="absolute left-12 text-black font-bold">{corpus.title}</span>
+        </div>
+      </PopoverTrigger>
+      <PopoverContent className="w-80">
+        <div className="flex justify-between space-x-4">
+          <div className="space-y-1">
+            <h4 className="text-sm font-semibold">{ corpus.title }</h4>
+            <Separator className="my-4" />
+            <p className="text-sm">
+              { corpus.synthesis }
+            </p>
+          </div>
+        </div>
+      </PopoverContent>
+    </Popover>
+  )
+}
 
+// Define the ConceptNode component as an arrow function with typed props
 const DocNode: React.FC<{ doc: Doc }> = ({ doc }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
         <div className="relative flex items-center bg-transparent">
-          <Button className="w-10 h-10 p-0 rounded-full flex-shrink-0" variant='purple'>
+          <Button className="w-10 h-10 p-0 rounded-full flex-shrink-0" variant='blue'>
             {"📄"}
           </Button>
           <span className="absolute left-12 text-black font-bold">{ doc.title }</span>
@@ -40,12 +64,12 @@ const DocNode: React.FC<{ doc: Doc }> = ({ doc }) => {
         <DialogHeader>
           <DialogTitle>{ doc.title }</DialogTitle>
           <DialogDescription>
-            { doc.shortSummary }
+            { doc.short_summary }
           </DialogDescription>
         </DialogHeader>
         <Separator className="my-4" />
         <div className="prose">
-          <ReactMarkdown>{ doc.summary }</ReactMarkdown>
+          <ReactMarkdown>{ doc.long_summary }</ReactMarkdown>
         </div>
       </DialogContent>
     </Dialog>
@@ -91,12 +115,20 @@ const ConceptNode: React.FC<{ concept: Concept }> = ({ concept }) => {
   )
 }
 
+type GraphNodeProps = {
+  node: Node_
+};
+
 // Define the GraphNode component as an arrow function with typed props
 const GraphNode: React.FC<GraphNodeProps> = ({ node }) => {
   if (node.type === NodeType.Concept && node.concept) {
     return <ConceptNode concept={ node.concept } />;
   } else if (node.type === NodeType.Document && node.doc) {
     return <DocNode doc={ node.doc } />;
+  } else if (node.type === NodeType.Corpus && node.corpus) {
+    return <CorpusNode corpus={ node.corpus } />;
+  } else if (node.type === NodeType.QA && node.qa) {
+    return <QANode qa={ node.qa } />;
   }
 };
 

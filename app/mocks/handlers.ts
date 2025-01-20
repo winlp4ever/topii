@@ -5,6 +5,16 @@ import { GraphData, NodeType } from '../types/graph';
 
 export const mockGraphData: GraphData =  {
   nodes: [
+    // Corpus
+    {
+      id: 'corpus1',
+      type: NodeType.Corpus,
+      corpus: {
+        id: 1,
+        title: 'Animals',
+        synthesis: `Animals are multicellular, eukaryotic organisms that form the biological kingdom Animalia. They are characterized by their ability to move, reproduce sexually, and consume organic material. The animal kingdom is divided into various phyla, each with unique characteristics and adaptations that allow species to thrive in diverse environments. Understanding the diversity and complexity of animals is essential for conservation efforts and maintaining the balance of ecosystems on Earth.`
+      }
+    },
     // Documents
     {
       id: 'doc1',
@@ -12,8 +22,8 @@ export const mockGraphData: GraphData =  {
       doc: {
         id: 1,
         title: 'Introduction to Animals',
-        shortSummary: 'A brief overview of the animal kingdom.',
-        summary: `The animal kingdom is a vast and diverse group of living organisms that inhabit nearly every corner of the Earth. Animals are multicellular, eukaryotic organisms that form the biological kingdom Animalia. They are characterized by their ability to move, reproduce sexually, and consume organic material.
+        short_summary: 'A brief overview of the animal kingdom.',
+        long_summary: `The animal kingdom is a vast and diverse group of living organisms that inhabit nearly every corner of the Earth. Animals are multicellular, eukaryotic organisms that form the biological kingdom Animalia. They are characterized by their ability to move, reproduce sexually, and consume organic material.
 
 The kingdom is divided into various phyla, with the most well-known being Chordata, which includes vertebrates such as mammals, birds, reptiles, amphibians, and fish. Each class of animals exhibits unique adaptations that allow them to thrive in their respective environments.
 
@@ -24,6 +34,7 @@ The kingdom is divided into various phyla, with the most well-known being Chorda
 - **Insects** and **arachnids**, part of the arthropod phylum, are incredibly diverse and play crucial roles in ecosystems.
 
 Understanding the characteristics and classifications of animals provides insight into the complexity and interdependence of life on Earth.`,
+        synthesis_: `The animal kingdom is a diverse group of organisms that inhabit nearly every corner of the Earth. Animals are multicellular, eukaryotic organisms that form the biological kingdom Animalia. They are characterized by their ability to move, reproduce sexually, and consume organic material.`
       },
     },
     {
@@ -32,8 +43,8 @@ Understanding the characteristics and classifications of animals provides insigh
       doc: {
         id: 2,
         title: 'Animal Habitats',
-        shortSummary: 'An exploration of different animal habitats.',
-        summary: `Animal habitats are the natural environments where species live, grow, and reproduce. These habitats range from dense forests and expansive oceans to arid deserts and icy polar regions. Each habitat offers unique conditions and resources that influence the types of animals that can thrive there.
+        short_summary: 'An exploration of different animal habitats.',
+        long_summary: `Animal habitats are the natural environments where species live, grow, and reproduce. These habitats range from dense forests and expansive oceans to arid deserts and icy polar regions. Each habitat offers unique conditions and resources that influence the types of animals that can thrive there.
 
 - **Forests** provide shelter and abundant food sources for mammals, birds, and insects.
 - **Oceans**, covering over 70% of the Earth's surface, are home to a vast array of marine life, from microscopic plankton to the largest whales.
@@ -43,6 +54,7 @@ Understanding the characteristics and classifications of animals provides insigh
 - **Wetlands** and **rivers** are crucial for amphibians and aquatic birds.
 
 Understanding animal habitats is essential for conservation efforts, as it helps identify the environmental needs of species and the impact of human activities on these ecosystems.`,
+        synthesis_: `Animal habitats are the natural environments where species live, grow, and reproduce. These habitats range from dense forests and expansive oceans to arid deserts and icy polar regions. Each habitat offers unique conditions and resources that influence the types of animals that can thrive there.`
       },
     },
     // Concepts
@@ -101,6 +113,51 @@ Understanding animal habitats is essential for conservation efforts, as it helps
       image_url: 'https://image.cdn2.seaart.me/temp-convert-webp/png/2024-02-21/cnaq685e878c73e0kb7g/e172b82f2f4cb3595c8022896c1b7c18a86241fe_low.webp'
     } },
     { id: 'concept20', type: NodeType.Concept, concept: { id: 'c20', label: 'Urban Areas', definition: 'Regions characterized by high human population density and vast human-built features.' } },
+    {
+      id: 'qa1',
+      type: NodeType.QA,
+      qa: {
+        id: 'qa1',
+        question: 'What are the main characteristics of mammals?',
+        answer: 'Mammals are warm-blooded vertebrates with hair or fur. They give birth to live young and nurse them with milk produced by mammary glands.'
+      }
+    },
+    {
+      id: 'qa2',
+      type: NodeType.QA,
+      qa: {
+        id: 'qa2',
+        question: 'How do coral reefs form?',
+        answer: 'Coral reefs are formed by colonies of tiny animals called coral polyps that secrete calcium carbonate to build a hard exoskeleton. Over time, these colonies grow and form the diverse structures we see in coral reefs.'
+      }
+    },
+    {
+      id: 'qa3',
+      type: NodeType.QA,
+      qa: {
+        id: 'qa3',
+        question: 'What adaptations do desert animals have?',
+        answer: 'Desert animals have evolved various adaptations to survive in arid environments. These include the ability to store water, reduce water loss, and withstand high temperatures.'
+      }
+    },
+    {
+      id: 'qa4',
+      type: NodeType.QA,
+      qa: {
+        id: 'qa4',
+        question: 'Why are wetlands important ecosystems?',
+        answer: 'Wetlands are important ecosystems that provide habitat for a wide variety of plant and animal species. They also help regulate water flow, filter pollutants, and store carbon.'
+      }
+    },
+    {
+      id: 'qa5',
+      type: NodeType.QA,
+      qa: {
+        id: 'qa5',
+        question: 'How are mountains formed?',
+        answer: 'Mountains are formed through tectonic processes such as volcanic activity, folding, faulting, and erosion. These geological forces shape the Earth\'s surface and create the diverse landscapes we see today.'
+      }
+    }
   ],
   edges: [
     // Links between documents and concepts
@@ -143,6 +200,13 @@ Understanding animal habitats is essential for conservation efforts, as it helps
     { id: 'edge37', source: 'concept17', target: 'concept18' }, // Mountains and Rivers
     { id: 'edge38', source: 'concept18', target: 'concept19' }, // Rivers and Lakes
     { id: 'edge39', source: 'concept19', target: 'concept20' }, // Lakes and Urban Areas
+    { id: 'edge40', source: 'corpus1', target: 'doc1' },
+    { id: 'edge41', source: 'corpus1', target: 'doc2' },
+    { id: 'edge42', source: 'concept1', target: 'qa1' },
+    { id: 'edge43', source: 'concept14', target: 'qa2' },
+    { id: 'edge44', source: 'concept10', target: 'qa3' },
+    { id: 'edge45', source: 'concept15', target: 'qa4' },
+    { id: 'edge46', source: 'concept17', target: 'qa5' }
   ],
 };
 

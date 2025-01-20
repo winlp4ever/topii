@@ -9,8 +9,21 @@ export enum NodeType {
 export interface Doc {
   id: number;
   title: string | null;
-  shortSummary: string | null;
-  summary: string | null;
+  short_summary: string | null;
+  long_summary: string | null;
+  synthesis_: string | null;
+}
+
+export interface Corpus {
+  id: number;
+  title: string | null;
+  synthesis: string | null;
+}
+
+export interface QA {
+  id: string;
+  question: string;
+  answer: string;
 }
 
 export interface Concept {
@@ -25,6 +38,8 @@ export interface Node_ {
   type: NodeType;
   doc?: Doc;
   concept?: Concept;
+  qa?: QA;
+  corpus?: Corpus;
   x?: number;
   y?: number;
 }
