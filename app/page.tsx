@@ -4,7 +4,7 @@ import React from 'react';
 import Head from 'next/head';
 import "@radix-ui/themes/styles.css";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import Graph_ from './components/graph_';
+import Graph_ from './components/graph';
 import { ReactFlowProvider } from '@xyflow/react';
 
 

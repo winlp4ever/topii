@@ -4,6 +4,8 @@ export enum NodeType {
   Corpus = 'corpus',
   QA = 'qa',
   Exercise = 'exercise',
+  Block = 'block',
+  Answer = 'answer',
 }
 
 export interface Doc {
@@ -31,6 +33,31 @@ export interface Concept {
   label: string;
   definition: string;
   image_url?: string;
+  emoji: string;
+}
+
+export interface Exercise {
+  id: string;
+  question: string;
+  answers: string[];
+  distractors: string[];
+  feedback: string;
+}
+
+export interface Block {
+  id: string;
+  text: string;
+  title?: string;
+  short_summary?: string;
+  long_summary?: string;
+  doc_id?: string;
+  corpus_id?: string;
+}
+
+export interface Answer {
+  id: string;
+  text: string;
+  sources: Block[];
 }
 
 export interface Node_ {
