@@ -67,6 +67,9 @@ export interface Node_ {
   concept?: Concept;
   qa?: QA;
   corpus?: Corpus;
+  exercise?: Exercise;
+  block?: Block;
+  answer?: Answer;
   x?: number;
   y?: number;
 }

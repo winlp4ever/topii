@@ -24,6 +24,7 @@ const buttonVariants = cva(
         red: "bg-red-300 shadow-sm hover:bg-red-400/90 border-4 border-red-500",
         green: "bg-green-300 shadow-sm hover:bg-green-400/90 border-4 border-green-500",
         blue: "bg-blue-300 shadow-sm hover:bg-blue-400/90 border-4 border-blue-500",
+        lime: "bg-lime-300 shadow-sm hover:bg-lime-400/90 border-4 border-lime-500",
       },
       size: {
         default: "h-9 px-4 py-2",
