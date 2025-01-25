@@ -4,8 +4,13 @@ import { Input } from "@/components/ui/input";
 
 import { Search } from 'lucide-react'; // Import the Search icon from lucide-react
 import { Button } from '@/components/ui/button';
+import { useAppStore } from '../store';
 
 const SearchBar: React.FC = () => {
+  const setInput = useAppStore((state) => state.setInput);
+  const setInputType = useAppStore((state) => state.setInputType);
+  const searchQuery = useAppStore((state) => state.searchQuery);
+
   const [query, setQuery] = useState<string>('');
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -14,7 +19,14 @@ const SearchBar: React.FC = () => {
 
   const handleSearch = () => {
     // Implement your search logic here
+    if (!query.trim()) {
+      return;
+    }
     console.log('Searching for:', query);
+    setInputType('query');
+    setInput(query);
+    searchQuery(query);
+    setQuery('');
   };
 
   const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {

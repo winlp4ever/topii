@@ -2,9 +2,10 @@
 import React from 'react';
 import { useAppStore } from '../store';
 
+// This is the response focus component
 export function ResponseFocus() {
   const response = useAppStore((state) => state.response);
-  
+
   if (!response) {
     return <div>No response to display.</div>;
   }
@@ -22,7 +23,7 @@ export function ResponseFocus() {
           ))}
         </div>
       </div>
-    )
+    );
   }
 
   // or if response.doc, show doc details, etc.

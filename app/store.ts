@@ -6,9 +6,9 @@ import {
   Node_,
 } from './types/graph';
 
-type Stage = 'local' | 'dev' | 'preprod' | 'prod' | 'test';
-type InputType = 'query' | 'nodeId';
-type LoadingStatus = 'loading' | 'loaded' | 'idle' | 'error';
+export type Stage = 'local' | 'dev' | 'preprod' | 'prod' | 'test';
+export type InputType = 'query' | 'nodeId';
+export type LoadingStatus = 'loading' | 'loaded' | 'idle' | 'error';
 
 export interface AppState {
   stage: Stage

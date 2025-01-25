@@ -3,45 +3,31 @@ import React from 'react'
 import { useAppStore } from '../store';
 import { GraphView } from './graph-view';
 import { ResponseFocus } from './response-focus';
+import SearchBar from './search-bar';
 
+// This is the main window that displays the graph view and response focus
 export function MainWindow() {
   const corpusId = useAppStore((state) => state.corpusId);
-  const input = useAppStore((state) => state.input);
-  const setInputType = useAppStore((state) => state.setInputType);
-  const setInput = useAppStore((state) => state.setInput);
-  const searchQuery = useAppStore((state) => state.searchQuery);
-
-  const handleSearch = () => {
-    if (!input) return
-    setInputType('query')
-    searchQuery(input)
-  }
 
   // We can toggle between “Graph view” and “Response focus”
   const [tab, setTab] = React.useState<'graph' | 'response'>('graph')
 
   return (
-    <div style={{ padding: '1rem' }}>
-      <div>
-        <h3>Inside corpus @{corpusId}</h3>
+    <>
+      <div className="fixed top-0 left-1/2 transform -translate-x-1/2 p-4 z-50 flex justify-center items-center">
+        <span>Corpus @{corpusId}</span>
         <button onClick={() => setTab('response')}>Response Focus</button>
         <button onClick={() => setTab('graph')}>Graph View</button>
       </div>
 
-      <div style={{ marginTop: '1rem' }}>
-        {tab === 'graph' && <GraphView />}
-        {tab === 'response' && <ResponseFocus />}
-      </div>
-
-      <div style={{ marginTop: '1rem' }}>
-        <input
-          type="text"
-          placeholder="Enter your query"
-          value={input || ''}
-          onChange={(e) => setInput(e.target.value)}
-        />
-        <button onClick={handleSearch}>Send</button>
-      </div>
-    </div>
-  )
+      {tab === 'graph' && <GraphView />}
+      {
+        tab === 'response' &&
+        <div>
+          <ResponseFocus />
+        </div>
+      }
+      <SearchBar />
+    </>
+  );
 }
