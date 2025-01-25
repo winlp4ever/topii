@@ -41,7 +41,7 @@ const BlockNode: React.FC<{ block: Block }> = ({ block }) => {
         </div>
       </PopoverContent>
     </Popover>
-  )
+  );
 }
 
 export default BlockNode;

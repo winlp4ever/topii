@@ -18,8 +18,6 @@ import '@xyflow/react/dist/style.css';
 
 import useForceLayout from './layout/useForceLayout';
 
-import { useQuery } from '@tanstack/react-query';
-import { fetchGraph } from '../lib/api';
 import { GraphData } from '../types/graph';
 import GraphNode from './nodes/graph_node';
 import DashedEdge from './nodes/dashed-edge';
@@ -27,6 +25,8 @@ import DashedEdge from './nodes/dashed-edge';
 type GraphProps = {
   strength?: number;
   distance?: number;
+  data: GraphData;
+  onNodeRightClick?: (nodeId: string) => void;
 };
 
 const nodeOrigin: NodeOrigin = [0.5, 0.5];
@@ -41,14 +41,9 @@ const initialNodes: Node[] = []
 
 const initialEdges: Edge[] = []
 
-function Graph_({ strength = -1000, distance = 1000 }: GraphProps = {}) {
+function Graph({ strength = -1000, distance = 1000, data, onNodeRightClick }: GraphProps) {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-
-  const { data } = useQuery<GraphData, Error>({
-    queryKey: ['graph', '1'],
-    queryFn: () => fetchGraph('1')
-  });
 
   // Update nodes and edges when data changes
   useEffect(() => {
@@ -56,7 +51,7 @@ function Graph_({ strength = -1000, distance = 1000 }: GraphProps = {}) {
       const newNodes = data.nodes.map((node) => ({
         id: node.id,
         position: { x: node.x ? node.x : Math.random() * 1000, y: node.y ? node.y : Math.random() * 1000 },
-        data: { label: <GraphNode node={node} /> },
+        data: { label: <GraphNode node={node} onNodeRightClick={onNodeRightClick}/> },
       }));
 
       const newEdges = data.edges.map((edge) => ({
@@ -68,7 +63,7 @@ function Graph_({ strength = -1000, distance = 1000 }: GraphProps = {}) {
       setNodes(newNodes);
       setEdges(newEdges);
     }
-  }, [data, setNodes, setEdges]);
+  }, [data, setNodes, setEdges, onNodeRightClick]);
 
   const dragEvents = useForceLayout({ strength, distance });
 
@@ -107,4 +102,4 @@ function Graph_({ strength = -1000, distance = 1000 }: GraphProps = {}) {
   );
 }
 
-export default Graph_;
+export default Graph;

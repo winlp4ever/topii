@@ -8,7 +8,8 @@ import BlockNode from "./block-node";
 
 
 type GraphNodeProps = {
-  node: Node_
+  node: Node_;
+  onNodeRightClick?: (nodeId: string) => void;
 };
 
 // Define the GraphNode component as an arrow function with typed props

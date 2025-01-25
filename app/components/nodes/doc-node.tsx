@@ -39,7 +39,7 @@ const DocNode: React.FC<{ doc: Doc }> = ({ doc }) => {
         </div>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
 
 export default DocNode;

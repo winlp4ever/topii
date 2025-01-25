@@ -50,7 +50,7 @@ const ConceptNode: React.FC<{ concept: Concept }> = ({ concept }) => {
         </div>
       </PopoverContent>
     </Popover>
-  )
+  );
 }
 
 export default ConceptNode;

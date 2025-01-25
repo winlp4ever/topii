@@ -1,17 +1,18 @@
 'use client';
-
 import React from 'react';
 import Head from 'next/head';
 import "@radix-ui/themes/styles.css";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import Graph_ from './components/graph';
-import { ReactFlowProvider } from '@xyflow/react';
+import { useAppStore } from './store';
+import { WelcomeWindow } from './components/welcome-window';
+import { MainWindow } from './components/main-window';
 
 
 const queryClient = new QueryClient();
 
 
 const Home: React.FC = () => {
+  const corpusId = useAppStore((state) => state.corpusId);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -23,9 +24,7 @@ const Home: React.FC = () => {
         </Head>
 
         <main>
-          <ReactFlowProvider>
-            <Graph_ />
-          </ReactFlowProvider>
+          {!corpusId ? <WelcomeWindow /> : <MainWindow />}
         </main>
       </div>
     </QueryClientProvider>

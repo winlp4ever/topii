@@ -34,7 +34,7 @@ const CorpusNode: React.FC<{ corpus: Corpus }> = ({ corpus }) => {
         </div>
       </PopoverContent>
     </Popover>
-  )
+  );
 }
 
 export default CorpusNode;
