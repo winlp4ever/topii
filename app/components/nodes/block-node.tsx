@@ -16,15 +16,15 @@ const BlockNode: React.FC<{ block: Block }> = ({ block }) => {
     <Popover>
       <PopoverTrigger asChild>
         <div className="relative flex items-center bg-transparent">
-          <Button className="w-16 h-16 p-0 rounded-full flex-shrink-0 text-3xl" variant='lime'>
-            { "𖣂" }
+          <Button className="w-16 h-16 p-0 rounded-full flex-shrink-0 text-3xl" variant='indigo'>
+            { "📑" }
           </Button>
-          <span className="absolute left-20 text-black italic text-xl w-40">
+          <span className="absolute left-20 text-black text-xl w-40">
             { block.title ? block.title: block.text.substring(0, 50) }
           </span>
         </div>
       </PopoverTrigger>
-      <PopoverContent className="w-80 bg-lime-50">
+      <PopoverContent className="w-80 bg-indigo-50 border-indigo-600">
         <div className="flex justify-between space-x-4">
           <div className="space-y-1">
             {

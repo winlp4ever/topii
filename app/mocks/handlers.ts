@@ -5,6 +5,17 @@ import { GraphData, NodeType } from '../types/graph';
 
 export const mockGraphData: GraphData =  {
   nodes: [
+    // Answer
+    {
+      id: 'answer1',
+      type: NodeType.Answer,
+      answer: {
+        id: 'answer1',
+        // markdown text with math formula
+        text: 'The **animal kingdom** is a diverse group of organisms that inhabit nearly every corner of the Earth. Animals are multicellular, eukaryotic organisms that form the biological kingdom Animalia. They are characterized by their ability to move, reproduce sexually, and consume organic material. The animal kingdom is divided into various phyla, each with unique characteristics and adaptations that allow species to thrive in diverse environments. Understanding the diversity and complexity of animals is essential for conservation efforts and maintaining the balance of ecosystems on Earth. A simple math formula: $E=mc^2$. And `inline code`.',
+        sources: []
+      }
+    },
     // Corpus
     {
       id: 'corpus1',

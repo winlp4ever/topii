@@ -60,7 +60,10 @@ export const useAppStore = create<AppState>()(
       try {
         // Use get_node to retrieve the graph for that node (the corpus ID).
         const data: GraphData = await getNode(String(id))
-
+        let responseNode: Node_ | null = null
+        if (data.nodes.length > 0) {
+          responseNode = data.nodes[0]
+        }
         set({
           graph: data,
           loadingStatus: 'loaded',
@@ -68,7 +71,7 @@ export const useAppStore = create<AppState>()(
           input: String(id),
           inputType: 'nodeId',
           // Optionally set response to null
-          response: null,
+          response: responseNode,
         })
       } catch (err) {
         console.error('Error loading corpus:', err)
@@ -83,6 +86,10 @@ export const useAppStore = create<AppState>()(
       set({ loadingStatus: 'loading' })
       try {
         const data: GraphData = await queryGraph(queryStr)
+        let responseNode: Node_ | null = null
+        if (data.nodes.length > 0) {
+          responseNode = data.nodes[0]
+        }
 
         // Suppose we put the new graph in state, and any specific
         // "answer" node you want might or might not come back from the server.
@@ -92,7 +99,7 @@ export const useAppStore = create<AppState>()(
           loadingStatus: 'loaded',
           input: queryStr,
           inputType: 'query',
-          response: null, // or parse out a node from data if you need
+          response: responseNode,
         })
       } catch (err) {
         console.error('Error searching query:', err)

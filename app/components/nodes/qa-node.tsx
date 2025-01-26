@@ -21,7 +21,7 @@ const QANode: React.FC<{ qa: QA }> = ({ qa }) => {
           <Button className="w-20 h-20 p-0 rounded-full flex-shrink-0 text-3xl" variant='green'>
             { "❓" }
           </Button>
-          <span className="absolute left-24 text-black text-xl font-bold">{qa.question}</span>
+          <span className="absolute left-24 text-black text-xl font-semibold">{qa.question}</span>
         </div>
       </PopoverTrigger>
       <PopoverContent className="w-80 shadow-none bg-transparent border-none">
@@ -29,7 +29,7 @@ const QANode: React.FC<{ qa: QA }> = ({ qa }) => {
           <CarouselContent>
             <CarouselItem>
               <div className="p-1">
-                <Card className='bg-green-50'>
+                <Card className='bg-green-50 border-green-600'>
                   <CardContent className="flex aspect-square items-center justify-center p-6">
                     <span className="text-lg font-semibold">{ qa.question }</span>
                   </CardContent>
@@ -38,7 +38,7 @@ const QANode: React.FC<{ qa: QA }> = ({ qa }) => {
             </CarouselItem>
             <CarouselItem>
               <div className="p-1">
-                <Card className='bg-green-50'>
+                <Card className='bg-green-50 border-green-600'>
                   <CardContent className="flex aspect-square items-center justify-center p-6">
                     <span className="">{ qa.answer }</span>
                   </CardContent>

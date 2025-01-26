@@ -9,6 +9,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 
 import { Concept } from "../../types/graph";
+import { BookA } from "lucide-react";
 
 const ConceptNode: React.FC<{ concept: Concept }> = ({ concept }) => {
   return (
@@ -21,8 +22,12 @@ const ConceptNode: React.FC<{ concept: Concept }> = ({ concept }) => {
           <span className="absolute left-20 text-black font-semibold text-2xl">{ concept.label }</span>
         </div>
       </PopoverTrigger>
-      <PopoverContent className="w-80 bg-amber-50">
-        <div className="flex justify-between space-x-4">
+      <PopoverContent className="w-80 bg-amber-50 border-amber-600 p-0">
+        <div className='bg-amber-100 rounded-t-lg px-4 py-2 text-accent-foreground flex space-x-2 items-center'>
+          <BookA className='w-4 h-4 text-accent-foreground' />
+          <span className='text-xs font-semibold'>{ "Concept" }</span>
+        </div>
+        <div className="flex justify-between space-x-4 px-4 py-2">
           <div className="space-y-1">
             <h4 className="text-sm font-semibold">{ concept.label }</h4>
             <Separator className="my-4" />

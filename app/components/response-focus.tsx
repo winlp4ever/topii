@@ -1,6 +1,8 @@
 'use client';
 import React from 'react';
 import { useAppStore } from '../store';
+import { AnswerView } from './nodes/answer-node';
+import { DocView } from './nodes/doc-node';
 
 // This is the response focus component
 export function ResponseFocus() {
@@ -12,29 +14,12 @@ export function ResponseFocus() {
 
   // e.g. if response is an Answer node:
   if (response.answer) {
-    return (
-      <div>
-        <h4>Answer:</h4>
-        <p>{response.answer.text}</p>
-        <div>
-          <strong>Sources:</strong>
-          {response.answer.sources.map((block) => (
-            <div key={block.id}>{block.text}</div>
-          ))}
-        </div>
-      </div>
-    );
+    return <AnswerView answer={response.answer} />;
   }
 
   // or if response.doc, show doc details, etc.
   if (response.doc) {
-    return (
-      <div>
-        <h4>Document Title: {response.doc.title}</h4>
-        <p>Short Summary: {response.doc.short_summary}</p>
-        <p>Long Summary: {response.doc.long_summary}</p>
-      </div>
-    );
+    return <DocView doc={response.doc} />;
   }
 
   // fallback

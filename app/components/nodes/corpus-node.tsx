@@ -22,7 +22,7 @@ const CorpusNode: React.FC<{ corpus: Corpus }> = ({ corpus }) => {
           <span className="absolute left-28 text-black font-bold text-4xl">{corpus.title}</span>
         </div>
       </PopoverTrigger>
-      <PopoverContent className="w-80 bg-blue-50">
+      <PopoverContent className="w-80 bg-blue-50 border-blue-600">
         <div className="flex justify-between space-x-4">
           <div className="space-y-1">
             <h4 className="text-sm font-semibold">{ corpus.title }</h4>

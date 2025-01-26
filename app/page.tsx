@@ -23,7 +23,7 @@ const Home: React.FC = () => {
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
-        <main>
+        <main className='font-sans'>
           {!corpusId ? <WelcomeWindow /> : <MainWindow />}
         </main>
       </div>

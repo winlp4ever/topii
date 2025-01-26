@@ -5,6 +5,7 @@ import ConceptNode from "./concept-node";
 import CorpusNode from "./corpus-node";
 import DocNode from "./doc-node";
 import BlockNode from "./block-node";
+import AnswerNode from "./answer-node";
 
 
 type GraphNodeProps = {
@@ -24,6 +25,8 @@ const GraphNode: React.FC<GraphNodeProps> = ({ node }) => {
     return <QANode qa={ node.qa } />;
   } else if (node.type === NodeType.Block && node.block) {
     return <BlockNode block={ node.block } />;
+  } else if (node.type === NodeType.Answer && node.answer) {
+    return <AnswerNode answer={ node.answer } />;
   }
 };
 

@@ -25,6 +25,10 @@ const buttonVariants = cva(
         green: "bg-green-300 shadow-sm hover:bg-green-400/90 border-4 border-green-500",
         blue: "bg-blue-300 shadow-sm hover:bg-blue-400/90 border-4 border-blue-500",
         lime: "bg-lime-300 shadow-sm hover:bg-lime-400/90 border-4 border-lime-500",
+        cyan: "bg-cyan-300 shadow-sm hover:bg-cyan-400/90 border-4 border-cyan-500",
+        teal: "bg-teal-300 shadow-sm hover:bg-teal-400/90 border-4 border-teal-500",
+        pink: "bg-pink-300 shadow-sm hover:bg-pink-400/90 border-4 border-pink-500",
+        indigo: "bg-indigo-300 shadow-sm hover:bg-indigo-400/90 border-4 border-indigo-500",
       },
       size: {
         default: "h-9 px-4 py-2",
