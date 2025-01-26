@@ -7,8 +7,6 @@ import {
 } from "@/components/ui/popover";
 
 import { Separator } from "@/components/ui/separator";
-import Image from 'next/image';
-import { AspectRatio } from "@/components/ui/aspect-ratio"
 
 import { Concept } from "../../types/graph";
 
@@ -17,7 +15,7 @@ const ConceptNode: React.FC<{ concept: Concept }> = ({ concept }) => {
     <Popover>
       <PopoverTrigger asChild>
         <div className="relative flex items-center bg-transparent">
-          <Button className="w-16 h-16   p-0 rounded-full flex-shrink-0 text-3xl" variant='amber'>
+          <Button className="w-16 h-16 p-0 rounded-full flex-shrink-0 text-3xl" variant='amber'>
             { concept.emoji }
           </Button>
           <span className="absolute left-20 text-black font-semibold text-2xl">{ concept.label }</span>
@@ -31,21 +29,6 @@ const ConceptNode: React.FC<{ concept: Concept }> = ({ concept }) => {
             <p className="text-sm">
               { concept.definition }
             </p>
-            { concept.image_url && (
-              <div className="w-4/5 mx-auto">
-                <AspectRatio ratio={ 16 / 9 }>
-                  <Image
-                    src={ concept.image_url }
-                    alt={ concept.label }
-                    layout="responsive"
-                    width={ 100 } // Placeholder value
-                    height={ 100 } // Placeholder value
-                    className='rounded-md object-cover'
-                  />
-                </AspectRatio>
-
-              </div>
-            )}
           </div>
         </div>
       </PopoverContent>

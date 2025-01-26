@@ -229,86 +229,6 @@ Understanding animal habitats is essential for conservation efforts, as it helps
         question: 'How are mountains formed?',
         answer: 'Mountains are formed through tectonic processes such as volcanic activity, folding, faulting, and erosion. These geological forces shape the Earth\'s surface and create the diverse landscapes we see today.'
       }
-    },
-    {
-      id: 'block1',
-      type: NodeType.Block,
-      block: {
-        id: 'block1',
-        text: 'Mammals are warm-blooded vertebrates with hair or fur. They give birth to live young and nurse them with milk produced by mammary glands.'
-      }
-    },
-    {
-      id: 'block2',
-      type: NodeType.Block,
-      block: {
-        id: 'block2',
-        text: 'Birds are warm-blooded vertebrates with feathers and wings. They are known for their ability to fly and build nests for their eggs.'
-      }
-    },
-    {
-      id: 'block3',
-      type: NodeType.Block,
-      block: {
-        id: 'block3',
-        text: 'Reptiles are cold-blooded vertebrates with scales. They lay eggs on land and rely on external sources of heat to regulate their body temperature.'
-      }
-    },
-    {
-      id: 'block4',
-      type: NodeType.Block,
-      block: {
-        id: 'block4',
-        text: 'Fish are cold-blooded vertebrates that live in water. They have gills to extract oxygen from water and fins to help them swim.'
-      }
-    },
-    {
-      id: 'block5',
-      type: NodeType.Block,
-      block: {
-        id: 'block5',
-        text: 'Amphibians are cold-blooded vertebrates that live both in water and on land. They undergo metamorphosis from aquatic larvae to terrestrial adults.'
-      }
-    },
-    {
-      id: 'block6',
-      type: NodeType.Block,
-      block: {
-        id: 'block6',
-        text: 'Insects are small arthropods with six legs and a body divided into three parts. They play essential roles in pollination, decomposition, and food webs.'
-      }
-    },
-    {
-      id: 'block7',
-      type: NodeType.Block,
-      block: {
-        id: 'block7',
-        text: 'Arachnids are arthropods with eight legs, including spiders and scorpions. They are known for their silk-spinning abilities and predatory behavior.'
-      }
-    },
-    {
-      id: 'block8',
-      type: NodeType.Block,
-      block: {
-        id: 'block8',
-        text: 'Forests are large areas covered chiefly with trees and undergrowth. They provide habitat for a wide variety of plant and animal species.'
-      }
-    },
-    {
-      id: 'block9',
-      type: NodeType.Block,
-      block: {
-        id: 'block9',
-        text: 'Oceans are large bodies of saltwater that cover most of the Earth. They support a diverse range of marine life, from microscopic plankton to massive whales.'
-      }
-    },
-    {
-      id: 'block10',
-      type: NodeType.Block,
-      block: {
-        id: 'block10',
-        text: 'Deserts are arid regions with little rainfall. They are home to specially adapted plant and animal species that can survive in extreme conditions.'
-      }
     }
   ],
   edges: [
@@ -361,6 +281,67 @@ Understanding animal habitats is essential for conservation efforts, as it helps
     { id: 'edge46', source: 'concept17', target: 'qa5' }
   ],
 };
+
+export const mockGraphData2: GraphData = {
+  nodes: [
+    {
+      id: 'doc1',
+      type: NodeType.Document,
+      doc: {
+        id: 1,
+        title: 'Introduction to Animals',
+        short_summary: 'A brief overview of the animal kingdom.',
+        long_summary: `The animal kingdom is a vast and diverse group of living organisms that inhabit nearly every corner of the Earth. Animals are multicellular, eukaryotic organisms that form the biological kingdom Animalia. They are characterized by their ability to move, reproduce sexually, and consume organic material. The kingdom is divided into various phyla, with the most well-known being Chordata, which includes vertebrates such as mammals, birds, reptiles, amphibians, and fish. Each class of animals exhibits unique adaptations that allow them to thrive in their respective environments. Understanding the characteristics and classifications of animals provides insight into the complexity and interdependence of life on Earth.`,
+        synthesis_: `The animal kingdom is a diverse group of organisms that inhabit nearly every corner of the Earth. Animals are multicellular, eukaryotic organisms that form the biological kingdom Animalia. They are characterized by their ability to move, reproduce sexually, and consume organic material.`
+      }
+    },
+    {
+      id: 'block1',
+      type: NodeType.Block,
+      block: {
+        id: 'block1',
+        text: 'Mammals are warm-blooded vertebrates with hair or fur. They give birth to live young and nurse them with milk produced by mammary glands.',
+        short_summary: 'Mammals are warm-blooded vertebrates with hair or fur.',
+        long_summary: 'Mammals are warm-blooded vertebrates with hair or fur. They give birth to live young and nurse them with milk produced by mammary glands.'
+      }
+    },
+    {
+      id: 'block2',
+      type: NodeType.Block,
+      block: {
+        id: 'block2',
+        text: 'Birds are warm-blooded vertebrates with feathers and wings. They are known for their ability to fly and build nests for their eggs.',
+        short_summary: 'Birds are warm-blooded vertebrates with feathers and wings.',
+        long_summary: 'Birds are warm-blooded vertebrates with feathers and wings. They are known for their ability to fly and build nests for their eggs.'
+      }
+    },
+    {
+      id: 'block3',
+      type: NodeType.Block,
+      block: {
+        id: 'block3',
+        text: 'Reptiles are cold-blooded vertebrates with scales. They lay eggs on land and rely on external sources of heat to regulate their body temperature.',
+        short_summary: 'Reptiles are cold-blooded vertebrates with scales.',
+        long_summary: 'Reptiles are cold-blooded vertebrates with scales. They lay eggs on land and rely on external sources of heat to regulate their body temperature.'
+      }
+    },
+    {
+      id: 'corpus1',
+      type: NodeType.Corpus,
+      corpus: {
+        id: 1,
+        title: 'Animals',
+        synthesis: `Animals are multicellular, eukaryotic organisms that form the biological kingdom Animalia. They are characterized by their ability to move, reproduce sexually, and consume organic material. The animal kingdom is divided into various phyla, each with unique characteristics and adaptations that allow species to thrive in diverse environments. Understanding the diversity and complexity of animals is essential for conservation efforts and maintaining the balance of ecosystems on Earth.`
+      }
+    }
+  ],
+  edges: [
+    { id: 'edge1', source: 'doc1', target: 'block1' },
+    { id: 'edge2', source: 'doc1', target: 'block2' },
+    { id: 'edge3', source: 'doc1', target: 'block3' },
+    { id: 'edge4', source: 'corpus1', target: 'doc1' }
+  ]
+}
 
 export const handlers = [
   http.get('/api/graph/:nodeId', () => {

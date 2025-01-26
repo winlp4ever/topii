@@ -1,10 +1,7 @@
 "use client";
-import React, { useState, ChangeEvent, KeyboardEvent } from 'react';
-import { Input } from "@/components/ui/input";
-
-import { Search } from 'lucide-react'; // Import the Search icon from lucide-react
-import { Button } from '@/components/ui/button';
+import React, { useState, KeyboardEvent } from 'react';
 import { useAppStore } from '../store';
+import { Command, CommandInput, CommandList } from '@/components/ui/command';
 
 const SearchBar: React.FC = () => {
   const setInput = useAppStore((state) => state.setInput);
@@ -12,10 +9,6 @@ const SearchBar: React.FC = () => {
   const searchQuery = useAppStore((state) => state.searchQuery);
 
   const [query, setQuery] = useState<string>('');
-
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setQuery(event.target.value);
-  };
 
   const handleSearch = () => {
     // Implement your search logic here
@@ -29,25 +22,21 @@ const SearchBar: React.FC = () => {
     setQuery('');
   };
 
-  const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    console.log(e.key);
+    if (e.key === 'Escape' || (e.key === 'Backspace' && !query)) {
+      e.preventDefault()
+    } else if (e.key === 'Enter') {
       handleSearch();
     }
   };
 
   return (
     <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 p-4 z-50 flex justify-center items-center">
-      <Input
-        type="text"
-        value={query}
-        onChange={handleInputChange}
-        onKeyDown={handleKeyPress}
-        placeholder="Enter your query..."
-        className="w-64 mr-2 bg-transparent border-none focus:ring-0"
-      />
-      <Button onClick={handleSearch} className="p-2" variant='secondary'>
-        <Search className="w-6 h-6 text-blue-500 hover:text-blue-600" />
-      </Button>
+      <Command onKeyDown={handleKeyDown} className="rounded-lg border shadow-md md:min-w-[450px]" >
+        <CommandInput placeholder='Enter your query ...' value={query} onValueChange={setQuery}/>
+        <CommandList></CommandList>
+      </Command>
     </div>
   );
 };

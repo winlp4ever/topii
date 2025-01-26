@@ -4,25 +4,49 @@ import { useAppStore } from '../store';
 import { GraphView } from './graph-view';
 import { ResponseFocus } from './response-focus';
 import SearchBar from './search-bar';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ChartNetwork, LetterText } from 'lucide-react';
+import { LoadingView } from './loading-view';
 
 // This is the main window that displays the graph view and response focus
 export function MainWindow() {
   const corpusId = useAppStore((state) => state.corpusId);
+  const loadingStatus = useAppStore((state) => state.loadingStatus);
 
   // We can toggle between “Graph view” and “Response focus”
-  const [tab, setTab] = React.useState<'graph' | 'response'>('graph')
+  const [tab, setTab] = React.useState<'graph' | 'response'>('graph');
+
+  const handleTabChange = (value: string) => {
+    setTab(value as 'graph' | 'response');
+  }
 
   return (
     <>
-      <div className="fixed top-0 left-1/2 transform -translate-x-1/2 p-4 z-50 flex justify-center items-center">
-        <span>Corpus @{corpusId}</span>
-        <button onClick={() => setTab('response')}>Response Focus</button>
-        <button onClick={() => setTab('graph')}>Graph View</button>
+      <div className="fixed top-10 left-1/2 transform -translate-x-1/2 p-4 z-50 flex justify-center items-center w-[400px]" >
+        <Tabs defaultValue="graph" onValueChange={handleTabChange} className="w-full" >
+          <TabsList className="grid w-full grid-cols-3 border bg-white" >
+            <span className='text-sm px-3 py-1 text-center font-semibold' >Corpus @{corpusId}</span>
+            <TabsTrigger value="graph" className='space-x-2' >
+              <ChartNetwork className='h-4 w-4' />
+              <span>Graph View</span>
+            </TabsTrigger>
+            <TabsTrigger value="response" className='space-x-2' >
+              <LetterText className='h-4 w-4' />
+              <span>Response Focus</span>
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
       </div>
-
-      {tab === 'graph' && <GraphView />}
       {
-        tab === 'response' &&
+        loadingStatus === 'loading' &&
+        <LoadingView />
+      }
+      {
+        tab === 'graph' && loadingStatus === 'loaded' &&
+        <GraphView />
+      }
+      {
+        tab === 'response' && loadingStatus === 'loaded' &&
         <div>
           <ResponseFocus />
         </div>

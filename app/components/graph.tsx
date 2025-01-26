@@ -3,7 +3,6 @@ import { useCallback, useEffect } from 'react';
 import {
   ReactFlow,
   Background,
-  Panel,
   useNodesState,
   useEdgesState,
   Node,
@@ -93,9 +92,6 @@ function Graph({ strength = -1000, distance = 1000, data, onNodeRightClick }: Gr
         }}
         fitView
       >
-        <Panel position="top-left">
-          <b>How to use:</b> Click to move the node
-        </Panel>
         <Background color='#ccc' variant={ BackgroundVariant.Dots } />
       </ReactFlow>
     </div>
