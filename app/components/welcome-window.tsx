@@ -50,7 +50,7 @@ export function WelcomeWindow() {
     <div className="flex flex-col items-center justify-center h-screen">
       <div className='text-5xl w-1/2 text-center flex flex-col items-center justify-center space-y-4'>
         <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-          Welcome to the Graph Editor
+          Welcome back,
         </h1>
         <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
           Please enter a corpus ID
@@ -59,7 +59,7 @@ export function WelcomeWindow() {
         <StageSelector />
 
         <Input
-          className='text-center border-none text-5xl outline-none'
+          className='text-center border-none text-5xl outline-none w-1/2'
           type="text"
           placeholder="Corpus ID"
           value={tempCorpusId}
