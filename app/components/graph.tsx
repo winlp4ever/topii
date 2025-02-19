@@ -18,7 +18,7 @@ import '@xyflow/react/dist/style.css';
 import useForceLayout from './layout/useForceLayout';
 
 import { GraphData } from '../types/graph';
-import GraphNode from './nodes/graph_node';
+import GraphNode from './nodes/graph-node';
 import DashedEdge from './nodes/dashed-edge';
 
 type GraphProps = {
@@ -34,7 +34,7 @@ const edgeTypes = {
   dashed: DashedEdge,
 };
 
-const defaultEdgeOptions = { style: { stroke: '#ff66aa', strokeWidth: 3 }, type: 'dashed' };
+const defaultEdgeOptions = { style: { stroke: '#ff66aa', strokeWidth: 2 }, type: 'dashed' };
 
 const initialNodes: Node[] = []
 
@@ -49,7 +49,7 @@ function Graph({ strength = -1000, distance = 1000, data, onNodeRightClick }: Gr
     if (data) {
       const newNodes = data.nodes.map((node) => ({
         id: node.id,
-        position: { x: node.x ? node.x : Math.random() * 1000, y: node.y ? node.y : Math.random() * 1000 },
+        position: { x: node.x ? node.x : 0, y: node.y ? node.y : 0 },
         data: { label: <GraphNode node={node} onNodeRightClick={onNodeRightClick}/> },
       }));
 

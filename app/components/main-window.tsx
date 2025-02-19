@@ -22,10 +22,10 @@ export function MainWindow() {
 
   return (
     <>
-      <div className="fixed top-10 left-1/2 transform -translate-x-1/2 p-4 z-50 flex flex-col space-y-4 justify-center items-center w-[480px]" >
+      <div className="fixed top-10 left-1/2 transform -translate-x-1/2 p-4 z-50 flex flex-col space-y-4 justify-center items-center w-[650px]" >
         <Tabs defaultValue="graph" onValueChange={handleTabChange} className="w-full" >
-          <TabsList className="grid w-full flex border bg-white shadow-sm" >
-            <span className='text-sm px-3 py-1 text-center font-semibold' >Corpus @{corpusId}</span>
+          <TabsList className="grid w-full flex bg-gray-100 space-x-4" >
+            <span className='text-sm px-3 py-1 text-center' >Corpus @{corpusId}</span>
             <TabsTrigger value="graph" className='space-x-2 flex-1' >
               <ChartNetwork className='h-4 w-4' />
               <span>Graph View</span>
@@ -36,12 +36,6 @@ export function MainWindow() {
             </TabsTrigger>
           </TabsList>
         </Tabs>
-        {
-          tab === 'response' && loadingStatus === 'loaded' &&
-          <div className='h-full'>
-            <ResponseFocus />
-          </div>
-        }
       </div>
       {
         loadingStatus === 'loading' &&
@@ -50,6 +44,10 @@ export function MainWindow() {
       {
         tab === 'graph' && loadingStatus === 'loaded' &&
         <GraphView />
+      }
+      {
+        tab === 'response' && loadingStatus === 'loaded' &&
+        <ResponseFocus />
       }
       <SearchBar />
     </>

@@ -16,10 +16,11 @@ const ConceptNode: React.FC<{ concept: Concept }> = ({ concept }) => {
     <Popover>
       <PopoverTrigger asChild>
         <div className="relative flex items-center bg-transparent">
-          <Button className="w-16 h-16 p-0 rounded-full flex-shrink-0 text-3xl" variant='amber'>
-            { concept.emoji }
+          <div className="left-0 w-8 h-8 bg-transparent rounded-full z-0"></div>
+          <Button className="absolute -left-4 ml-4 px-4 py-6 rounded-l-full rounded-r-md text-xl space-x-2" variant='amber'>
+            <span>🔑</span>
+            <span className="">{ concept.label }</span>
           </Button>
-          <span className="absolute left-20 text-black font-semibold text-2xl">{ concept.label }</span>
         </div>
       </PopoverTrigger>
       <PopoverContent className="w-80 bg-amber-50 border-amber-600 p-0">

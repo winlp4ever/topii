@@ -42,7 +42,7 @@ export function WelcomeWindow() {
     const idNum = parseInt(tempCorpusId, 10)
     if (!Number.isNaN(idNum)) {
       console.log('loading corpus', idNum)
-      loadCorpus(idNum)
+      loadCorpus(`corpus_${idNum}`)
     }
   }
 

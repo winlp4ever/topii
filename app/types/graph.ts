@@ -1,5 +1,5 @@
 export enum NodeType {
-  Document = 'document',
+  Document = 'doc',
   Concept = 'concept',
   Corpus = 'corpus',
   QA = 'qa',
@@ -20,6 +20,7 @@ export interface Corpus {
   id: number;
   title: string | null;
   synthesis: string | null;
+  description: string | null;
 }
 
 export interface QA {

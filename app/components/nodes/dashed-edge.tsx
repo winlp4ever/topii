@@ -22,9 +22,9 @@ const DashedEdge: React.FC<EdgeProps> = ({
 
   return (
     <BaseEdge
-      path={edgePath}
-      markerEnd={markerEnd}
-      style={{ strokeDasharray: '2,5', ...style }}
+      path={ edgePath }
+      markerEnd={ markerEnd }
+      style={{ strokeDasharray: '5,5', ...style }}
     />
   );
 };

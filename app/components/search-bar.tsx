@@ -33,8 +33,13 @@ const SearchBar: React.FC = () => {
 
   return (
     <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 p-4 z-50 flex justify-center items-center">
-      <Command onKeyDown={handleKeyDown} className="rounded-lg border shadow-md md:min-w-[450px]" >
-        <CommandInput placeholder='Enter your query ...' value={query} onValueChange={setQuery}/>
+      <Command onKeyDown={handleKeyDown} className="rounded-lg shadown-md md:min-w-[650px] border" >
+        <CommandInput
+          placeholder='Enter your query ...'
+          value={query}
+          onValueChange={setQuery}
+          className='text-md'
+        />
         <CommandList></CommandList>
       </Command>
     </div>

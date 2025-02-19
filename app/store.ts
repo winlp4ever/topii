@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { getNode, queryGraph } from './lib/api';
+import { fetchStreamedGraph, queryGraph } from './lib/api';
 import {
   GraphData,
   Node_,
@@ -12,7 +12,7 @@ export type LoadingStatus = 'loading' | 'loaded' | 'idle' | 'error';
 
 export interface AppState {
   stage: Stage
-  corpusId: number | null
+  corpusId: string | null
   inputType: InputType
   input: string | null
   graph: GraphData | null
@@ -21,7 +21,7 @@ export interface AppState {
 
   // Synchronous actions
   setStage: (stage: Stage) => void
-  setCorpusId: (id: number) => void
+  setCorpusId: (id: string) => void
   setInputType: (type: InputType) => void
   setInput: (input: string) => void
   setGraph: (g: GraphData) => void
@@ -29,7 +29,7 @@ export interface AppState {
   setResponse: (node: Node_ | null) => void
 
   // Async/thunk-like actions
-  loadCorpus: (id: number) => Promise<void>
+  loadCorpus: (id: string) => Promise<void>
   searchQuery: (query: string) => Promise<void>
   focusNode: (nodeId: string) => Promise<void>
 }
@@ -45,7 +45,7 @@ export const useAppStore = create<AppState>()(
     response: null,
 
     setStage: (stage: Stage) => set({ stage }),
-    setCorpusId: (id: number) => set({ corpusId: id }),
+    setCorpusId: (id: string) => set({ corpusId: id }),
     setInputType: (type: InputType) => set({ inputType: type }),
     setInput: (val: string | null) => set({ input: val }),
     setGraph: (g: GraphData) => set({ graph: g }),
@@ -55,27 +55,28 @@ export const useAppStore = create<AppState>()(
     // ─────────────────────────────────────────────────────────
     // loadCorpus: gets the corpus node's graph from the backend
     // ─────────────────────────────────────────────────────────
-    loadCorpus: async (id: number) => {
-      set({ loadingStatus: 'loading' })
+    loadCorpus: async (id: string) => {
+      set({ loadingStatus: 'loading' });
       try {
-        // Use get_node to retrieve the graph for that node (the corpus ID).
-        const data: GraphData = await getNode(String(id))
-        let responseNode: Node_ | null = null
-        if (data.nodes.length > 0) {
-          responseNode = data.nodes[0]
+        // Use the streaming endpoint: pass node_id as the corpus id string
+        console.log('loading corpus:', id);
+        const graphData: GraphData = await fetchStreamedGraph(id);
+        let responseNode: Node_ | null = null;
+        if (graphData.nodes && graphData.nodes.length > 0) {
+          responseNode = graphData.nodes[0];
         }
+        console.log(graphData);
         set({
-          graph: data,
+          graph: graphData,
           loadingStatus: 'loaded',
           corpusId: id,
           input: String(id),
           inputType: 'nodeId',
-          // Optionally set response to null
           response: responseNode,
-        })
+        });
       } catch (err) {
-        console.error('Error loading corpus:', err)
-        set({ loadingStatus: 'error' })
+        console.error('Error loading corpus:', err);
+        set({ loadingStatus: 'error' });
       }
     },
 
@@ -111,27 +112,24 @@ export const useAppStore = create<AppState>()(
     // focusNode: calls get_node(nodeId) → returns subgraph around that node
     // ─────────────────────────────────────────────────────────
     focusNode: async (nodeId: string) => {
-      set({ loadingStatus: 'loading' })
+      console.log('focusing node:', nodeId);
+      set({ loadingStatus: 'loading' });
       try {
-        const data: GraphData = await getNode(nodeId)
-
-        // If you want to pick a particular node from the returned graph
-        // as your “response,” you can do so below.  For example, the first node:
-        let responseNode: Node_ | null = null
-        if (data.nodes.length > 0) {
-          responseNode = data.nodes[0]
+        const graphData: GraphData = await fetchStreamedGraph(nodeId);
+        let responseNode: Node_ | null = null;
+        if (graphData.nodes && graphData.nodes.length > 0) {
+          responseNode = graphData.nodes[0];
         }
-
         set({
-          graph: data,
+          graph: graphData,
           loadingStatus: 'loaded',
           input: nodeId,
           inputType: 'nodeId',
           response: responseNode,
-        })
+        });
       } catch (err) {
-        console.error('Error focusing node:', err)
-        set({ loadingStatus: 'error' })
+        console.error('Error focusing node:', err);
+        set({ loadingStatus: 'error' });
       }
     },
   }))
