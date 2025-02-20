@@ -116,6 +116,7 @@ export const useAppStore = create<AppState>()(
       set({ loadingStatus: 'loading' });
       try {
         const graphData: GraphData = await fetchStreamedGraph(nodeId);
+        console.log(graphData);
         let responseNode: Node_ | null = null;
         if (graphData.nodes && graphData.nodes.length > 0) {
           responseNode = graphData.nodes[0];

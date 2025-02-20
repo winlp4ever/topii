@@ -8,6 +8,7 @@ import BlockNode from "./block-node";
 import AnswerNode from "./answer-node";
 import RomeNode from "./rome-node";
 import RncpNode from "./rncp-node";
+import ExerciseNode from "./exercise-node";
 
 
 type GraphNodeProps = {
@@ -33,6 +34,10 @@ const GraphNode: React.FC<GraphNodeProps> = ({ node }) => {
     return <RomeNode rome_competency={ node.rome_competency } score={ node.score } />;
   } else if (node.type === NodeType.RNCPCompetency && node.rncp_competency) {
     return <RncpNode rncp_competency={ node.rncp_competency } score={ node.score }/>;
+  } else if (node.type === NodeType.Exercise && node.exercise) {
+    return <ExerciseNode exercise={ node.exercise } />;
+  } else {
+    return <div>Unknown node type: { node.type }</div>;
   }
 };
 

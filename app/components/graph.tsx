@@ -1,25 +1,26 @@
 'use client';
-import { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {
   ReactFlow,
   Background,
   useNodesState,
   useEdgesState,
   Node,
-  NodeOrigin,
-  addEdge,
-  OnConnect,
   BackgroundVariant,
   Edge,
+  useReactFlow,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 
+// import useForceLayout from './layout/useForceLayout';
+import useAutoLayout, { type LayoutOptions } from './layout/useAutoLayout';
 
-import useForceLayout from './layout/useForceLayout';
+import { useControls, button } from 'leva';
 
 import { GraphData } from '../types/graph';
 import GraphNode from './nodes/graph-node';
 import DashedEdge from './nodes/dashed-edge';
+import { getId } from './layout/utils';
 
 type GraphProps = {
   strength?: number;
@@ -28,7 +29,7 @@ type GraphProps = {
   onNodeRightClick?: (nodeId: string) => void;
 };
 
-const nodeOrigin: NodeOrigin = [0.5, 0.5];
+// const nodeOrigin: NodeOrigin = [0.5, 0.5];
 
 const edgeTypes = {
   dashed: DashedEdge,
@@ -40,7 +41,7 @@ const initialNodes: Node[] = []
 
 const initialEdges: Edge[] = []
 
-function Graph({ strength = -1000, distance = 1000, data, onNodeRightClick }: GraphProps) {
+function Graph({ data, onNodeRightClick }: GraphProps) {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
@@ -64,12 +65,43 @@ function Graph({ strength = -1000, distance = 1000, data, onNodeRightClick }: Gr
     }
   }, [data, setNodes, setEdges, onNodeRightClick]);
 
-  const dragEvents = useForceLayout({ strength, distance });
+  const { fitView, addNodes } = useReactFlow();
 
-  const onConnect: OnConnect = useCallback(
-    (params) => setEdges((eds) => addEdge(params, eds)),
-    [setEdges]
-  );
+  const layoutOptions = useControls({
+    algorithm: {
+      value: 'd3-hierarchy' as LayoutOptions['algorithm'],
+      options: ['dagre', 'd3-hierarchy', 'elk'] as LayoutOptions['algorithm'][],
+    },
+    direction: {
+      value: 'LR' as LayoutOptions['direction'],
+      options: {
+        down: 'TB',
+        right: 'LR',
+        up: 'BT',
+        left: 'RL',
+      } as Record<string, LayoutOptions['direction']>,
+    },
+    spacing: [400, 50],
+    'add root node': button(() =>
+      addNodes({
+        id: getId(),
+        position: { x: 0, y: 0 },
+        data: { label: `New Node` },
+        style: { opacity: 0 },
+      })
+    ),
+  });
+
+  // this hook handles the computation of the layout once the elements or the direction changes
+  useAutoLayout(layoutOptions);
+
+
+  // const dragEvents = useForceLayout({ strength, distance });
+
+  // every time our nodes change, we want to center the graph again
+  useEffect(() => {
+    fitView();
+  }, [nodes, fitView]);
 
   return (
     <div style={{ height: '100vh', width: '100vw' }}>
@@ -78,19 +110,10 @@ function Graph({ strength = -1000, distance = 1000, data, onNodeRightClick }: Gr
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-        nodeOrigin={nodeOrigin}
-        onNodeDragStart={dragEvents.start}
-        onNodeDrag={dragEvents.drag}
-        onNodeDragStop={dragEvents.stop}
-        edgeTypes={edgeTypes}
+        nodesDraggable={true}
         defaultEdgeOptions={defaultEdgeOptions}
-        defaultViewport={{
-          x: typeof window !== 'undefined' ? window.innerWidth / 2 : 0,
-          y: typeof window !== 'undefined' ? window.innerHeight / 2 : 0,
-          zoom: 0,
-        }}
-        fitView
+        edgeTypes={edgeTypes}
+        zoomOnDoubleClick={false}
       >
         <Background color='#ccc' variant={ BackgroundVariant.Dots } />
       </ReactFlow>
