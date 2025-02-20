@@ -29,7 +29,7 @@ export const fetchData = async () => {
 
 
 export async function fetchStreamedGraph(nodeId: string): Promise<GraphData> {
-  const url = new URL('http://localhost:8005/recommend');
+  const url = new URL('http://localhost:8004/recommend');
   const params: { [key: string]: string } = { node_id: nodeId };
   // Append query parameters to the URL
   Object.keys(params).forEach(key => url.searchParams.append(key, params[key] as string));

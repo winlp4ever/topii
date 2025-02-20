@@ -17,7 +17,8 @@ const ConceptNode: React.FC<{ concept: Concept }> = ({ concept }) => {
       <PopoverTrigger asChild>
         <div className="relative flex items-center bg-transparent">
           <div className="left-0 w-8 h-8 bg-transparent rounded-full z-0"></div>
-          <Button className="absolute -left-4 ml-4 px-4 py-6 rounded-l-full rounded-r-md text-xl space-x-2" variant='amber'>
+          <Button className="absolute -left-4 ml-4 px-4 py-6 rounded-l-full rounded-r-md text-xl" variant='amber'>
+            <span className="flex items-center justify-center w-4 h-4 bg-amber-500 rounded-full"></span>
             <span>🔑</span>
             <span className="">{ concept.label }</span>
           </Button>
@@ -26,7 +27,7 @@ const ConceptNode: React.FC<{ concept: Concept }> = ({ concept }) => {
       <PopoverContent className="w-80 bg-amber-50 border-amber-600 p-0">
         <div className='bg-amber-100 rounded-t-lg px-4 py-2 text-accent-foreground flex space-x-2 items-center'>
           <BookA className='w-4 h-4 text-accent-foreground' />
-          <span className='text-xs font-semibold'>{ "Concept" }</span>
+          <span className='text-sm font-semibold'>{ "Concept" }</span>
         </div>
         <div className="flex justify-between space-x-4 px-4 py-2">
           <div className="space-y-1">

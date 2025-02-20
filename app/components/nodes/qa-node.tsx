@@ -15,17 +15,18 @@ import { trimText } from "../utils";
 
 // Define the QANode component as an arrow function with typed props
 const QANode: React.FC<{ qa: QA }> = ({ qa }) => {
-  const question = trimText(qa.question, 50);
+  const question = trimText(qa.question, 30);
   return (
     <Popover>
       <PopoverTrigger asChild>
       <div className="relative flex items-center bg-transparent">
         <div className="left-0 w-8 h-8 bg-transparent rounded-full z-0"></div>
           <Button
-            className="absolute -left-4 ml-4 px-4 py-6 rounded-l-full rounded-r-md text-xl space-x-2"
+            className="absolute -left-4 ml-4 px-4 py-6 rounded-l-full rounded-r-lg text-xl"
             variant='green'
           >
-            <span>{ "❓" }</span>
+            <span className="flex items-center justify-center w-4 h-4 bg-green-500 rounded-full"></span>
+            <span>{ "🤔" }</span>
             <span className="">{ question }</span>
           </Button>
         </div>

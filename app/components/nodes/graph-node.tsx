@@ -6,6 +6,8 @@ import CorpusNode from "./corpus-node";
 import DocNode from "./doc-node";
 import BlockNode from "./block-node";
 import AnswerNode from "./answer-node";
+import RomeNode from "./rome-node";
+import RncpNode from "./rncp-node";
 
 
 type GraphNodeProps = {
@@ -27,6 +29,10 @@ const GraphNode: React.FC<GraphNodeProps> = ({ node }) => {
     return <BlockNode block={ node.block } />;
   } else if (node.type === NodeType.Answer && node.answer) {
     return <AnswerNode answer={ node.answer } />;
+  } else if (node.type === NodeType.ROMECompetency && node.rome_competency) {
+    return <RomeNode rome_competency={ node.rome_competency } score={ node.score } />;
+  } else if (node.type === NodeType.RNCPCompetency && node.rncp_competency) {
+    return <RncpNode rncp_competency={ node.rncp_competency } score={ node.score }/>;
   }
 };
 

@@ -42,7 +42,7 @@ const DocNode: React.FC<{ doc: Doc }> = ({ doc }) => {
     title = "Untitled";
   }
   else {
-    title = trimText(doc.title, 50);
+    title = trimText(doc.title, 20);
   }
   return (
     <Dialog>
@@ -53,10 +53,11 @@ const DocNode: React.FC<{ doc: Doc }> = ({ doc }) => {
           <div className="relative flex items-center bg-transparent">
             <div className="left-0 w-8 h-8 bg-transparent rounded-full z-0"></div>
             <Button
-              className="absolute -left-4 ml-4 px-4 py-6 rounded-l-full rounded-r-md text-2xl space-x-2"
+              className="absolute -left-4 ml-4 px-4 py-6 rounded-l-full rounded-r-md text-xl"
               variant='purple'
               onContextMenu={ (e) => { focusNode(`doc_${doc.id}`); e.preventDefault(); } }
             >
+              <span className="flex items-center justify-center w-4 h-4 bg-purple-500 rounded-full"></span>
               <span>{ "📔" }</span>
               <span className="">{ title }</span>
             </Button>

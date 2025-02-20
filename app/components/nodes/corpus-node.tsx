@@ -16,9 +16,10 @@ export const CorpusView: React.FC<{ corpus: Corpus }> = ({ corpus }) => {
     <div>
       <Card className='w-full h-full'>
         <CardContent className="p-4">
-          <h4 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">{ `Main corpus` }</h4>
+          <h4 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">{ corpus.title }</h4>
+          <blockquote className='mt-6 border-l-2 pl-6 italic text-accent-foreground text-sm'>{ corpus.short_summary }</blockquote>
           <Separator className="my-4" />
-          <MarkdownView content={ corpus.description ? corpus.description: "" } />
+          <MarkdownView content={ corpus.synthesis ? corpus.synthesis: "" } />
         </CardContent>
       </Card>
     </div>
@@ -36,26 +37,27 @@ const CorpusNode: React.FC<{ corpus: Corpus }> = ({ corpus }) => {
         <div className="relative flex items-center bg-transparent">
           <div className="left-0 w-8 h-8 bg-transparent rounded-full z-0"></div>
           <Button
-            className="absolute -left-4 ml-4 px-6 py-8 rounded-l-full rounded-r-md text-3xl space-x-2"
+            className="absolute -left-4 ml-4 px-4 py-6 rounded-l-full rounded-r-md text-xl"
             variant='blue'
             onContextMenu={ (e) => { focusNode(`corpus_${corpus.id}`); e.preventDefault(); } }
           >
+            <span className="flex items-center justify-center w-4 h-4 bg-blue-500 rounded-full"></span>
             <span>{ "🗂️" }</span>
-            <span className="">{ "Main corpus" }</span>
+            <span className="">{ corpus.title }</span>
           </Button>
         </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[800px] h-full">
         <div className='w-full h-full overflow-scroll'>
           <DialogHeader>
-            <DialogTitle>{ `Corpus ${corpus.id}` }</DialogTitle>
+            <DialogTitle>{ corpus.title }</DialogTitle>
             <DialogDescription>
-              { corpus.description }
+              { corpus.short_summary }
             </DialogDescription>
           </DialogHeader>
           <Separator className="my-4" />
           <div className="prose">
-            <MarkdownView content={ corpus.description ? corpus.description: "" } />
+            <MarkdownView content={ corpus.synthesis ? corpus.synthesis: "" } />
           </div>
         </div>
       </DialogContent>

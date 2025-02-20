@@ -41,6 +41,8 @@ export function ResponseFocus() {
         <div className='mt-32'>
           {cpn}
         </div>
+        <div className='h-32'>
+        </div>
       </div>
     </div>
   )

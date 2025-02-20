@@ -6,6 +6,8 @@ export enum NodeType {
   Exercise = 'exercise',
   Block = 'block',
   Answer = 'answer',
+  ROMECompetency = 'rome_competency',
+  RNCPCompetency = 'rncp_competency',
 }
 
 export interface Doc {
@@ -19,6 +21,7 @@ export interface Doc {
 export interface Corpus {
   id: number;
   title: string | null;
+  short_summary: string | null;
   synthesis: string | null;
   description: string | null;
 }
@@ -61,6 +64,18 @@ export interface Answer {
   sources: Block[];
 }
 
+export interface ROMECompetency {
+  id: string;
+  micro_competency: string;
+  macro_competency: string;
+  code_arborescence: string;
+}
+
+export interface RNCPCompetency {
+  id: string;
+  competency: string;
+}
+
 export interface Node_ {
   id: string;
   type: NodeType;
@@ -71,8 +86,11 @@ export interface Node_ {
   exercise?: Exercise;
   block?: Block;
   answer?: Answer;
+  rome_competency?: ROMECompetency;
+  rncp_competency?: RNCPCompetency;
   x?: number;
   y?: number;
+  score?: number;
 }
 
 export interface Edge_ {
