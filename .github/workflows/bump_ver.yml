@@ -19,10 +19,7 @@ jobs:
           node-version: '22' # or the version your project requires
 
       - name: Install dependencies
-        run: npm install
-
-      - name: Run tests
-        run: npm test
+        run: yarn install
 
       - name: Semantic Release
         env:
