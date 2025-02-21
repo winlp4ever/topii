@@ -1,4 +1,4 @@
-# Topii - Learn the Minds of Books 📚🧠✨.
+# Topii - Learn the Minds of Books 📚🧠✨
 
 ## Getting Started
 
