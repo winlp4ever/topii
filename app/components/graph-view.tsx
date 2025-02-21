@@ -1,10 +1,12 @@
 'use client';
 import React from 'react';
 import { useAppStore } from '../store';
-import Graph from './graph';
 import { ReactFlowProvider } from '@xyflow/react';
+import ForceGraph from './force-graph';
+import AutoGraph from './auto-graph';
 
-export function GraphView() {
+
+const GraphView: React.FC<{ layout: 'force' | 'auto' }> = ({ layout }) => {
   const graph = useAppStore((state) => state.graph);
 
   // Example of how to handle “right-click” / “focus node”:
@@ -22,8 +24,14 @@ export function GraphView() {
   return (
     <div>
       <ReactFlowProvider>
-        <Graph data={graph} onNodeRightClick={handleNodeRightClick} />
+        {
+          layout === 'force' ? (
+            <ForceGraph data={graph} onNodeRightClick={handleNodeRightClick} />
+          ) : <AutoGraph data={graph} onNodeRightClick={handleNodeRightClick} />
+        }
       </ReactFlowProvider>
     </div>
   );
 }
+
+export default GraphView;

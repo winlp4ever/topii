@@ -16,14 +16,14 @@ const MarkdownView: React.FC<MarkdownViewProps> = ({ content }) => {
         remarkPlugins={[remarkMath]}
         rehypePlugins={[rehypeKatex, rehypeHighlight]}
         components={{
-          h1: ({ ...props }) => <h1 className="mt-12 scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl" {...props} />,
-          h2: ({ ...props }) => <h2 className="mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0" {...props} />,
-          h3: ({ ...props }) => <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight" {...props} />,
-          h4: ({ ...props }) => <h4 className="mt-6 scroll-m-20 text-xl font-semibold tracking-tight" {...props} />,
-          p: ({ ...props }) => <p className="leading-7 [&:not(:first-child)]:mt-6" {...props} />,
-          blockquote: ({ ...props }) => <blockquote className="mt-6 border-l-2 pl-6 italic" {...props} />,
-          ul: ({ ...props }) => <ul className="my-6 ml-6 list-disc [&>li]:mt-2" {...props} />,
-          ol: ({ ...props }) => <ul className="my-6 ml-6 list-decimal [&>li]:mt-2" {...props} />,
+          h1: ({ ...props }) => <h1 className="mt-6 scroll-m-20 text-xl font-bold tracking-tight lg:text-xl" {...props} />,
+          h2: ({ ...props }) => <h2 className="mt-4 scroll-m-20 border-b pb-2 text-lg font-semibold tracking-tight transition-colors first:mt-0" {...props} />,
+          h3: ({ ...props }) => <h3 className="mt-2 scroll-m-20 text-md font-semibold tracking-tight" {...props} />,
+          h4: ({ ...props }) => <h4 className="mt-2 scroll-m-20 text-sm font-semibold tracking-tight" {...props} />,
+          p: ({ ...props }) => <p className="leading-5 [&:not(:first-child)]:mt-2 text-sm" {...props} />,
+          blockquote: ({ ...props }) => <blockquote className="mt-2 border-l-2 pl-6 italic text-xs" {...props} />,
+          ul: ({ ...props }) => <ul className="my-2 ml-6 list-disc [&>li]:mt-2 text-sm" {...props} />,
+          ol: ({ ...props }) => <ul className="my-2 ml-6 list-decimal [&>li]:mt-2 text-sm" {...props} />,
           // Custom rendering for code blocks
           code: ({ className, children, ...props }) => {
             const match = /language-(\w+)/.exec(className || '');

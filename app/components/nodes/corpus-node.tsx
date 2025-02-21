@@ -12,14 +12,12 @@ import { useAppStore } from "@/app/store";
 
 
 export const CorpusView: React.FC<{ corpus: Corpus }> = ({ corpus }) => {
+  const text = `# ${corpus.title}\n\n---\n\n${corpus.synthesis ? corpus.synthesis: ""}`;
   return (
     <div>
       <Card className='w-full h-full'>
         <CardContent className="p-4">
-          <h4 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">{ corpus.title }</h4>
-          <blockquote className='mt-6 border-l-2 pl-6 italic text-accent-foreground text-sm'>{ corpus.short_summary }</blockquote>
-          <Separator className="my-4" />
-          <MarkdownView content={ corpus.synthesis ? corpus.synthesis: "" } />
+          <MarkdownView content={ text } />
         </CardContent>
       </Card>
     </div>

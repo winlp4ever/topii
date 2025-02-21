@@ -15,8 +15,8 @@ function StageSelector() {
   }
 
   return (
-    <Select onValueChange={handleStageChange}>
-      <SelectTrigger className="w-[180px]">
+    <Select onValueChange={handleStageChange} defaultValue='dev'>
+      <SelectTrigger className="w-[150px]">
         <SelectValue placeholder="Select a stage" />
       </SelectTrigger>
       <SelectContent>
@@ -48,27 +48,23 @@ export function WelcomeWindow() {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
-      <div className='text-5xl w-1/2 text-center flex flex-col items-center justify-center space-y-4'>
-        <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-          Welcome back,
+      <div className='w-1/2 text-center flex flex-col items-center justify-center space-y-4'>
+        <h1 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+          Welcome back, please enter a corpus ID
         </h1>
-        <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
-          Please enter a corpus ID
-        </h3>
-
-        <StageSelector />
-
         <Input
-          className='text-center border-none text-5xl outline-none w-1/2'
+          className='text-center border-none text-2xl outline-none w-1/2 md:text-2xl focus-visible:ring-0 font-mono'
           type="text"
-          placeholder="Corpus ID"
+          placeholder="0"
           value={tempCorpusId}
           onChange={(e) => setTempCorpusId(e.target.value)}
         />
+        <StageSelector />
         <Button
           disabled={!tempCorpusId}
           onClick={handleGoToLibrary}
           variant={!tempCorpusId ? 'ghost' : 'default'}
+          className='w-[150px]'
         >
           Go to library
         </Button>

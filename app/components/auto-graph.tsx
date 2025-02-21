@@ -41,7 +41,7 @@ const initialNodes: Node[] = []
 
 const initialEdges: Edge[] = []
 
-function Graph({ data, onNodeRightClick }: GraphProps) {
+function AutoGraph({ data, onNodeRightClick }: GraphProps) {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
@@ -121,4 +121,4 @@ function Graph({ data, onNodeRightClick }: GraphProps) {
   );
 }
 
-export default Graph;
+export default AutoGraph;
