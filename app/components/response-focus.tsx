@@ -1,9 +1,7 @@
 'use client';
 import React from 'react';
 import { useAppStore } from '../store';
-import { AnswerView } from './nodes/answer-node';
-import { DocView } from './nodes/doc-node';
-import { CorpusView } from './nodes/corpus-node';
+import EntityCard from './entity/card';
 
 // This is the response focus component
 export function ResponseFocus() {
@@ -12,23 +10,8 @@ export function ResponseFocus() {
   let cpn;
   if (!response) {
     cpn = <div>No response to display.</div>;
-  }
-
-  // e.g. if response is an Answer node:
-  else if (response.answer) {
-    cpn = <AnswerView answer={response.answer} />;
-  }
-
-  // or if response.doc, show doc details, etc.
-  else if (response.doc) {
-    cpn = <DocView doc={response.doc} />;
-  }
-
-  else if (response.corpus) {
-    cpn = <CorpusView corpus={response.corpus} />;
-  }
-  else {
-    cpn= <div>Unrecognized node type.</div>;
+  } else {
+    cpn = <EntityCard displayMode='full' node={response} />;
   }
   return (
     <div
