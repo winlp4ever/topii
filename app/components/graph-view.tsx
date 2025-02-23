@@ -4,18 +4,14 @@ import { useAppStore } from '../store';
 import { ReactFlowProvider } from '@xyflow/react';
 import ForceGraph from './force-graph';
 import AutoGraph from './auto-graph';
+import { LoadingView } from './loading-view';
 
 
 const GraphView: React.FC<{ layout: 'force' | 'auto' }> = ({ layout }) => {
+  const loadingStatus = useAppStore((state) => state.loadingStatus);
   const graph = useAppStore((state) => state.graph);
 
-  // Example of how to handle “right-click” / “focus node”:
-  const focusNode = useAppStore((state) => state.focusNode);
-
-  // You could pass an onNodeRightClick callback to Graph
-  const handleNodeRightClick = (nodeId: string) => {
-    focusNode(nodeId);
-  }
+  console.log(loadingStatus)
 
   if (!graph) {
     return <div>No graph loaded.</div>;
@@ -23,13 +19,22 @@ const GraphView: React.FC<{ layout: 'force' | 'auto' }> = ({ layout }) => {
 
   return (
     <div>
-      <ReactFlowProvider>
-        {
-          layout === 'force' ? (
-            <ForceGraph data={graph} onNodeRightClick={handleNodeRightClick} />
-          ) : <AutoGraph data={graph} onNodeRightClick={handleNodeRightClick} />
-        }
-      </ReactFlowProvider>
+      {
+        loadingStatus !== 'success' && (
+          <LoadingView />
+        )
+      }
+      {
+        loadingStatus === 'success' && (
+          <ReactFlowProvider>
+            {
+              layout === 'force' ? (
+                <ForceGraph data={graph} />
+              ) : <AutoGraph data={graph} />
+            }
+          </ReactFlowProvider>
+        )
+      }
     </div>
   );
 }

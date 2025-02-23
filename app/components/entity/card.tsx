@@ -24,32 +24,55 @@ function groupByType(items: Node_[]): Record<NodeType, Node_[]> {
   }, {} as Record<NodeType, Node_[]>);
 }
 
+const TypeTabnameMapping: Record<NodeType, string> = {
+  [NodeType.Block]: 'Document Sections',
+  [NodeType.Answer]: 'Answers',
+  [NodeType.QA]: 'Q&As',
+  [NodeType.Document]: 'Documents',
+  [NodeType.Exercise]: 'Exercises',
+  [NodeType.ROMECompetency]: 'ROME Competencies',
+  [NodeType.RNCPCompetency]: 'RNCP Competencies',
+  [NodeType.Concept]: 'Concepts',
+  [NodeType.Corpus]: 'Corpora',
+};
+
 
 const NodeTabs: React.FC<{ subNodeGroups: Record<NodeType, Node_[]> }> = ({ subNodeGroups }) => {
   const [activeTab, setActiveTab] = React.useState<NodeType | null>(null);
 
+  const [groups, setGroups] = React.useState<Record<NodeType, Node_[]>>({} as Record<NodeType, Node_[]>);
+
   useEffect(() => {
-    setActiveTab(Object.keys(subNodeGroups)[0] as NodeType);
+    if (subNodeGroups && Object.keys(subNodeGroups).length > 0) {
+      setActiveTab(Object.keys(subNodeGroups)[0] as NodeType);
+      setGroups(subNodeGroups);
+    }
   }, [subNodeGroups]);
 
   return (
-    <div className="flex space-x-2">
-      <div className="flex space-x-2">
-        {Object.keys(subNodeGroups).map((type) => (
+    <div className="p-6 pt-0 flex space-y-2 flex-col">
+      <div className="inline-flex h-9 items-center text-muted-foreground w-full justify-start rounded-none border-b bg-transparent p-0">
+        {Object.keys(groups).map((type) => (
           <button
             key={type}
-            className="px-4 py-2 text-sm rounded-md bg-gray-200"
+            className="inline-flex items-center justify-center whitespace-nowrap py-1 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
             onClick={() => setActiveTab(type as NodeType)}
+            data-state={activeTab === type ? 'active' : 'inactive'}
           >
-            {type}
+            {TypeTabnameMapping[type as NodeType]}
           </button>
         ))}
       </div>
       <div>
-        {activeTab && (
-          <div>
-            {subNodeGroups[activeTab].map((node) => (
-              <EntityCard key={node.id} displayMode="mini" node={node} />
+        {activeTab !== null && (
+          <div className='space-y-1'>
+            {groups[activeTab].map((node) => (
+              <EntityCard
+                key={node.id}
+                displayMode="mini"
+                node={node}
+                className='w-[600px] transform scale-90 origin-left [&>button]:rounded-lg [&>button]:shadow-none [&>button]:bg-transparent'
+              />
             ))}
           </div>
         )}
@@ -89,7 +112,7 @@ const EntityCard: React.FC<EntityCardProps> = ({
   displayMode,
   node,
   subNodes = [],
-  colorMode = 'slate',
+  colorMode = 'gray',
   isRoot = false,
   className,
   ...props
@@ -112,11 +135,11 @@ const EntityCard: React.FC<EntityCardProps> = ({
   const TypeIcon = info.typeIcon;
   const subNodeGroups = groupByType(subNodes);
 
-  const nodeButtonClassName = `rounded-l-full rounded-r-md w-full items-center justify-start
+  const nodeButtonClassName = `rounded-l-full rounded-r-md w-full items-center justify-start px-3 py-1
     ${ColorModeTextClassName[colorMode]} overflow-hidden text-left
     ${isRoot ? ColorModeBorderClassName[colorMode]: ''}`;
 
-  const nodeButtonNodeClassName = `flex items-center justify-center w-4 h-4
+  const nodeButtonNodeClassName = `flex items-center justify-center w-3 h-3
     ${ColorModeDarkBackgroundClassName[colorMode]} rounded-full`;
 
   const cardLabelClassName = dynamicDisplayMode === 'medium' ?
@@ -125,16 +148,16 @@ const EntityCard: React.FC<EntityCardProps> = ({
 
   const cardLabelTitleClassName = dynamicDisplayMode === 'medium' ?
     `${ColorModeTextClassName[colorMode]}` :
-    '';
+    'text-sm';
 
   return (
     <Card
       className={cn(
         dynamicDisplayMode === 'mini' ?
-        'w-96 bg-transparent shadow-none border-none':
+        'transition-all duration-300 ease-in-out w-96 bg-transparent shadow-none border-none max-h-20' :
         dynamicDisplayMode === 'medium' ?
-        `w-96 overflow-hidden ${isRoot ? ColorModeBorderClassName[colorMode]: ''}`:
-        'w-[650px] border-none shadow-none overflow-hidden',
+        `transition-all duration-300 ease-in-out w-96 overflow-hidden max-h-[600px] ${isRoot ? ColorModeBorderClassName[colorMode]: ''}`:
+        'transition-all duration-300 ease-in-out w-[650px] border-none shadow-none overflow-hidden',
         className
       )}
       {...props}
@@ -148,7 +171,7 @@ const EntityCard: React.FC<EntityCardProps> = ({
         >
           <span className={nodeButtonNodeClassName} />
           <TypeIcon />
-          <span className="w-80 truncate">{ info.label }</span>
+          <span className="truncate" style={{ width: 'calc(100% - 3rem)' }} >{ info.label }</span>
         </Button>
       }
       {
@@ -173,7 +196,12 @@ const EntityCard: React.FC<EntityCardProps> = ({
         dynamicDisplayMode !== 'mini' && info.title !== null &&
         <CardHeader>
           <CardTitle className='text-lg'>{info.title}</CardTitle>
-          { info.description !== null && <CardDescription>{info.description}</CardDescription> }
+          {
+            info.description !== null &&
+            <CardDescription className='[&_*_li]:mt-2'>
+              <MarkdownView content={info.description} />
+            </CardDescription>
+          }
         </CardHeader>
       }
       {

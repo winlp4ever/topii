@@ -35,7 +35,7 @@ const edgeTypes = {
   dashed: DashedEdge,
 };
 
-const defaultEdgeOptions = { style: { stroke: '#ff66aa', strokeWidth: 2 }, type: 'dashed' };
+const defaultEdgeOptions = { style: { stroke: '#ff66aa', strokeWidth: 1 }, type: 'dashed' };
 
 const initialNodes: Node[] = []
 
@@ -48,16 +48,19 @@ function AutoGraph({ data, onNodeRightClick }: GraphProps) {
   // Update nodes and edges when data changes
   useEffect(() => {
     if (data) {
-      const newNodes = data.nodes.map((node) => ({
+      const newNodes = data.nodes.map((node, idx) => ({
         id: node.id,
         position: { x: node.x ? node.x : 0, y: node.y ? node.y : 0 },
-        data: { label: <GraphNode node={node} /> },
+        data: { label: <GraphNode node={node} isRoot={idx === 0} /> },
       }));
 
       const newEdges = data.edges.map((edge) => ({
         id: edge.id,
         source: edge.source,
         target: edge.target,
+        data: { label: edge.score !== null ? `${Math.round(edge.score * 10)}/10`: undefined },
+        style: { stroke: edge.category === 'source' ? '#2563eb': '#db2777', strokeWidth: 1 },
+        type: 'dashed',
       }));
 
       setNodes(newNodes);
@@ -73,7 +76,7 @@ function AutoGraph({ data, onNodeRightClick }: GraphProps) {
       options: ['dagre', 'd3-hierarchy', 'elk'] as LayoutOptions['algorithm'][],
     },
     direction: {
-      value: 'LR' as LayoutOptions['direction'],
+      value: 'RL' as LayoutOptions['direction'],
       options: {
         down: 'TB',
         right: 'LR',

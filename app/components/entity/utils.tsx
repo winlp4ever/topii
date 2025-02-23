@@ -1,6 +1,6 @@
 import { Node_, NodeType } from "@/app/types/graph";
-import { trimText } from "../utils";
-import { Key, File, Folder, ListChecks, Bike, Blocks, FileQuestion, TextSearch, TextSelect } from "lucide-react";
+import { shuffleArray, trimText } from "../utils";
+import { Key, FileText, FolderOpen, ListChecks, Bike, Blocks, FileQuestion, TextSelect, Sparkles } from "lucide-react";
 
 export interface BasicInfo {
   label: string | null;
@@ -18,13 +18,13 @@ function extractAnswerInfo(node: Node_): BasicInfo {
     throw new Error("Answer node must have an answer field");
   }
   return {
-    label: null,
+    label: node.answer.text,
     title: null,
-    description: null,
+    description: node.answer.text,
     content: node.answer.text,
     entityType: NodeType.Answer,
     typeName: "Answer",
-    typeIcon: () => <TextSearch strokeWidth={1.5} />,
+    typeIcon: () => <Sparkles strokeWidth={1.5} />,
   };
 }
 
@@ -49,7 +49,7 @@ function extractBlockInfo(node: Node_): BasicInfo {
     throw new Error("Block node must have a block field");
   }
   return {
-    label: node.block.text,
+    label: node.block.title,
     title: node.block.title,
     description: node.block.short_summary,
     content: node.block.long_summary,
@@ -88,7 +88,7 @@ function extractDocumentInfo(node: Node_): BasicInfo {
     content: node.doc.synthesis_,
     entityType: NodeType.Document,
     typeName: "Document",
-    typeIcon: () => <File strokeWidth={1.5} />,
+    typeIcon: () => <FileText strokeWidth={1.5} />,
   };
 }
 
@@ -104,7 +104,7 @@ function extractCorpusInfo(node: Node_): BasicInfo {
     content: node.corpus.synthesis,
     entityType: NodeType.Corpus,
     typeName: "Corpus",
-    typeIcon: () => <Folder strokeWidth={1.5} />,
+    typeIcon: () => <FolderOpen strokeWidth={1.5} />,
   };
 }
 
@@ -116,20 +116,18 @@ function extractExerciseInfo(node: Node_): BasicInfo {
 
   const lines: string[] = []
   node.exercise.distractors.forEach((distractor) => {
-    lines.push(`[] ${distractor}`);
+    lines.push(`- [ ] ${distractor}`);
   })
   node.exercise.answers.forEach((answer) => {
-    lines.push(`[x] ${answer}`);
+    lines.push(`- [x] ${answer}`);
   })
-  lines.push(`\nFeedback: ${node.exercise.feedback}`);
-  const content = lines.join("\n");
-
-  console.log(content);
+  const shuffled = shuffleArray(lines);
+  const content = shuffled.join("\n");
 
   return {
     label: node.exercise.question,
     title: node.exercise.question,
-    description: null,
+    description: content,
     content: content,
     entityType: NodeType.Exercise,
     typeName: "Exercise",
