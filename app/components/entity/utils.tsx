@@ -1,5 +1,5 @@
 import { Node_, NodeType } from "@/app/types/graph";
-import { trimText } from "../utils";
+import { shuffleArray, trimText } from "../utils";
 import { Key, File, Folder, ListChecks, Bike, Blocks, FileQuestion, TextSearch, TextSelect } from "lucide-react";
 
 export interface BasicInfo {
@@ -116,20 +116,20 @@ function extractExerciseInfo(node: Node_): BasicInfo {
 
   const lines: string[] = []
   node.exercise.distractors.forEach((distractor) => {
-    lines.push(`[] ${distractor}`);
+    lines.push(`- [ ] ${distractor}`);
   })
   node.exercise.answers.forEach((answer) => {
-    lines.push(`[x] ${answer}`);
+    lines.push(`- [x] ${answer}`);
   })
-  lines.push(`\nFeedback: ${node.exercise.feedback}`);
-  const content = lines.join("\n");
+  const shuffled = shuffleArray(lines);
+  const content = shuffled.join("\n");
 
   console.log(content);
 
   return {
     label: node.exercise.question,
     title: node.exercise.question,
-    description: null,
+    description: content,
     content: content,
     entityType: NodeType.Exercise,
     typeName: "Exercise",

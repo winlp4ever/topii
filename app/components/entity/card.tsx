@@ -131,10 +131,10 @@ const EntityCard: React.FC<EntityCardProps> = ({
     <Card
       className={cn(
         dynamicDisplayMode === 'mini' ?
-        'w-96 bg-transparent shadow-none border-none':
+        'transition-all duration-300 ease-in-out w-96 bg-transparent shadow-none border-none max-h-20' :
         dynamicDisplayMode === 'medium' ?
-        `w-96 overflow-hidden ${isRoot ? ColorModeBorderClassName[colorMode]: ''}`:
-        'w-[650px] border-none shadow-none overflow-hidden',
+        `transition-all duration-300 ease-in-out w-96 overflow-hidden max-h-[600px] ${isRoot ? ColorModeBorderClassName[colorMode]: ''}`:
+        'transition-all duration-300 ease-in-out w-[650px] border-none shadow-none overflow-hidden',
         className
       )}
       {...props}
@@ -173,7 +173,12 @@ const EntityCard: React.FC<EntityCardProps> = ({
         dynamicDisplayMode !== 'mini' && info.title !== null &&
         <CardHeader>
           <CardTitle className='text-lg'>{info.title}</CardTitle>
-          { info.description !== null && <CardDescription>{info.description}</CardDescription> }
+          {
+            info.description !== null &&
+            <CardDescription className='[&_*_li]:mt-2'>
+              <MarkdownView content={info.description} />
+            </CardDescription>
+          }
         </CardHeader>
       }
       {

@@ -2,6 +2,7 @@ import ReactMarkdown from "react-markdown";
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import rehypeHighlight from 'rehype-highlight';
+import remarkGfm from 'remark-gfm';
 import 'katex/dist/katex.min.css'; // Import KaTeX CSS for styling
 import 'highlight.js/styles/github.css'; // Import a highlight.js theme
 
@@ -13,7 +14,7 @@ const MarkdownView: React.FC<MarkdownViewProps> = ({ content }) => {
   return (
     <>
       <ReactMarkdown
-        remarkPlugins={[remarkMath]}
+        remarkPlugins={[remarkMath, remarkGfm]}
         rehypePlugins={[rehypeKatex, rehypeHighlight]}
         components={{
           h1: ({ ...props }) => <h1 className="mt-6 scroll-m-20 text-xl font-bold tracking-tight lg:text-xl" {...props} />,
@@ -24,6 +25,7 @@ const MarkdownView: React.FC<MarkdownViewProps> = ({ content }) => {
           blockquote: ({ ...props }) => <blockquote className="mt-2 border-l-2 pl-6 italic text-xs" {...props} />,
           ul: ({ ...props }) => <ul className="my-2 ml-6 list-disc [&>li]:mt-2 text-sm" {...props} />,
           ol: ({ ...props }) => <ul className="my-2 ml-6 list-decimal [&>li]:mt-2 text-sm" {...props} />,
+          li: ({ ...props }) => <li className="mt-2" {...props} />,
           // Custom rendering for code blocks
           code: ({ className, children, ...props }) => {
             const match = /language-(\w+)/.exec(className || '');

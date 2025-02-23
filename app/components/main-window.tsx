@@ -34,10 +34,10 @@ export function MainWindow() {
 
   return (
     <>
-      <div className="
+      <div className={`
           fixed top-10 left-1/2 transform -translate-x-1/2 p-2 z-50 flex flex-row w-auto
           bg-gray-200 rounded-lg justify-center items-center
-        "
+        `}
       >
         <span className='text-xs px-3 py-1 text-center' ><AtSign strokeWidth={1.5} className='h-4 w-4 inline' /> <span className='font-mono'>{corpusLabel}</span></span>
         <span className='w-2 h-5 rounded-lg bg-white'></span>
