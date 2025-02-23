@@ -6,12 +6,10 @@ import { ResponseFocus } from './response-focus';
 import SearchBar from './search-bar';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ChartNetwork, Text, FlipHorizontal2, Network, AtSign } from 'lucide-react';
-import { LoadingView } from './loading-view';
 
 // This is the main window that displays the graph view and response focus
 export function MainWindow() {
   const corpusId = useAppStore((state) => state.corpusId);
-  const loadingStatus = useAppStore((state) => state.loadingStatus);
 
   // we can toggle between "graph" and "response" views
   const [tab, setTab] = React.useState<'graph' | 'response'>('graph');
@@ -88,15 +86,11 @@ export function MainWindow() {
         }
       </div>
       {
-        loadingStatus === 'loading' &&
-        <LoadingView />
-      }
-      {
-        tab === 'graph' && loadingStatus === 'loaded' &&
+        tab === 'graph' &&
         <GraphView layout={ layoutOption }/>
       }
       {
-        tab === 'response' && loadingStatus === 'loaded' &&
+        tab === 'response' &&
         <ResponseFocus />
       }
       <SearchBar />

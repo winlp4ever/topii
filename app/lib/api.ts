@@ -7,29 +7,8 @@ function sleep(ms: number): Promise<void> {
 }
 
 
-export const fetchData = async () => {
-  try {
-    const response = await fetch('http://localhost:8000/recommend?node_id=corpus_3', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-
-    const data = await response.json();
-    console.log(data);
-  } catch (error) {
-    console.error('Failed to fetch:', error);
-  }
-};
-
-
 export async function fetchStreamedGraph(nodeId: string): Promise<GraphData> {
-  const url = new URL('http://localhost:8004/recommend');
+  const url = new URL(`${process.env.API_URL}/recommend`);
   const params: { [key: string]: string } = { node_id: nodeId };
   // Append query parameters to the URL
   Object.keys(params).forEach(key => url.searchParams.append(key, params[key] as string));

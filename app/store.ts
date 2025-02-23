@@ -8,7 +8,7 @@ import {
 
 export type Stage = 'local' | 'dev' | 'preprod' | 'prod' | 'test';
 export type InputType = 'query' | 'nodeId';
-export type LoadingStatus = 'loading' | 'loaded' | 'idle' | 'error';
+export type LoadingStatus = 'loading' | 'success' | 'idle' | 'error';
 
 export interface AppState {
   stage: Stage
@@ -68,7 +68,7 @@ export const useAppStore = create<AppState>()(
         console.log(graphData);
         set({
           graph: graphData,
-          loadingStatus: 'loaded',
+          loadingStatus: 'success',
           corpusId: id,
           input: String(id),
           inputType: 'nodeId',
@@ -97,7 +97,7 @@ export const useAppStore = create<AppState>()(
         // For now, assume you handle it in "response" if needed.
         set({
           graph: data,
-          loadingStatus: 'loaded',
+          loadingStatus: 'success',
           input: queryStr,
           inputType: 'query',
           response: responseNode,
@@ -123,7 +123,7 @@ export const useAppStore = create<AppState>()(
         }
         set({
           graph: graphData,
-          loadingStatus: 'loaded',
+          loadingStatus: 'success',
           input: nodeId,
           inputType: 'nodeId',
           response: responseNode,

@@ -50,7 +50,7 @@ function ForceGraph({ strength = -1000, distance = 500, data, onNodeRightClick }
       const newNodes = data.nodes.map((node, idx) => ({
         id: node.id,
         position: { x: node.x ? node.x : 0, y: node.y ? node.y : 0 },
-        data: { label: <GraphNode node={node} isRoot={idx === 0}/> },
+        data: { label: <GraphNode node={node} isRoot={idx === 0} /> },
       }));
 
       const newEdges = data.edges.map((edge) => ({

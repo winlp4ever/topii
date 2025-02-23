@@ -48,10 +48,10 @@ function AutoGraph({ data, onNodeRightClick }: GraphProps) {
   // Update nodes and edges when data changes
   useEffect(() => {
     if (data) {
-      const newNodes = data.nodes.map((node) => ({
+      const newNodes = data.nodes.map((node, idx) => ({
         id: node.id,
         position: { x: node.x ? node.x : 0, y: node.y ? node.y : 0 },
-        data: { label: <GraphNode node={node} /> },
+        data: { label: <GraphNode node={node} isRoot={idx === 0} /> },
       }));
 
       const newEdges = data.edges.map((edge) => ({

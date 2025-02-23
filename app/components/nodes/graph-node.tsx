@@ -16,7 +16,7 @@ const GraphNode: React.FC<GraphNodeProps> = ({ node, isRoot = false }) => {
     <div className="relative flex items-center bg-transparent">
       <div className="left-0 w-8 h-8 bg-transparent rounded-full z-0"></div>
       <EntityCard
-        displayMode='mini'
+        displayMode={isRoot ? "medium" : "mini"}
         node={node}
         className='absolute -left-2 top-0'
         colorMode={NodeTypeColorMapping[node.type as NodeType] as ColorMode}

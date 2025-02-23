@@ -40,14 +40,19 @@ const TypeTabnameMapping: Record<NodeType, string> = {
 const NodeTabs: React.FC<{ subNodeGroups: Record<NodeType, Node_[]> }> = ({ subNodeGroups }) => {
   const [activeTab, setActiveTab] = React.useState<NodeType | null>(null);
 
+  const [groups, setGroups] = React.useState<Record<NodeType, Node_[]>>({} as Record<NodeType, Node_[]>);
+
   useEffect(() => {
-    setActiveTab(Object.keys(subNodeGroups)[0] as NodeType);
+    if (subNodeGroups && Object.keys(subNodeGroups).length > 0) {
+      setActiveTab(Object.keys(subNodeGroups)[0] as NodeType);
+      setGroups(subNodeGroups);
+    }
   }, [subNodeGroups]);
 
   return (
     <div className="p-6 pt-0 flex space-y-2 flex-col">
       <div className="inline-flex h-9 items-center text-muted-foreground w-full justify-start rounded-none border-b bg-transparent p-0">
-        {Object.keys(subNodeGroups).map((type) => (
+        {Object.keys(groups).map((type) => (
           <button
             key={type}
             className="inline-flex items-center justify-center whitespace-nowrap py-1 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
@@ -59,9 +64,9 @@ const NodeTabs: React.FC<{ subNodeGroups: Record<NodeType, Node_[]> }> = ({ subN
         ))}
       </div>
       <div>
-        {activeTab && (
+        {activeTab !== null && (
           <div className='space-y-1'>
-            {subNodeGroups[activeTab].map((node) => (
+            {groups[activeTab].map((node) => (
               <EntityCard
                 key={node.id}
                 displayMode="mini"
@@ -143,7 +148,7 @@ const EntityCard: React.FC<EntityCardProps> = ({
 
   const cardLabelTitleClassName = dynamicDisplayMode === 'medium' ?
     `${ColorModeTextClassName[colorMode]}` :
-    '';
+    'text-sm';
 
   return (
     <Card

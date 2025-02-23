@@ -124,8 +124,6 @@ function extractExerciseInfo(node: Node_): BasicInfo {
   const shuffled = shuffleArray(lines);
   const content = shuffled.join("\n");
 
-  console.log(content);
-
   return {
     label: node.exercise.question,
     title: node.exercise.question,
