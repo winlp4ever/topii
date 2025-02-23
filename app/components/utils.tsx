@@ -1,3 +1,5 @@
+import { Edge_, Node_ } from "../types/graph";
+
 export const trimText = (text: string, maxLength: number) => {
   if (text.length > maxLength) {
     return text.substring(0, maxLength) + '...';
@@ -25,4 +27,14 @@ export function shuffleArray<T>(array: T[]): T[] {
 export function capitalize(text: string): string {
   if (!text) return text; // Handle empty string or null/undefined
   return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
+
+export function filterSourceNodes(root_id: string, nodes: Node_[], edges: Edge_[]): Node_[] {
+  // Get all the source nodes connected to the root node
+  const sourceEdges = edges.filter(edge => edge.target === root_id && edge.category === 'source');
+  const nodeSet = new Set<string>();
+  sourceEdges.forEach(edge => nodeSet.add(edge.source));
+  const sourceNodes = nodes.filter(node => nodeSet.has(node.id));
+  return sourceNodes;
 }

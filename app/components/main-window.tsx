@@ -42,12 +42,20 @@ export function MainWindow() {
         <span className='text-xs px-3 py-1 text-center' ><AtSign strokeWidth={1.5} className='h-4 w-4 inline' /> <span className='font-mono'>{corpusLabel}</span></span>
         <span className='w-2 h-5 rounded-lg bg-white'></span>
         <Tabs defaultValue="graph" onValueChange={handleTabChange} className="" >
-          <TabsList className="flex space-x-2 flex-row justify-around p-0 bg-transparent h-auto" >
-            <TabsTrigger value="response" className='space-x-2 data-[state=active]:shadow-none data-[state=active]:bg-transparent text-xs font-normal text-gray-400' >
+          <TabsList
+            className="flex space-x-2 flex-row justify-around p-0 bg-transparent h-auto"
+          >
+            <TabsTrigger
+              value="response"
+              className='space-x-2 data-[state=active]:shadow-none data-[state=active]:bg-transparent text-xs font-normal text-gray-400'
+            >
               <Text className='h-4 w-4' strokeWidth={1.5}/>
               <span>Insight View</span>
             </TabsTrigger>
-            <TabsTrigger value="graph" className='space-x-2 data-[state=active]:shadow-none data-[state=active]:bg-transparent text-xs font-normal text-gray-400' >
+            <TabsTrigger
+              value="graph"
+              className='space-x-2 data-[state=active]:shadow-none data-[state=active]:bg-transparent text-xs font-normal text-gray-400'
+            >
               <ChartNetwork className='h-4 w-4' strokeWidth={1.5}/>
               <span>Graph View</span>
             </TabsTrigger>
@@ -61,11 +69,17 @@ export function MainWindow() {
           tab === 'graph' &&
           <Tabs defaultValue="force" onValueChange={handleLayoutChange} className="ml-2" >
             <TabsList className="flex space-x-2 flex-row justify-around p-0 bg-transparent h-auto" >
-              <TabsTrigger value="force" className='space-x-2 data-[state=active]:shadow-none data-[state=active]:bg-transparent text-xs font-normal text-gray-400' >
+              <TabsTrigger
+                value="force"
+                className='space-x-2 data-[state=active]:shadow-none data-[state=active]:bg-transparent text-xs font-normal text-gray-400'
+              >
                 <FlipHorizontal2 className='h-4 w-4' strokeWidth={1.5} />
                 <span>Force Layout</span>
               </TabsTrigger>
-              <TabsTrigger value="auto" className='space-x-2 data-[state=active]:shadow-none data-[state=active]:bg-transparent text-xs font-normal text-gray-400' >
+              <TabsTrigger
+                value="auto"
+                className='space-x-2 data-[state=active]:shadow-none data-[state=active]:bg-transparent text-xs font-normal text-gray-400'
+              >
                 <Network className='h-4 w-4' strokeWidth={1.5} />
                 <span>Auto Layout</span>
               </TabsTrigger>

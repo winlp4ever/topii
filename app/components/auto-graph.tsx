@@ -35,7 +35,7 @@ const edgeTypes = {
   dashed: DashedEdge,
 };
 
-const defaultEdgeOptions = { style: { stroke: '#ff66aa', strokeWidth: 2 }, type: 'dashed' };
+const defaultEdgeOptions = { style: { stroke: '#ff66aa', strokeWidth: 1 }, type: 'dashed' };
 
 const initialNodes: Node[] = []
 
@@ -58,6 +58,9 @@ function AutoGraph({ data, onNodeRightClick }: GraphProps) {
         id: edge.id,
         source: edge.source,
         target: edge.target,
+        data: { label: edge.score !== null ? `${Math.round(edge.score * 10)}/10`: undefined },
+        style: { stroke: edge.category === 'source' ? '#2563eb': '#db2777', strokeWidth: 1 },
+        type: 'dashed',
       }));
 
       setNodes(newNodes);
@@ -73,7 +76,7 @@ function AutoGraph({ data, onNodeRightClick }: GraphProps) {
       options: ['dagre', 'd3-hierarchy', 'elk'] as LayoutOptions['algorithm'][],
     },
     direction: {
-      value: 'LR' as LayoutOptions['direction'],
+      value: 'RL' as LayoutOptions['direction'],
       options: {
         down: 'TB',
         right: 'LR',

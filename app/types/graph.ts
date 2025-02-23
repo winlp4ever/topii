@@ -97,6 +97,8 @@ export interface Edge_ {
   id: string;
   source: string;
   target: string;
+  score: number | null;
+  category: 'source' | null;
 }
 
 export interface GraphData {

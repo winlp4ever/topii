@@ -34,7 +34,7 @@ const edgeTypes = {
   dashed: DashedEdge,
 };
 
-const defaultEdgeOptions = { style: { stroke: '#ff66aa', strokeWidth: 2 }, type: 'dashed' };
+const defaultEdgeOptions = { style: { stroke: 'var(--tw-color-pink-500)', strokeWidth: 1 }, type: 'dashed' };
 
 const initialNodes: Node[] = []
 
@@ -57,6 +57,9 @@ function ForceGraph({ strength = -1000, distance = 500, data, onNodeRightClick }
         id: edge.id,
         source: edge.source,
         target: edge.target,
+        data: { label: edge.score !== null ? `${Math.round(edge.score * 10)}/10`: undefined },
+        style: { stroke: edge.category === 'source' ? '#2563eb': '#db2777', strokeWidth: 1 },
+        type: 'dashed',
       }));
 
       setNodes(newNodes);
