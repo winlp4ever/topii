@@ -13,7 +13,7 @@ export function MainWindow() {
   const corpusId = useAppStore((state) => state.corpusId);
   const loadingStatus = useAppStore((state) => state.loadingStatus);
 
-  // We can toggle between “Graph view” and “Response focus”
+  // we can toggle between "graph" and "response" views
   const [tab, setTab] = React.useState<'graph' | 'response'>('graph');
   const [layoutOption, setLayoutOption] = React.useState<'force' | 'auto'>('force');
 

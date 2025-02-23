@@ -40,17 +40,17 @@ const initialNodes: Node[] = []
 
 const initialEdges: Edge[] = []
 
-function ForceGraph({ strength = -1000, distance = 1000, data, onNodeRightClick }: GraphProps) {
+function ForceGraph({ strength = -1000, distance = 500, data, onNodeRightClick }: GraphProps) {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
   // Update nodes and edges when data changes
   useEffect(() => {
     if (data) {
-      const newNodes = data.nodes.map((node) => ({
+      const newNodes = data.nodes.map((node, idx) => ({
         id: node.id,
         position: { x: node.x ? node.x : 0, y: node.y ? node.y : 0 },
-        data: { label: <GraphNode node={node} onNodeRightClick={onNodeRightClick}/> },
+        data: { label: <GraphNode node={node} isRoot={idx === 0}/> },
       }));
 
       const newEdges = data.edges.map((edge) => ({

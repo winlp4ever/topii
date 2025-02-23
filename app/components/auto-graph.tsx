@@ -51,7 +51,7 @@ function AutoGraph({ data, onNodeRightClick }: GraphProps) {
       const newNodes = data.nodes.map((node) => ({
         id: node.id,
         position: { x: node.x ? node.x : 0, y: node.y ? node.y : 0 },
-        data: { label: <GraphNode node={node} onNodeRightClick={onNodeRightClick}/> },
+        data: { label: <GraphNode node={node} /> },
       }));
 
       const newEdges = data.edges.map((edge) => ({
@@ -81,7 +81,7 @@ function AutoGraph({ data, onNodeRightClick }: GraphProps) {
         left: 'RL',
       } as Record<string, LayoutOptions['direction']>,
     },
-    spacing: [400, 50],
+    spacing: [400, 15],
     'add root node': button(() =>
       addNodes({
         id: getId(),

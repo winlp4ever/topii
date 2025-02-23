@@ -5,6 +5,7 @@ export const trimText = (text: string, maxLength: number) => {
   return text;
 };
 
+
 export function shuffleArray<T>(array: T[]): T[] {
   // Create a copy of the array to avoid mutating the original array
   const shuffledArray = array.slice();
@@ -18,4 +19,10 @@ export function shuffleArray<T>(array: T[]): T[] {
   }
 
   return shuffledArray;
+}
+
+
+export function capitalize(text: string): string {
+  if (!text) return text; // Handle empty string or null/undefined
+  return text.charAt(0).toUpperCase() + text.slice(1);
 }

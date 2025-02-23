@@ -51,11 +51,11 @@ export interface Exercise {
 export interface Block {
   id: string;
   text: string;
-  title?: string;
-  short_summary?: string;
-  long_summary?: string;
-  doc_id?: string;
-  corpus_id?: string;
+  title: string | null;
+  short_summary: string | null;
+  long_summary: string | null;
+  doc_id: string | null;
+  corpus_id: string | null;
 }
 
 export interface Answer {
