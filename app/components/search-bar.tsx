@@ -18,6 +18,7 @@ const SearchBar: React.FC = () => {
     console.log('Searching for:', query);
     setInputType('query');
     setInput(query);
+
     searchQuery(query);
     setQuery('');
   };

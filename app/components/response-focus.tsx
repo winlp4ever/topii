@@ -9,18 +9,21 @@ import { LoadingView } from './loading-view';
 // This is the response focus component
 export function ResponseFocus() {
   const loadingStatus = useAppStore((state) => state.loadingStatus);
-  const response = useAppStore((state) => state.response);
-  const graph = useAppStore((state) => state.graph);
+  const data = useAppStore((state) => state.data);
 
+  const [response, setResponse] = React.useState<Node_ | null>(null);
   const [sourceNodes, setSourceNodes] = React.useState<Node_[]>([]);
 
   useEffect(() => {
-    if (graph !== null && response !== null) {
+    if (data !== null && data.data !== null) {
+      const graph = data.data;
+      const response = graph.nodes[0];
       const nodes = graph.nodes.slice(1);
       const srcNodes = filterSourceNodes(response.id, nodes, graph.edges);
       setSourceNodes(srcNodes);
+      setResponse(response);
     }
-  }, [response, graph]);
+  }, [data]);
 
   let cpn;
   if (!response) {
@@ -36,12 +39,12 @@ export function ResponseFocus() {
   return (
     <>
       {
-        loadingStatus !== 'success' && (
+        loadingStatus !== 'COMPLETED' && (
           <LoadingView responseViewType='Response' />
         )
       }
       {
-        loadingStatus === 'success' && (
+        loadingStatus === 'COMPLETED' && (
           <div
             style={{ height: '100vh', width: '100vw' }}
             className='flex flex-col items-center justify-center overflow-y-scroll'
