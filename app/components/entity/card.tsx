@@ -2,7 +2,7 @@ import { Node_, NodeType } from "@/app/types/graph";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { CardLabel, CardLabelTitle } from "../ui/card";
 import MarkdownView from "../markdown-view";
-import { extractBasicInfo } from "./utils";
+import { BasicInfo, extractBasicInfo } from "./utils";
 import React, { useEffect } from "react";
 import { capitalize } from "../utils";
 import { cn } from "@/app/lib/utils";
@@ -71,7 +71,7 @@ const NodeTabs: React.FC<{ subNodeGroups: Record<NodeType, Node_[]> }> = ({ subN
                 key={node.id}
                 displayMode="mini"
                 node={node}
-                className='w-[600px] transform scale-90 origin-left [&>button]:rounded-lg [&>button]:shadow-none [&>button]:bg-transparent'
+                className='transform scale-90 origin-left [&>button]:rounded-lg [&>button]:shadow-none [&>button]:bg-transparent'
               />
             ))}
           </div>
@@ -118,6 +118,21 @@ const EntityCard: React.FC<EntityCardProps> = ({
   ...props
 }) => {
   const [dynamicDisplayMode, setDynamicDisplayMode] = React.useState(displayMode);
+  const [basicInfo, setBasicInfo] = React.useState<BasicInfo>({
+    label: "untitled",
+    title: "untitled",
+    description: null,
+    content: null,
+    entityType: node.type,
+    typeName: "Unknown",
+    typeIcon: () => <span>?</span>,
+  });
+  const [displayCardHeader, setDisplayCardHeader] = React.useState(true);
+
+  useEffect(() => {
+    extractBasicInfo(node).then(setBasicInfo);
+  }
+  , [node]);
 
   const toggleDisplayMode = () => {
     if (dynamicDisplayMode === 'mini') {
@@ -131,8 +146,18 @@ const EntityCard: React.FC<EntityCardProps> = ({
     setDynamicDisplayMode(displayMode);
   }, [displayMode]);
 
-  const info = extractBasicInfo(node);
-  const TypeIcon = info.typeIcon;
+  useEffect(() => {
+    setDisplayCardHeader(
+      (
+        dynamicDisplayMode === 'full' && basicInfo.title !== null
+      )  || (
+        dynamicDisplayMode === 'medium' && (basicInfo.title !== null || basicInfo.description !== null)
+      )
+    )
+  }
+  , [dynamicDisplayMode, basicInfo.title, basicInfo.description]);
+
+  const TypeIcon = basicInfo.typeIcon;
   const subNodeGroups = groupByType(subNodes);
 
   const nodeButtonClassName = `rounded-l-full rounded-r-md w-full items-center justify-start px-3 py-1
@@ -157,7 +182,7 @@ const EntityCard: React.FC<EntityCardProps> = ({
         'transition-all duration-300 ease-in-out w-96 bg-transparent shadow-none border-none max-h-20' :
         dynamicDisplayMode === 'medium' ?
         `transition-all duration-300 ease-in-out w-96 overflow-hidden max-h-[600px] ${isRoot ? ColorModeBorderClassName[colorMode]: ''}`:
-        'transition-all duration-300 ease-in-out w-[650px] border-none shadow-none overflow-hidden',
+        'transition-all duration-300 ease-in-out w-[650px] overflow-hidden',
         className
       )}
       {...props}
@@ -171,7 +196,7 @@ const EntityCard: React.FC<EntityCardProps> = ({
         >
           <span className={nodeButtonNodeClassName} />
           <TypeIcon />
-          <span className="truncate" style={{ width: 'calc(100% - 3rem)' }} >{ info.label }</span>
+          <span className="truncate" style={{ width: 'calc(100% - 3rem)' }} >{ basicInfo.label }</span>
         </Button>
       }
       {
@@ -179,7 +204,7 @@ const EntityCard: React.FC<EntityCardProps> = ({
         <CardLabel className={cardLabelClassName}>
           <CardLabelTitle className={cardLabelTitleClassName}>
             <TypeIcon />
-            <span>{capitalize(info.typeName)}</span>
+            <span>{capitalize(basicInfo.typeName)}</span>
           </CardLabelTitle>
           {
             dynamicDisplayMode === 'medium' &&
@@ -193,21 +218,25 @@ const EntityCard: React.FC<EntityCardProps> = ({
         </CardLabel>
       }
       {
-        dynamicDisplayMode !== 'mini' && info.title !== null &&
-        <CardHeader>
-          <CardTitle className='text-lg'>{info.title}</CardTitle>
-          {
-            info.description !== null &&
-            <CardDescription className='[&_*_li]:mt-2'>
-              <MarkdownView content={info.description} />
-            </CardDescription>
-          }
-        </CardHeader>
+        displayCardHeader && (
+          <CardHeader>
+            {
+              basicInfo.title !== null &&
+              <CardTitle className='text-lg'>{basicInfo.title}</CardTitle>
+            }
+            {
+              dynamicDisplayMode === 'medium' && basicInfo.description !== null &&
+              <CardDescription className='[&_*_li]:mt-2'>
+                <MarkdownView content={basicInfo.description} />
+              </CardDescription>
+            }
+          </CardHeader>
+        )
       }
       {
-        dynamicDisplayMode === 'full' && info.content !== null &&
-        <CardContent>
-          <MarkdownView content={info.content} />
+        dynamicDisplayMode === 'full' && basicInfo.content !== null &&
+        <CardContent className={displayCardHeader ? 'pt-0' : 'pt-6'}>
+          <MarkdownView content={basicInfo.content} />
         </CardContent>
       }
       {

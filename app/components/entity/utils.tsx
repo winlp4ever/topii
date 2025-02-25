@@ -1,6 +1,6 @@
 import { Node_, NodeType } from "@/app/types/graph";
-import { shuffleArray, trimText } from "../utils";
-import { Key, FileText, FolderOpen, ListChecks, Bike, Blocks, FileQuestion, TextSelect, Sparkles } from "lucide-react";
+import { extractPlainText, shuffleArray, trimText } from "../utils";
+import { Key, FileText, FolderOpen, ListChecks, Bike, Blocks, FileQuestion, TextSelect, Sparkles, Network } from "lucide-react";
 
 export interface BasicInfo {
   label: string | null;
@@ -13,14 +13,16 @@ export interface BasicInfo {
 }
 
 
-function extractAnswerInfo(node: Node_): BasicInfo {
+async function extractAnswerInfo(node: Node_): Promise<BasicInfo> {
   if (node.answer === undefined) {
     throw new Error("Answer node must have an answer field");
   }
+
+  const desc = trimText(await extractPlainText(node.answer.text), 500);
   return {
     label: node.answer.text,
     title: null,
-    description: node.answer.text,
+    description: desc,
     content: node.answer.text,
     entityType: NodeType.Answer,
     typeName: "Answer",
@@ -44,18 +46,25 @@ function extractQAInfo(node: Node_): BasicInfo {
 }
 
 
-function extractBlockInfo(node: Node_): BasicInfo {
+async function extractBlockInfo(node: Node_): Promise<BasicInfo> {
   if (node.block === undefined) {
     throw new Error("Block node must have a block field");
   }
+
+  const iconCpn = (
+    node.block.title !== null ? () => <Network strokeWidth={1.5} /> : () => <TextSelect strokeWidth={1.5} />
+  )
+
+  const textPlain = await extractPlainText(node.block.text);
+  const label = node.block.title !== null ? node.block.title : trimText(textPlain, 50);
   return {
-    label: node.block.title,
+    label: label,
     title: node.block.title,
-    description: node.block.short_summary,
-    content: node.block.long_summary,
+    description: node.block.short_summary !== null ? node.block.short_summary : trimText(node.block.text, 300),
+    content: node.block.long_summary !== null ? node.block.long_summary : trimText(node.block.text, 500),
     entityType: NodeType.Block,
-    typeName: "Section",
-    typeIcon: () => <TextSelect strokeWidth={1.5} />,
+    typeName: node.block.short_summary !== null ? "Section" : "Text Chunk",
+    typeIcon: iconCpn,
   };
 }
 
@@ -168,14 +177,14 @@ function extractRncpCompetencyInfo(node: Node_): BasicInfo {
 }
 
 
-export function extractBasicInfo(node: Node_): BasicInfo {
+export async function extractBasicInfo(node: Node_): Promise<BasicInfo> {
   switch (node.type) {
     case NodeType.Answer:
-      return extractAnswerInfo(node);
+      return await extractAnswerInfo(node);
     case NodeType.QA:
       return extractQAInfo(node);
     case NodeType.Block:
-      return extractBlockInfo(node);
+      return await extractBlockInfo(node);
     case NodeType.Concept:
       return extractConceptInfo(node);
     case NodeType.Document:

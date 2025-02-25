@@ -10,7 +10,7 @@ import { ChartNetwork, Text, FlipHorizontal2, Network, AtSign } from 'lucide-rea
 // This is the main window that displays the graph view and response focus
 export function MainWindow() {
   const corpusId = useAppStore((state) => state.corpusId);
-
+  const loadCorpus = useAppStore((state) => state.loadCorpus);
   // we can toggle between "graph" and "response" views
   const [tab, setTab] = React.useState<'graph' | 'response'>('graph');
   const [layoutOption, setLayoutOption] = React.useState<'force' | 'auto'>('force');
@@ -22,6 +22,14 @@ export function MainWindow() {
   const handleLayoutChange = (value: string) => {
     setLayoutOption(value as 'force' | 'auto');
   }
+
+  const handleHomeCorpusClick = () => {
+    if (!corpusId) {
+      return;
+    }
+    loadCorpus(corpusId);
+  }
+
 
   let corpusLabel;
   if (!corpusId) {
@@ -37,7 +45,16 @@ export function MainWindow() {
           bg-gray-200 rounded-lg justify-center items-center
         `}
       >
-        <span className='text-xs px-3 py-1 text-center' ><AtSign strokeWidth={1.5} className='h-4 w-4 inline' /> <span className='font-mono'>{corpusLabel}</span></span>
+        <span className='text-xs px-3 py-1 text-center' >
+          <button
+            className='transition-all hover:underline text-muted-foreground'
+            onClick={handleHomeCorpusClick}
+          >
+            {"Corpus"}
+          </button>
+          <AtSign strokeWidth={1.5} className='h-4 w-4 inline ml-1' />
+          <span className='font-mono'>{corpusLabel}</span>
+        </span>
         <span className='w-2 h-5 rounded-lg bg-white'></span>
         <Tabs defaultValue="graph" onValueChange={handleTabChange} className="" >
           <TabsList

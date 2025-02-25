@@ -15,7 +15,6 @@ const SearchBar: React.FC = () => {
     if (!query.trim()) {
       return;
     }
-    console.log('Searching for:', query);
     setInputType('query');
     setInput(query);
 
@@ -24,7 +23,6 @@ const SearchBar: React.FC = () => {
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    console.log(e.key);
     if (e.key === 'Escape' || (e.key === 'Backspace' && !query)) {
       e.preventDefault()
     } else if (e.key === 'Enter') {
@@ -33,13 +31,13 @@ const SearchBar: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 p-4 z-50 flex justify-center items-center">
-      <Command onKeyDown={handleKeyDown} className="rounded-lg shadown-md md:min-w-[650px] border" >
+    <div className="fixed bottom-10 left-1/2 transform -translate-x-1/2 p-4 z-50 flex justify-center items-center">
+      <Command onKeyDown={handleKeyDown} className="md:min-w-[650px] border shadow rounded-lg" >
         <CommandInput
           placeholder='Enter your query ...'
           value={query}
           onValueChange={setQuery}
-          className='text-md'
+          className='text-sm'
         />
         <CommandList></CommandList>
       </Command>

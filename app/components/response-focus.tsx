@@ -15,6 +15,11 @@ export function ResponseFocus() {
   const [sourceNodes, setSourceNodes] = React.useState<Node_[]>([]);
 
   useEffect(() => {
+    if (data === null) {
+      setResponse(null);
+      setSourceNodes([]);
+      return;
+    }
     if (data !== null && data.data !== null) {
       const graph = data.data;
       const response = graph.nodes[0];
@@ -40,11 +45,11 @@ export function ResponseFocus() {
     <>
       {
         loadingStatus !== 'COMPLETED' && (
-          <LoadingView responseViewType='Response' />
+          <LoadingView responseViewType='Response' viewMode='compact' />
         )
       }
       {
-        loadingStatus === 'COMPLETED' && (
+        response !== null && (
           <div
             style={{ height: '100vh', width: '100vw' }}
             className='flex flex-col items-center justify-center overflow-y-scroll'

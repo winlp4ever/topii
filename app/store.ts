@@ -50,7 +50,7 @@ export const useAppStore = create<AppState>()(
     // loadCorpus: gets the corpus node's graph from the backend
     // ─────────────────────────────────────────────────────────
     loadCorpus: async (id: string) => {
-      set({ loadingStatus: 'RUNNING' });
+      set({ loadingStatus: 'RUNNING', data: null });
       try {
         set({ corpusId: id });
         console.log('loading corpus:', id);
@@ -82,7 +82,7 @@ export const useAppStore = create<AppState>()(
         console.error('No corpus ID found')
         return
       }
-      set({ loadingStatus: 'RUNNING' })
+      set({ loadingStatus: 'RUNNING', data: null })
       try {
         const cid = Number(corpusId.split('_')[1])
         await queryGraph(cid, queryStr, (data: DataState) => {
@@ -106,7 +106,7 @@ export const useAppStore = create<AppState>()(
     // ─────────────────────────────────────────────────────────
     focusNode: async (nodeId: string) => {
       console.log('focusing node:', nodeId);
-      set({ loadingStatus: 'RUNNING' });
+      set({ loadingStatus: 'RUNNING', data: null });
       try {
         // Use the streaming endpoint: pass node_id as the node id string
         await fetchStreamedGraph(nodeId, (data: DataState) => {
