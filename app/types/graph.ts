@@ -61,7 +61,6 @@ export interface Block {
 export interface Answer {
   id: string;
   text: string;
-  sources: Block[];
 }
 
 export interface ROMECompetency {

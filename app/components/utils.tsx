@@ -1,4 +1,13 @@
 import { Edge_, Node_ } from "../types/graph";
+import { remark } from 'remark';
+import strip from 'strip-markdown';
+
+
+export const extractPlainText = async (markdownText: string) => {
+  const result = await remark().use(strip).process(markdownText);
+  return result.toString();
+};
+
 
 export const trimText = (text: string, maxLength: number) => {
   if (text.length > maxLength) {

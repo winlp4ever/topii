@@ -9,28 +9,24 @@ import { LoadingView } from './loading-view';
 
 const GraphView: React.FC<{ layout: 'force' | 'auto' }> = ({ layout }) => {
   const loadingStatus = useAppStore((state) => state.loadingStatus);
-  const graph = useAppStore((state) => state.graph);
+  const data = useAppStore((state) => state.data);
 
-  console.log(loadingStatus)
-
-  if (!graph) {
-    return <div>No graph loaded.</div>;
-  }
+  console.log(loadingStatus);
 
   return (
     <div>
       {
-        loadingStatus !== 'success' && (
+        loadingStatus !== 'COMPLETED' && (
           <LoadingView />
         )
       }
       {
-        loadingStatus === 'success' && (
+        loadingStatus === 'COMPLETED' && data !== null && data.data !== null &&  (
           <ReactFlowProvider>
             {
               layout === 'force' ? (
-                <ForceGraph data={graph} />
-              ) : <AutoGraph data={graph} />
+                <ForceGraph data={data.data} />
+              ) : <AutoGraph data={data.data} />
             }
           </ReactFlowProvider>
         )

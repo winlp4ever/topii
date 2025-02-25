@@ -1,32 +1,28 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { fetchStreamedGraph, queryGraph } from './lib/api';
-import {
-  GraphData,
-  Node_,
-} from './types/graph';
+import { DataState, State } from './types/data-state';
 
 export type Stage = 'local' | 'dev' | 'preprod' | 'prod' | 'test';
 export type InputType = 'query' | 'nodeId';
-export type LoadingStatus = 'loading' | 'success' | 'idle' | 'error';
 
 export interface AppState {
   stage: Stage
   corpusId: string | null
   inputType: InputType
   input: string | null
-  graph: GraphData | null
-  loadingStatus: LoadingStatus
-  response: Node_ | null
+  data: DataState | null
+  loadingStatus: State
 
   // Synchronous actions
   setStage: (stage: Stage) => void
   setCorpusId: (id: string) => void
   setInputType: (type: InputType) => void
   setInput: (input: string) => void
-  setGraph: (g: GraphData) => void
-  setLoadingStatus: (status: LoadingStatus) => void
-  setResponse: (node: Node_ | null) => void
+
+  setData: (d: DataState) => void
+
+  setLoadingStatus: (status: State) => void
 
   // Async/thunk-like actions
   loadCorpus: (id: string) => Promise<void>
@@ -40,43 +36,40 @@ export const useAppStore = create<AppState>()(
     corpusId: null,
     inputType: 'nodeId',
     input: '',
-    graph: null,
-    loadingStatus: 'idle',
-    response: null,
+    data: null,
+    loadingStatus: 'IDLE',
 
     setStage: (stage: Stage) => set({ stage }),
     setCorpusId: (id: string) => set({ corpusId: id }),
     setInputType: (type: InputType) => set({ inputType: type }),
     setInput: (val: string | null) => set({ input: val }),
-    setGraph: (g: GraphData) => set({ graph: g }),
-    setLoadingStatus: (status: LoadingStatus) => set({ loadingStatus: status }),
-    setResponse: (node: Node_) => set({ response: node }),
+    setData: (d: DataState) => set({ data: d }),
+    setLoadingStatus: (status: State) => set({ loadingStatus: status }),
 
     // ─────────────────────────────────────────────────────────
     // loadCorpus: gets the corpus node's graph from the backend
     // ─────────────────────────────────────────────────────────
     loadCorpus: async (id: string) => {
-      set({ loadingStatus: 'loading' });
+      set({ loadingStatus: 'RUNNING', data: null });
       try {
-        // Use the streaming endpoint: pass node_id as the corpus id string
+        set({ corpusId: id });
         console.log('loading corpus:', id);
-        const graphData: GraphData = await fetchStreamedGraph(id);
-        let responseNode: Node_ | null = null;
-        if (graphData.nodes && graphData.nodes.length > 0) {
-          responseNode = graphData.nodes[0];
-        }
-        console.log(graphData);
+
+        // Use the streaming endpoint: pass node_id as the corpus id string
+        await fetchStreamedGraph(id, (data: DataState) => {
+          // Update the data as it arrives
+          console.log('streamed data:', data);
+          set({ data });
+        });
+
         set({
-          graph: graphData,
-          loadingStatus: 'success',
-          corpusId: id,
+          loadingStatus: 'COMPLETED',
           input: String(id),
           inputType: 'nodeId',
-          response: responseNode,
         });
       } catch (err) {
         console.error('Error loading corpus:', err);
-        set({ loadingStatus: 'error' });
+        set({ loadingStatus: 'FAILED' });
       }
     },
 
@@ -84,27 +77,27 @@ export const useAppStore = create<AppState>()(
     // searchQuery: calls query(queryString) → returns GraphData
     // ─────────────────────────────────────────────────────────
     searchQuery: async (queryStr: string) => {
-      set({ loadingStatus: 'loading' })
+      const corpusId = useAppStore.getState().corpusId
+      if (!corpusId) {
+        console.error('No corpus ID found')
+        return
+      }
+      set({ loadingStatus: 'RUNNING', data: null })
       try {
-        const data: GraphData = await queryGraph(queryStr)
-        let responseNode: Node_ | null = null
-        if (data.nodes.length > 0) {
-          responseNode = data.nodes[0]
-        }
+        const cid = Number(corpusId.split('_')[1])
+        await queryGraph(cid, queryStr, (data: DataState) => {
+          console.log('streamed data:', data)
+          set({ data })
+        })
 
-        // Suppose we put the new graph in state, and any specific
-        // "answer" node you want might or might not come back from the server.
-        // For now, assume you handle it in "response" if needed.
         set({
-          graph: data,
-          loadingStatus: 'success',
+          loadingStatus: 'COMPLETED',
           input: queryStr,
           inputType: 'query',
-          response: responseNode,
         })
       } catch (err) {
         console.error('Error searching query:', err)
-        set({ loadingStatus: 'error' })
+        set({ loadingStatus: 'FAILED' })
       }
     },
 
@@ -113,24 +106,22 @@ export const useAppStore = create<AppState>()(
     // ─────────────────────────────────────────────────────────
     focusNode: async (nodeId: string) => {
       console.log('focusing node:', nodeId);
-      set({ loadingStatus: 'loading' });
+      set({ loadingStatus: 'RUNNING', data: null });
       try {
-        const graphData: GraphData = await fetchStreamedGraph(nodeId);
-        console.log(graphData);
-        let responseNode: Node_ | null = null;
-        if (graphData.nodes && graphData.nodes.length > 0) {
-          responseNode = graphData.nodes[0];
-        }
+        // Use the streaming endpoint: pass node_id as the node id string
+        await fetchStreamedGraph(nodeId, (data: DataState) => {
+          // Update the data as it arrives
+          console.log('streamed data:', data);
+          set({ data });
+        });
         set({
-          graph: graphData,
-          loadingStatus: 'success',
+          loadingStatus: 'COMPLETED',
           input: nodeId,
           inputType: 'nodeId',
-          response: responseNode,
         });
       } catch (err) {
         console.error('Error focusing node:', err);
-        set({ loadingStatus: 'error' });
+        set({ loadingStatus: 'FAILED' });
       }
     },
   }))
