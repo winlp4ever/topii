@@ -7,8 +7,8 @@ import React, { useEffect } from "react";
 import { capitalize } from "../utils";
 import { cn } from "@/app/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Minimize, Workflow } from "lucide-react";
-import { ColorMode, ColorModeBorderClassName, ColorModeDarkBackgroundClassName, ColorModeLightBackgroundClassName, ColorModeTextClassName } from "@/app/types/color-mode";
+import { Minimize, Option } from "lucide-react";
+import { ColorMode, ColorModeBorderClassName, ColorModeDarkBackgroundClassName, ColorModeTextClassName } from "@/app/types/color-mode";
 import { useAppStore } from "@/app/store";
 
 
@@ -56,7 +56,7 @@ const NodeTabs: React.FC<{ subNodeGroups: Record<NodeType, Node_[]> }> = ({ subN
         {Object.keys(groups).map((type) => (
           <button
             key={type}
-            className="inline-flex items-center justify-center whitespace-nowrap py-1 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
+            className="inline-flex items-center justify-center whitespace-nowrap py-1 text-xs ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
             onClick={() => setActiveTab(type as NodeType)}
             data-state={activeTab === type ? 'active' : 'inactive'}
           >
@@ -66,13 +66,15 @@ const NodeTabs: React.FC<{ subNodeGroups: Record<NodeType, Node_[]> }> = ({ subN
       </div>
       <div>
         {activeTab !== null && (
-          <div className='space-y-1'>
+          <div className='space-y-2'>
             {groups[activeTab].map((node) => (
               <EntityCard
                 key={node.id}
                 displayMode="mini"
                 node={node}
-                className='transform scale-90 origin-left [&>button]:rounded-lg [&>button]:shadow-none [&>button]:bg-gray-50 w-[650px]'
+                showDot={false}
+                className='transform scale-95 origin-left [&>button]:rounded-lg [&>button]:shadow-none [&>button]:bg-zinc-100 w-[600px]
+                  hover:scale-100 [&>button]:hover:shadow-lg transition-all duration-300 ease-in-out [&>button]:border-none shadow-none border-none bg-zinc-100'
               />
             ))}
           </div>
@@ -86,14 +88,14 @@ const NodeTabs: React.FC<{ subNodeGroups: Record<NodeType, Node_[]> }> = ({ subN
 const ActionSection: React.FC<{ nodeId: string }> = ({ nodeId }) => {
   const focusNode = useAppStore((state) => state.focusNode);
   return (
-    <div className="flex space-y-2 w-full">
+    <div className="flex space-y-2 w-full items-center justify-center">
       <Button
-        variant='outline'
-        className='rounded-lg text-sm w-full space-x-2 shadow-none text-card-foreground'
+        variant='default'
+        className='rounded-full text-sm w-auto shadow-none'
         onClick={() => focusNode(nodeId)}
       >
-        <Workflow strokeWidth={1.5} className='w-4 h-4' />
-        <span>Explore related content</span>
+        <Option strokeWidth={1.5} className='w-4 h-4' />
+        <span>Explore</span>
       </Button>
     </div>
   );
@@ -106,6 +108,7 @@ export interface EntityCardProps extends React.HTMLAttributes<HTMLDivElement>{
   subNodes?: Node_[];
   colorMode?: ColorMode;
   isRoot?: boolean;
+  showDot?: boolean;
 }
 
 
@@ -113,8 +116,9 @@ const EntityCard: React.FC<EntityCardProps> = ({
   displayMode,
   node,
   subNodes = [],
-  colorMode = 'gray',
+  colorMode = 'zinc',
   isRoot = false,
+  showDot = true,
   className,
   ...props
 }) => {
@@ -167,7 +171,7 @@ const EntityCard: React.FC<EntityCardProps> = ({
     }
   }, [subNodes]);
 
-  const nodeButtonClassName = `rounded-l-full rounded-r-md w-full items-center justify-start px-3 py-1
+  const nodeButtonClassName = `rounded-full w-full items-center justify-start px-3 py-1 border-none
     ${ColorModeTextClassName[colorMode]} overflow-hidden text-left
     ${isRoot ? ColorModeBorderClassName[colorMode]: ''}`;
 
@@ -175,21 +179,19 @@ const EntityCard: React.FC<EntityCardProps> = ({
     ${ColorModeDarkBackgroundClassName[colorMode]} rounded-full`;
 
   const cardLabelClassName = dynamicDisplayMode === 'medium' ?
-    `${ColorModeLightBackgroundClassName[colorMode]}` :
+    `bg-transparent` :
     '';
 
-  const cardLabelTitleClassName = dynamicDisplayMode === 'medium' ?
-    `${ColorModeTextClassName[colorMode]}` :
-    'text-sm';
+  const cardLabelTitleClassName = `${ColorModeTextClassName[colorMode]}`;
 
   return (
     <Card
       className={cn(
         dynamicDisplayMode === 'mini' ?
-        'transition-all duration-300 ease-in-out w-96 bg-transparent shadow-none border-none max-h-20' :
+        'transition-all duration-300 ease-in-out w-80 bg-transparent shadow-none border-none max-h-20' :
         dynamicDisplayMode === 'medium' ?
-        `transition-all duration-300 ease-in-out w-96 overflow-hidden max-h-[600px] ${isRoot ? ColorModeBorderClassName[colorMode]: ''}`:
-        'transition-all duration-300 ease-in-out w-[650px] overflow-hidden border-none shadow-none',
+        `transition-all duration-300 ease-in-out w-96 overflow-hidden max-h-[600px] bg-zinc-50 shadow-lg ${isRoot ? ColorModeBorderClassName[colorMode]: 'border-none'}`:
+        'transition-all duration-300 ease-in-out w-[650px] overflow-hidden shadow-none',
         className
       )}
       {...props}
@@ -201,7 +203,7 @@ const EntityCard: React.FC<EntityCardProps> = ({
           variant={colorMode}
           onClick={toggleDisplayMode}
         >
-          <span className={nodeButtonNodeClassName} />
+          {showDot && <span className={nodeButtonNodeClassName} />}
           <TypeIcon />
           <span className="truncate" style={{ width: 'calc(100% - 3rem)' }} >{basicInfo.label}</span>
         </Button>
@@ -211,7 +213,7 @@ const EntityCard: React.FC<EntityCardProps> = ({
         <CardLabel className={cardLabelClassName}>
           <CardLabelTitle className={cardLabelTitleClassName}>
             <TypeIcon />
-            <span>{capitalize(basicInfo.typeName)}</span>
+            <span className='font-medium'>{capitalize(basicInfo.typeName)}</span>
           </CardLabelTitle>
           {
             dynamicDisplayMode === 'medium' &&
@@ -219,7 +221,7 @@ const EntityCard: React.FC<EntityCardProps> = ({
               className="bg-none outline-none ml-auto"
               onClick={toggleDisplayMode}
             >
-              <Minimize strokeWidth={1.5} className='w-4 h-4 transition-all text-card-foreground'/>
+              <Minimize strokeWidth={1.5} className='w-4 h-4 transition-all'/>
             </button>
           }
         </CardLabel>

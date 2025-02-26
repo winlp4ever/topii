@@ -60,8 +60,8 @@ async function extractBlockInfo(node: Node_): Promise<BasicInfo> {
   return {
     label: label,
     title: node.block.title,
-    description: node.block.short_summary !== null ? node.block.short_summary : trimText(node.block.text, 300),
-    content: node.block.long_summary !== null ? node.block.long_summary : trimText(node.block.text, 500),
+    description: node.block.short_summary !== null ? node.block.short_summary : trimText(node.block.text, 600),
+    content: node.block.long_summary !== null ? node.block.long_summary : node.block.text,
     entityType: NodeType.Block,
     typeName: node.block.short_summary !== null ? "Section" : "Text Chunk",
     typeIcon: iconCpn,

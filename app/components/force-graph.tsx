@@ -58,7 +58,7 @@ function ForceGraph({ strength = -1000, distance = 500, data, onNodeRightClick }
         source: edge.source,
         target: edge.target,
         data: { label: edge.score !== null ? `${Math.round(edge.score * 10)}/10`: undefined },
-        style: { stroke: edge.category === 'source' ? '#2563eb': '#db2777', strokeWidth: 1 },
+        style: { stroke: edge.category === 'source' ? '#3b82f6': '#f43f5e', strokeWidth: 1 },
         type: 'dashed',
       }));
 
@@ -75,7 +75,7 @@ function ForceGraph({ strength = -1000, distance = 500, data, onNodeRightClick }
   );
 
   return (
-    <div style={{ height: '100vh', width: '100vw' }}>
+    <div style={{ height: '100vh', width: '100vw' }} className='bg-zinc-100'>
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -95,7 +95,7 @@ function ForceGraph({ strength = -1000, distance = 500, data, onNodeRightClick }
         }}
         fitView
       >
-        <Background color='#ccc' variant={ BackgroundVariant.Dots } />
+        <Background color='#71717a' variant={ BackgroundVariant.Dots } />
       </ReactFlow>
     </div>
   );

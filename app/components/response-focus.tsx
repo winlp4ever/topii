@@ -4,6 +4,7 @@ import { useAppStore } from '../store';
 import EntityCard from './entity/card';
 import { Node_ } from '../types/graph';
 import { LoadingView } from './loading-view';
+import { NodeTypeColorMapping } from './entity/color-mapping';
 
 // This is the response focus component
 export function ResponseFocus() {
@@ -37,6 +38,7 @@ export function ResponseFocus() {
       displayMode='full'
       node={response}
       subNodes={sourceNodes}
+      colorMode={NodeTypeColorMapping[response.type]}
     />;
   }
 
