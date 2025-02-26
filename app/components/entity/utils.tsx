@@ -73,7 +73,7 @@ function extractConceptInfo(node: Node_): BasicInfo {
   if (node.concept === undefined) {
     throw new Error("Concept node must have a concept field");
   }
-  const description = trimText(node.concept.definition, 150);
+  const description = trimText(node.concept.definition, 240);
   return {
     label: node.concept.label,
     title: node.concept.label,

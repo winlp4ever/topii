@@ -40,7 +40,7 @@ const initialNodes: Node[] = []
 
 const initialEdges: Edge[] = []
 
-function ForceGraph({ strength = -1000, distance = 500, data, onNodeRightClick }: GraphProps) {
+function ForceGraph({ strength = -1000, distance = 1000, data, onNodeRightClick }: GraphProps) {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
