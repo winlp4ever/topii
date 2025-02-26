@@ -1,6 +1,22 @@
 import { DataState } from '../types/data-state';
 
 
+export async function resolveClientId(id: string): Promise<number> {
+  const cid = id.split('_')[1];
+  const url = new URL(`${process.env.API_URL}/clientid`);
+  const params = new URLSearchParams({ corpus_id: cid });
+  url.search = params.toString();
+
+  const response = await fetch(url.toString());
+  if (!response.ok) {
+    throw new Error(`Failed to resolve corpus ID: ${response.status} ${response.statusText}`);
+  }
+
+  const data = await response.json();
+  return data.client_id;
+}
+
+
 async function fetchStreamedData(url: string | URL, onData: (data: DataState) => void): Promise<void> {
   const response = await fetch(url.toString());
   if (!response.body) {
@@ -42,9 +58,13 @@ async function fetchStreamedData(url: string | URL, onData: (data: DataState) =>
 }
 
 
-export async function fetchStreamedGraph(nodeId: string, onData: (data: DataState) => void): Promise<void> {
+export async function fetchStreamedGraph(
+  clientId: number,
+  nodeId: string,
+  onData: (data: DataState) => void
+): Promise<void> {
   const url = new URL(`${process.env.API_URL}/recommend`);
-  const params: { [key: string]: string } = { node_id: nodeId };
+  const params: { [key: string]: string } = { client_id: clientId.toString(), node_id: nodeId };
   // Append query parameters to the URL
   Object.keys(params).forEach(key => url.searchParams.append(key, params[key] as string));
   console.log('fetching streamed graph data from', url.toString());
@@ -52,10 +72,15 @@ export async function fetchStreamedGraph(nodeId: string, onData: (data: DataStat
 }
 
 
-export async function queryGraph(corpusId: number, query: string, onData: (data: DataState) => void): Promise<void> {
+export async function queryGraph(
+  clientId: number,
+  corpusId: number,
+  query: string, onData: (data: DataState) => void
+): Promise<void> {
   console.log('querying graph data');
   const url = new URL(`${process.env.API_URL}/query`);
   const params = new URLSearchParams({
+    client_id: clientId.toString(),
     corpus_id: corpusId.toString(),
     query: query,
   });

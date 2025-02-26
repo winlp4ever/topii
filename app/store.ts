@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { fetchStreamedGraph, queryGraph } from './lib/api';
+import { fetchStreamedGraph, queryGraph, resolveClientId } from './lib/api';
 import { DataState, State } from './types/data-state';
 
 export type Stage = 'local' | 'dev' | 'preprod' | 'prod' | 'test';
@@ -8,6 +8,7 @@ export type InputType = 'query' | 'nodeId';
 
 export interface AppState {
   stage: Stage
+  clientId: number | null
   corpusId: string | null
   inputType: InputType
   input: string | null
@@ -33,6 +34,7 @@ export interface AppState {
 export const useAppStore = create<AppState>()(
   devtools((set) => ({
     stage: 'local',
+    clientId: null,
     corpusId: null,
     inputType: 'nodeId',
     input: '',
@@ -40,6 +42,7 @@ export const useAppStore = create<AppState>()(
     loadingStatus: 'IDLE',
 
     setStage: (stage: Stage) => set({ stage }),
+    setClientId: (id: number) => set({ clientId: id }),
     setCorpusId: (id: string) => set({ corpusId: id }),
     setInputType: (type: InputType) => set({ inputType: type }),
     setInput: (val: string | null) => set({ input: val }),
@@ -55,8 +58,12 @@ export const useAppStore = create<AppState>()(
         set({ corpusId: id });
         console.log('loading corpus:', id);
 
+        const clientId = await resolveClientId(id);
+        console.log('resolved client ID:', clientId);
+        set({ clientId });
+
         // Use the streaming endpoint: pass node_id as the corpus id string
-        await fetchStreamedGraph(id, (data: DataState) => {
+        await fetchStreamedGraph(clientId, id, (data: DataState) => {
           // Update the data as it arrives
           console.log('streamed data:', data);
           set({ data });
@@ -77,6 +84,11 @@ export const useAppStore = create<AppState>()(
     // searchQuery: calls query(queryString) → returns GraphData
     // ─────────────────────────────────────────────────────────
     searchQuery: async (queryStr: string) => {
+      const clientId = useAppStore.getState().clientId
+      if (!clientId) {
+        console.error('No client ID found');
+        return; // Exit early
+      }
       const corpusId = useAppStore.getState().corpusId
       if (!corpusId) {
         console.error('No corpus ID found')
@@ -85,7 +97,7 @@ export const useAppStore = create<AppState>()(
       set({ loadingStatus: 'RUNNING', data: null })
       try {
         const cid = Number(corpusId.split('_')[1])
-        await queryGraph(cid, queryStr, (data: DataState) => {
+        await queryGraph(clientId, cid, queryStr, (data: DataState) => {
           console.log('streamed data:', data)
           set({ data })
         })
@@ -105,11 +117,16 @@ export const useAppStore = create<AppState>()(
     // focusNode: calls get_node(nodeId) → returns subgraph around that node
     // ─────────────────────────────────────────────────────────
     focusNode: async (nodeId: string) => {
+      const clientId = useAppStore.getState().clientId;
+      if (!clientId) {
+        console.error('No client ID found');
+        return; // Exit early
+      }
       console.log('focusing node:', nodeId);
       set({ loadingStatus: 'RUNNING', data: null });
       try {
         // Use the streaming endpoint: pass node_id as the node id string
-        await fetchStreamedGraph(nodeId, (data: DataState) => {
+        await fetchStreamedGraph(clientId, nodeId, (data: DataState) => {
           // Update the data as it arrives
           console.log('streamed data:', data);
           set({ data });

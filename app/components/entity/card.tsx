@@ -24,8 +24,9 @@ function groupByType(items: Node_[]): Record<NodeType, Node_[]> {
   }, {} as Record<NodeType, Node_[]>);
 }
 
+
 const TypeTabnameMapping: Record<NodeType, string> = {
-  [NodeType.Block]: 'Document Sections',
+  [NodeType.Block]: 'Source Texts',
   [NodeType.Answer]: 'Answers',
   [NodeType.QA]: 'Q&As',
   [NodeType.Document]: 'Documents',
@@ -71,7 +72,7 @@ const NodeTabs: React.FC<{ subNodeGroups: Record<NodeType, Node_[]> }> = ({ subN
                 key={node.id}
                 displayMode="mini"
                 node={node}
-                className='transform scale-90 origin-left [&>button]:rounded-lg [&>button]:shadow-none [&>button]:bg-transparent'
+                className='transform scale-90 origin-left [&>button]:rounded-lg [&>button]:shadow-none [&>button]:bg-gray-50 w-[650px]'
               />
             ))}
           </div>
@@ -128,6 +129,7 @@ const EntityCard: React.FC<EntityCardProps> = ({
     typeIcon: () => <span>?</span>,
   });
   const [displayCardHeader, setDisplayCardHeader] = React.useState(true);
+  const [subNodeGroups, setSubNodeGroups] = React.useState<Record<NodeType, Node_[]>>({} as Record<NodeType, Node_[]>);
 
   useEffect(() => {
     extractBasicInfo(node).then(setBasicInfo);
@@ -158,7 +160,12 @@ const EntityCard: React.FC<EntityCardProps> = ({
   , [dynamicDisplayMode, basicInfo.title, basicInfo.description]);
 
   const TypeIcon = basicInfo.typeIcon;
-  const subNodeGroups = groupByType(subNodes);
+  useEffect(() => {
+    if (subNodes.length > 0) {
+      console.log('subNodes:', subNodes);
+      setSubNodeGroups(groupByType(subNodes));
+    }
+  }, [subNodes]);
 
   const nodeButtonClassName = `rounded-l-full rounded-r-md w-full items-center justify-start px-3 py-1
     ${ColorModeTextClassName[colorMode]} overflow-hidden text-left
@@ -182,7 +189,7 @@ const EntityCard: React.FC<EntityCardProps> = ({
         'transition-all duration-300 ease-in-out w-96 bg-transparent shadow-none border-none max-h-20' :
         dynamicDisplayMode === 'medium' ?
         `transition-all duration-300 ease-in-out w-96 overflow-hidden max-h-[600px] ${isRoot ? ColorModeBorderClassName[colorMode]: ''}`:
-        'transition-all duration-300 ease-in-out w-[650px] overflow-hidden',
+        'transition-all duration-300 ease-in-out w-[650px] overflow-hidden border-none shadow-none',
         className
       )}
       {...props}
@@ -196,7 +203,7 @@ const EntityCard: React.FC<EntityCardProps> = ({
         >
           <span className={nodeButtonNodeClassName} />
           <TypeIcon />
-          <span className="truncate" style={{ width: 'calc(100% - 3rem)' }} >{ basicInfo.label }</span>
+          <span className="truncate" style={{ width: 'calc(100% - 3rem)' }} >{basicInfo.label}</span>
         </Button>
       }
       {
