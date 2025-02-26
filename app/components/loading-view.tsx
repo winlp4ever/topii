@@ -51,7 +51,7 @@ export const LoadingView: React.FC<LoadingViewProps> = ({
 
   const loadingViewStyle = viewMode === 'full' ?
     'fixed top-0 left-0 flex flex-col items-center justify-center bg-white bg-opacity-90 z-20 w-screen h-screen' :
-    'fixed top-24 bg-background rounded-xl shadow-lg left-1/2 transform -translate-x-1/2 z-50 w-64 flex flex-col items-center justify-center p-2';
+    'fixed top-24 bg-background rounded-xl shadow-lg left-1/2 transform -translate-x-1/2 z-50 w-64 flex flex-col items-center justify-center p-2 border';
 
   return (
     <div

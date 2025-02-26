@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import { useAppStore } from '../store';
 import EntityCard from './entity/card';
 import { Node_ } from '../types/graph';
-import { filterSourceNodes } from './utils';
 import { LoadingView } from './loading-view';
 
 // This is the response focus component
@@ -24,8 +23,8 @@ export function ResponseFocus() {
       const graph = data.data;
       const response = graph.nodes[0];
       const nodes = graph.nodes.slice(1);
-      const srcNodes = filterSourceNodes(response.id, nodes, graph.edges);
-      setSourceNodes(srcNodes);
+      // const srcNodes = filterSourceNodes(response.id, nodes, graph.edges);
+      setSourceNodes(nodes);
       setResponse(response);
     }
   }, [data]);
