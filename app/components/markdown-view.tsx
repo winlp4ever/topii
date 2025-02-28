@@ -5,6 +5,7 @@ import rehypeHighlight from 'rehype-highlight';
 import remarkGfm from 'remark-gfm';
 import 'katex/dist/katex.min.css'; // Import KaTeX CSS for styling
 import 'highlight.js/styles/github.css'; // Import a highlight.js theme
+import { cn } from "../lib/utils";
 
 
 interface CustomLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
@@ -19,7 +20,8 @@ const CustomLink: React.FC<CustomLinkProps> = ({ children, ...props }) => {
   return (
     <a
       href="#"
-      className="font-medium text-primary text-xs rounded-full bg-gray-200 w-4 h-4 inline-block text-center"
+      className="font-medium text-primary text-xs rounded-full bg-gray-200 px-3 py-1
+        inline-block text-center text-teal-800 font-semibold underline"
       {...props}
     >
       {contentWithoutBrackets}
@@ -53,11 +55,11 @@ const MarkdownView: React.FC<MarkdownViewProps> = ({ content }) => {
           code: ({ className, children, ...props }) => {
             const match = /language-(\w+)/.exec(className || '');
             return match ? (
-              <pre className={className} style={{ background: '#f6f8fa', padding: '1em', borderRadius: '5px' }}>
+              <pre className={cn('text-xs text-mono rounded-xl my-4 p-4', className)} style={{ background: '#f6f8fa', padding: '1em', borderRadius: '5px' }}>
                 <code {...props}>{children}</code>
               </pre>
             ) : (
-              <code className={className} style={{ background: '#f6f8fa', padding: '0.2em 0.4em', borderRadius: '3px' }} {...props}>
+              <code className={cn('text-left text-xs text-red-700', className)} style={{ background: '#f6f8fa', padding: '0.2em 0.4em', borderRadius: '3px' }} {...props}>
                 {children}
               </code>
             );
