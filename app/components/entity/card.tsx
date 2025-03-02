@@ -73,8 +73,8 @@ const NodeTabs: React.FC<{ subNodeGroups: Record<NodeType, Node_[]> }> = ({ subN
                 displayMode="mini"
                 node={node}
                 showDot={false}
-                className='transform scale-95 origin-left [&>button]:rounded-lg [&>button]:shadow-none [&>button]:bg-zinc-100 w-[600px]
-                  hover:scale-100 [&>button]:hover:shadow-lg transition-all duration-300 ease-in-out [&>button]:border-none shadow-none border-none bg-zinc-100'
+                className='transform scale-99 origin-left [&>button]:rounded-lg [&>button]:shadow-none [&>button]:bg-stone-100 w-[600px]
+                  hover:scale-100 [&>button]:hover:shadow-lg transition-all duration-300 ease-in-out [&>button]:border-none shadow-none border-none bg-stone-100'
               />
             ))}
           </div>
@@ -191,7 +191,7 @@ const EntityCard: React.FC<EntityCardProps> = ({
         'transition-all duration-300 ease-in-out w-80 bg-transparent shadow-none border-none max-h-20' :
         dynamicDisplayMode === 'medium' ?
         `transition-all duration-300 ease-in-out w-96 overflow-hidden max-h-[600px] bg-zinc-50 shadow-lg ${isRoot ? ColorModeBorderClassName[colorMode]: 'border-none'}`:
-        'transition-all duration-300 ease-in-out w-[650px] overflow-hidden shadow-none',
+        'transition-all duration-300 ease-in-out w-[650px] overflow-hidden shadow-none border-none',
         className
       )}
       {...props}

@@ -53,7 +53,7 @@ export function ResponseFocus() {
         response !== null && (
           <div
             style={{ height: '100vh', width: '100vw' }}
-            className='flex flex-col items-center justify-center overflow-y-scroll'
+            className='flex flex-col items-center justify-center overflow-y-scroll bg-stone-100'
           >
             <div
               className='h-full sm:max-w-[800px]'

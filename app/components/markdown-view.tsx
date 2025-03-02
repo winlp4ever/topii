@@ -55,11 +55,11 @@ const MarkdownView: React.FC<MarkdownViewProps> = ({ content }) => {
           code: ({ className, children, ...props }) => {
             const match = /language-(\w+)/.exec(className || '');
             return match ? (
-              <pre className={cn('text-xs text-mono rounded-xl my-4 p-4', className)} style={{ background: '#f6f8fa', padding: '1em', borderRadius: '5px' }}>
+              <pre className={cn('text-xs text-mono rounded-xl my-4 p-4 bg-stone-100', className)} style={{ background: '#f5f5f4', padding: '1em', borderRadius: '5px' }}>
                 <code {...props}>{children}</code>
               </pre>
             ) : (
-              <code className={cn('text-left text-xs text-red-700', className)} style={{ background: '#f6f8fa', padding: '0.2em 0.4em', borderRadius: '3px' }} {...props}>
+              <code className={cn('text-left text-xs text-red-700 bg-stone-100', className)} style={{ background: '#f5f5f4', padding: '0.2em 0.4em', borderRadius: '3px' }} {...props}>
                 {children}
               </code>
             );

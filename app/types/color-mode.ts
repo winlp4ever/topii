@@ -1,7 +1,9 @@
-export type ColorMode = 'zinc' | 'gray' | 'blue' | 'green' | 'red' | 'yellow' | 'indigo' | 'purple' | 'pink' | 'amber' | 'cyan' | 'teal' | 'lime' | 'orange'
+export type ColorMode = 'stone' | 'neutral' | 'zinc' | 'gray' | 'blue' | 'green' | 'red' | 'yellow' | 'indigo' | 'purple' | 'pink' | 'amber' | 'cyan' | 'teal' | 'lime' | 'orange'
   | 'slate' | 'rose' | 'violet' | 'sky' | 'fuchsia' | 'emerald';
 
 export const ColorModeTextClassName: Record<ColorMode, string> = {
+  stone: 'text-stone-800',
+  neutral: 'text-neutral-800',
   zinc: 'text-zinc-800',
   gray: 'text-gray-800',
   blue: 'text-blue-800',
@@ -25,6 +27,8 @@ export const ColorModeTextClassName: Record<ColorMode, string> = {
 };
 
 export const ColorModeNeutralBackgroundClassName: Record<ColorMode, string> = {
+  stone: 'bg-stone-200',
+  neutral: 'bg-neutral-200',
   zinc: 'bg-zinc-200',
   gray: 'bg-gray-200',
   blue: 'bg-blue-200',
@@ -48,6 +52,8 @@ export const ColorModeNeutralBackgroundClassName: Record<ColorMode, string> = {
 };
 
 export const ColorModeLightBackgroundClassName: Record<ColorMode, string> = {
+  stone: 'bg-stone-100',
+  neutral: 'bg-neutral-100',
   zinc: 'bg-zinc-100',
   gray: 'bg-gray-100',
   blue: 'bg-blue-100',
@@ -72,6 +78,8 @@ export const ColorModeLightBackgroundClassName: Record<ColorMode, string> = {
 
 
 export const ColorModeDarkBackgroundClassName: Record<ColorMode, string> = {
+  stone: 'bg-stone-300',
+  neutral: 'bg-neutral-300',
   zinc: 'bg-zinc-300',
   gray: 'bg-gray-500',
   blue: 'bg-blue-500',
@@ -95,6 +103,8 @@ export const ColorModeDarkBackgroundClassName: Record<ColorMode, string> = {
 };
 
 export const ColorModeBorderClassName: Record<ColorMode, string> = {
+  stone: 'border-stone-500',
+  neutral: 'border-neutral-500',
   zinc: 'border-zinc-500',
   gray: 'border-gray-500',
   blue: 'border-blue-500',

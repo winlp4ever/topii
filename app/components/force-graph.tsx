@@ -75,7 +75,7 @@ function ForceGraph({ strength = -1000, distance = 1000, data, onNodeRightClick 
   );
 
   return (
-    <div style={{ height: '100vh', width: '100vw' }} className='bg-zinc-100'>
+    <div style={{ height: '100vh', width: '100vw' }} className='bg-stone-100'>
       <ReactFlow
         nodes={nodes}
         edges={edges}

@@ -42,7 +42,7 @@ export function MainWindow() {
     <>
       <div className={`
           fixed top-10 left-1/2 transform -translate-x-1/2 p-2 z-50 flex flex-row w-auto
-          bg-zinc-200 rounded-lg justify-center items-center
+          bg-stone-200 rounded-lg justify-center items-center
         `}
       >
         <span className='text-xs px-3 py-1 text-center' >
