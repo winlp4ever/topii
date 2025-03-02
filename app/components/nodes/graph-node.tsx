@@ -18,7 +18,7 @@ const GraphNode: React.FC<GraphNodeProps> = ({ node, isRoot = false }) => {
       <EntityCard
         displayMode={isRoot ? "medium" : "mini"}
         node={node}
-        className='absolute -left-2 top-0'
+        className='absolute -left-2 top-0 [&>button]:shadow-lg'
         colorMode={NodeTypeColorMapping[node.type as NodeType] as ColorMode}
         isRoot={isRoot}
       />
