@@ -228,7 +228,7 @@ const EntityCard: React.FC<EntityCardProps> = ({
       }
       {
         displayCardHeader && (
-          <CardHeader>
+          <CardHeader className='pt-2'>
             {
               basicInfo.title !== null &&
               <CardTitle className='text-lg'>{basicInfo.title}</CardTitle>

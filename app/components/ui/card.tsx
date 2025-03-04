@@ -9,7 +9,7 @@ export const CardLabel = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "items-center gap-2 relative z-20 flex justify-start border-b bg-card px-3 py-2.5 text-card-foreground",
+      "items-center gap-2 relative z-20 flex justify-start bg-card px-3 py-2.5 text-card-foreground",
       className
     )}
     {...props}
