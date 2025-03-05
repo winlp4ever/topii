@@ -6,6 +6,66 @@ import remarkGfm from 'remark-gfm';
 import 'katex/dist/katex.min.css'; // Import KaTeX CSS for styling
 import 'highlight.js/styles/github.css'; // Import a highlight.js theme
 import { cn } from "../lib/utils";
+import { Clipboard } from "lucide-react";
+import { toast } from "sonner";
+import React from "react";
+
+
+interface CustomCodeViewProps {
+  className?: string;
+  children?: React.ReactNode;
+}
+
+// Utility function to extract text content from React children
+const extractText = (children: React.ReactNode): string => {
+  if (typeof children === 'string') {
+    return children;
+  }
+  if (Array.isArray(children)) {
+    return children.map(extractText).join('');
+  }
+  if (React.isValidElement(children)) {
+    return extractText(children.props.children);
+  }
+  return '';
+};
+
+const CustomCodeView: React.FC<CustomCodeViewProps> = ({ className, children }) => {
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      console.log('Text copied to clipboard: ', text);
+      toast('Text copied to clipboard!');
+    }).catch(err => {
+      console.error('Failed to copy text: ', err);
+    });
+  };
+
+  const codeContent = extractText(children).trim();
+  const match = /language-(\w+)/.exec(className || '');
+  const language = match ? match[1] : 'plaintext';
+
+  return match ? (
+    <pre className={cn('text-xs text-mono rounded-xl p-4bg-stone-100 relative my-4', className)} style={{ background: '#f5f5f4', padding: '1em', borderRadius: '5px' }}>
+      <button
+        onClick={() => handleCopy(codeContent)}
+        className="transition-all absolute top-1 right-1 text-xs bg-transparent hover:bg-stone-200 p-2 rounded-lg text-stone-500"
+        aria-label="Copy to clipboard"
+      >
+        <Clipboard strokeWidth={1.5} className='h-3 w-3' />
+      </button>
+      {match && (
+        <span className="absolute top-0 left-0 w-auto bg-stone-200 text-xs px-3 py-1 rounded-t text-xs">
+          {language}
+        </span>
+      )}
+      <code className={match ? 'block mt-5': ''}>{children}</code>
+    </pre>
+  ) : (
+    <code className={cn('text-left text-xs text-red-700 bg-stone-100', className)} style={{ background: '#f5f5f4', padding: '0.2em 0.4em', borderRadius: '3px' }} >
+      {children}
+    </code>
+  );
+};
 
 
 interface CustomLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
@@ -20,8 +80,8 @@ const CustomLink: React.FC<CustomLinkProps> = ({ children, ...props }) => {
   return (
     <a
       href="#"
-      className="font-medium text-primary text-xs rounded-full bg-gray-200 px-3 py-1
-        inline-block text-center text-teal-800 font-semibold underline"
+      className="font-medium text-primary text-[10px] rounded-full bg-stone-200 px-2
+        inline-block text-center text-stone-700 font-light"
       {...props}
     >
       {contentWithoutBrackets}
@@ -33,6 +93,7 @@ const CustomLink: React.FC<CustomLinkProps> = ({ children, ...props }) => {
 export interface MarkdownViewProps {
   content: string;
 };
+
 
 const MarkdownView: React.FC<MarkdownViewProps> = ({ content }) => {
   return (
@@ -52,18 +113,7 @@ const MarkdownView: React.FC<MarkdownViewProps> = ({ content }) => {
           li: ({ ...props }) => <li className="mt-2" {...props} />,
           a: CustomLink,
           // Custom rendering for code blocks
-          code: ({ className, children, ...props }) => {
-            const match = /language-(\w+)/.exec(className || '');
-            return match ? (
-              <pre className={cn('text-xs text-mono rounded-xl my-4 p-4 bg-stone-100', className)} style={{ background: '#f5f5f4', padding: '1em', borderRadius: '5px' }}>
-                <code {...props}>{children}</code>
-              </pre>
-            ) : (
-              <code className={cn('text-left text-xs text-red-700 bg-stone-100', className)} style={{ background: '#f5f5f4', padding: '0.2em 0.4em', borderRadius: '3px' }} {...props}>
-                {children}
-              </code>
-            );
-          },
+          code: CustomCodeView,
         }}
       >{ content }</ReactMarkdown>
     </>

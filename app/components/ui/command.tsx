@@ -40,7 +40,7 @@ const CommandInput = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Input>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input>
 >(({ className, ...props }, ref) => (
-  <div className="flex flex-1 items-center border-b" cmdk-input-wrapper="">
+  <div className="flex flex-1 items-center" cmdk-input-wrapper="">
     <CommandPrimitive.Input
       ref={ref}
       className={cn(
@@ -66,7 +66,7 @@ const CommandIcon = React.forwardRef<
 >(({ className, loadingStatus = "loaded", ...props }, ref) => (
   <Button
     ref={ref}
-    className={cn("rounded-full flex items-center text-xs font-medium p-2 h-auto border-none shadow-none", className)}
+    className={cn("rounded-full flex items-center text-xs font-medium p-2 h-auto shadow-none", className)}
     {...props}
     variant={loadingStatus === "loaded" ? 'outline': "ghost"}
   >

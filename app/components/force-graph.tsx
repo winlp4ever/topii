@@ -57,7 +57,9 @@ function ForceGraph({ strength = -1000, distance = 1000, data, onNodeRightClick 
         id: edge.id,
         source: edge.source,
         target: edge.target,
-        data: { label: edge.score !== null ? `${Math.round(edge.score * 10)}/10`: undefined },
+        data: {
+          label: edge.score !== null ? `${Math.round(edge.score * 10)}/10`: undefined
+        },
         style: { stroke: edge.category === 'source' ? '#3b82f6': '#f43f5e', strokeWidth: 1 },
         type: 'dashed',
       }));

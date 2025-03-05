@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { fetchStreamedGraph, queryGraph, resolveClientId } from './lib/api';
 import { DataState, State } from './types/data-state';
+import { AISettings, LLMEnum } from './types/ai';
 
 export type Stage = 'local' | 'dev' | 'preprod' | 'prod' | 'test';
 export type InputType = 'query' | 'nodeId';
@@ -14,6 +15,7 @@ export interface AppState {
   input: string | null
   data: DataState | null
   loadingStatus: State
+  aiSettings: AISettings
 
   // Synchronous actions
   setStage: (stage: Stage) => void
@@ -24,6 +26,8 @@ export interface AppState {
   setData: (d: DataState) => void
 
   setLoadingStatus: (status: State) => void
+
+  setAIModel: (model: LLMEnum) => void
 
   // Async/thunk-like actions
   loadCorpus: (id: string) => Promise<void>
@@ -40,6 +44,9 @@ export const useAppStore = create<AppState>()(
     input: '',
     data: null,
     loadingStatus: 'IDLE',
+    aiSettings: {
+      model: LLMEnum.GPT4O
+    },
 
     setStage: (stage: Stage) => set({ stage }),
     setClientId: (id: number) => set({ clientId: id }),
@@ -48,6 +55,7 @@ export const useAppStore = create<AppState>()(
     setInput: (val: string | null) => set({ input: val }),
     setData: (d: DataState) => set({ data: d }),
     setLoadingStatus: (status: State) => set({ loadingStatus: status }),
+    setAIModel: (model: LLMEnum) => set({ aiSettings: { model } }),
 
     // ─────────────────────────────────────────────────────────
     // loadCorpus: gets the corpus node's graph from the backend
@@ -84,32 +92,39 @@ export const useAppStore = create<AppState>()(
     // searchQuery: calls query(queryString) → returns GraphData
     // ─────────────────────────────────────────────────────────
     searchQuery: async (queryStr: string) => {
-      const clientId = useAppStore.getState().clientId
+      const clientId = useAppStore.getState().clientId;
       if (!clientId) {
         console.error('No client ID found');
         return; // Exit early
       }
-      const corpusId = useAppStore.getState().corpusId
+      const corpusId = useAppStore.getState().corpusId;
       if (!corpusId) {
-        console.error('No corpus ID found')
-        return
+        console.error('No corpus ID found');
+        return;
       }
-      set({ loadingStatus: 'RUNNING', data: null })
+      set({ loadingStatus: 'RUNNING', data: null });
       try {
-        const cid = Number(corpusId.split('_')[1])
-        await queryGraph(clientId, cid, queryStr, (data: DataState) => {
-          console.log('streamed data:', data)
-          set({ data })
-        })
+        const cid = Number(corpusId.split('_')[1]);
+        const modelChoice = useAppStore.getState().aiSettings.model;
+        await queryGraph(
+          clientId,
+          cid,
+          queryStr,
+          (data: DataState) => {
+            console.log('streamed data:', data);
+            set({ data });
+          },
+          modelChoice
+        );
 
         set({
           loadingStatus: 'COMPLETED',
           input: queryStr,
           inputType: 'query',
-        })
+        });
       } catch (err) {
         console.error('Error searching query:', err)
-        set({ loadingStatus: 'FAILED' })
+        set({ loadingStatus: 'FAILED' });
       }
     },
 

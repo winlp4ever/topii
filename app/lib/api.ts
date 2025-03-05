@@ -1,3 +1,4 @@
+import { LLMEnum } from '../types/ai';
 import { DataState } from '../types/data-state';
 
 
@@ -17,8 +18,27 @@ export async function resolveClientId(id: string): Promise<number> {
 }
 
 
-async function fetchStreamedData(url: string | URL, onData: (data: DataState) => void): Promise<void> {
-  const response = await fetch(url.toString());
+async function fetchStreamedData(
+  url: string | URL,
+  onData: (data: DataState) => void,
+  method: string = 'GET',
+  body: BodyInit | null = null
+): Promise<void> {
+  const headers: HeadersInit = {};
+
+  // Conditionally add the Content-Type header if the body is not null
+  if (body !== null) {
+    headers['Content-Type'] = 'application/json';
+  }
+
+  const response = await fetch(url.toString(), {
+    method,
+    body,
+    headers,
+    mode: 'cors',
+    cache: 'no-cache',
+  });
+
   if (!response.body) {
     throw new Error("ReadableStream not supported in this browser.");
   }
@@ -75,16 +95,20 @@ export async function fetchStreamedGraph(
 export async function queryGraph(
   clientId: number,
   corpusId: number,
-  query: string, onData: (data: DataState) => void
+  query: string,
+  onData: (data: DataState) => void,
+  modelChoice: LLMEnum
 ): Promise<void> {
   console.log('querying graph data');
+  console.log(`model choice: ${modelChoice}`);
   const url = new URL(`${process.env.API_URL}/query`);
-  const params = new URLSearchParams({
-    client_id: clientId.toString(),
-    corpus_id: corpusId.toString(),
-    query: query,
-  });
 
-  url.search = params.toString();
-  await fetchStreamedData(url, onData);
+  const requestBody = {
+    client_id: clientId,
+    corpus_id: corpusId,
+    query,
+    llm_model: modelChoice
+  }
+  console.log('querying graph data with:', requestBody);
+  await fetchStreamedData(url, onData, 'POST', JSON.stringify(requestBody));
 }

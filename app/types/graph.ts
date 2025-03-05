@@ -97,6 +97,7 @@ export interface Edge_ {
   source: string;
   target: string;
   score: number | null;
+  description: string | null;
   category: 'source' | null;
 }
 
