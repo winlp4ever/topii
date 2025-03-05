@@ -56,7 +56,7 @@ const NodeTabs: React.FC<{ subNodeGroups: Record<NodeType, Node_[]> }> = ({ subN
         {Object.keys(groups).map((type) => (
           <button
             key={type}
-            className="inline-flex items-center justify-center whitespace-nowrap py-1 text-xs ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
+            className="inline-flex items-center justify-center whitespace-nowrap py-1 text-xs ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 py-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
             onClick={() => setActiveTab(type as NodeType)}
             data-state={activeTab === type ? 'active' : 'inactive'}
           >
@@ -235,7 +235,7 @@ const EntityCard: React.FC<EntityCardProps> = ({
             }
             {
               dynamicDisplayMode === 'medium' && basicInfo.description !== null &&
-              <CardDescription className='[&_*_li]:mt-2'>
+              <CardDescription className='[&_*_li]:mt-2 text-zinc-700'>
                 <MarkdownView content={basicInfo.description} />
               </CardDescription>
             }
