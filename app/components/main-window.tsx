@@ -50,7 +50,7 @@ export function MainWindow() {
             className='transition-all hover:underline text-muted-foreground'
             onClick={handleHomeCorpusClick}
           >
-            {"Corpus"}
+            {"Library"}
           </button>
           <AtSign strokeWidth={1.5} className='h-4 w-4 inline ml-1' />
           <span className='font-mono'>{corpusLabel}</span>
