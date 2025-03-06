@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import {
   ReactFlow,
   Background,
@@ -7,8 +7,6 @@ import {
   useEdgesState,
   Node,
   NodeOrigin,
-  addEdge,
-  OnConnect,
   BackgroundVariant,
   Edge,
 } from '@xyflow/react';
@@ -58,7 +56,8 @@ function ForceGraph({ strength = -1000, distance = 1000, data, onNodeRightClick 
         source: edge.source,
         target: edge.target,
         data: {
-          label: edge.score !== null ? `${Math.round(edge.score * 10)}/10`: undefined
+          label: edge.score !== null ? `${Math.round(edge.score * 10)}/10`: undefined,
+          description: edge.description
         },
         style: { stroke: edge.category === 'source' ? '#3b82f6': '#f43f5e', strokeWidth: 1 },
         type: 'dashed',
@@ -69,12 +68,7 @@ function ForceGraph({ strength = -1000, distance = 1000, data, onNodeRightClick 
     }
   }, [data, setNodes, setEdges, onNodeRightClick]);
 
-  const dragEvents = useForceLayout({ strength, distance });
-
-  const onConnect: OnConnect = useCallback(
-    (params) => setEdges((eds) => addEdge(params, eds)),
-    [setEdges]
-  );
+  useForceLayout({ strength, distance });
 
   return (
     <div style={{ height: '100vh', width: '100vw' }} className='bg-stone-100'>
@@ -83,18 +77,9 @@ function ForceGraph({ strength = -1000, distance = 1000, data, onNodeRightClick 
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
         nodeOrigin={nodeOrigin}
-        onNodeDragStart={dragEvents.start}
-        onNodeDrag={dragEvents.drag}
-        onNodeDragStop={dragEvents.stop}
         edgeTypes={edgeTypes}
         defaultEdgeOptions={defaultEdgeOptions}
-        defaultViewport={{
-          x: typeof window !== 'undefined' ? window.innerWidth / 2 : 0,
-          y: typeof window !== 'undefined' ? window.innerHeight / 2 : 0,
-          zoom: 0,
-        }}
         fitView
       >
         <Background color='#71717a' variant={ BackgroundVariant.Dots } />
