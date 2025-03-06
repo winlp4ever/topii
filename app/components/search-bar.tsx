@@ -23,7 +23,7 @@ const ModelCard: React.FC<{ model: LLMEnum }> = ({ model }) => {
   return (
     <HoverCard openDelay={200}>
       <HoverCardTrigger className='text-mono'>{LLMName[model]}</HoverCardTrigger>
-      <HoverCardContent className='w-48 rounded-xl border border-stone-200 bg-stone-100 shadow' side="left" sideOffset={15}>
+      <HoverCardContent className='w-48 rounded-xl border border-stone-200 bg-stone-100 shadow' side="left" sideOffset={15 }>
         <div className=''>
           {LLMDescription[model]}
         </div>
