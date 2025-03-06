@@ -33,7 +33,7 @@ const ReactionBar: React.FC = () => {
       <div className='flex flex-row gap-2 items-center p-1'>
         <button
           className='flex items-center gap-1 text-xs border-none px-2 py-1 rounded-lg text-stone-400 hover:text-stone-700 transition-all duration-200 ease-in-out'
-          onAbort={regen}
+          onClick={regen}
         >
           <Repeat strokeWidth={1.5} className="h-4 w-4" />
           <span>{"Rewrite"}</span>
@@ -97,14 +97,16 @@ export function ResponseFocus() {
         >
           <div className='mt-32 flex flex-col items-end space-y-4'>
             {
-              input && inputType == 'query' && (
+              input && inputType === 'query' && (
                 <UserMessage message={input} />
               )
             }
             {
               response && <div>
                 {cpn}
-                <ReactionBar />
+                {
+                  input && inputType === 'query' && loadingStatus === 'COMPLETED' && <ReactionBar />
+                }
               </div>
             }
             <div className='h-48'>
