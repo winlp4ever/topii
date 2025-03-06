@@ -58,7 +58,10 @@ function AutoGraph({ data, onNodeRightClick }: GraphProps) {
         id: edge.id,
         source: edge.source,
         target: edge.target,
-        data: { label: edge.score !== null ? `${Math.round(edge.score * 10)}/10`: undefined },
+        data: {
+          label: edge.score !== null ? `${Math.round(edge.score * 10)}/10`: undefined,
+          description: edge.description
+        },
         style: { stroke: edge.category === 'source' ? '#3b82f6': '#f43f5e', strokeWidth: 1 },
         type: 'dashed',
       }));

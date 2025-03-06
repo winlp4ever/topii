@@ -21,9 +21,9 @@ import { LLMDescription, LLMEnum, LLMName } from '../types/ai';
 
 const ModelCard: React.FC<{ model: LLMEnum }> = ({ model }) => {
   return (
-    <HoverCard>
+    <HoverCard openDelay={200}>
       <HoverCardTrigger className='text-mono'>{LLMName[model]}</HoverCardTrigger>
-      <HoverCardContent className='w-48 rounded-xl border border-stone-200 bg-stone-100 shadow'>
+      <HoverCardContent className='w-48 rounded-xl border border-stone-200 bg-stone-100 shadow' side="left" sideOffset={15 }>
         <div className=''>
           {LLMDescription[model]}
         </div>
@@ -44,7 +44,7 @@ const ModelChoiceMenu = () => {
 
   return (
     <Select onValueChange={handleModelChange} defaultValue={modelChoice}>
-      <SelectTrigger className="w-24 rounded-full bg-stone-200 border-none text-xs w-auto h-auto">
+      <SelectTrigger className="w-24 rounded-full bg-stone-100 border-none text-xs w-auto h-auto">
         <SelectValue defaultValue={modelChoice} />
       </SelectTrigger>
       <SelectContent className='overflow-visible'>
@@ -108,7 +108,7 @@ const SearchBar: React.FC = () => {
               loadingStatus={loadingStatus === "RUNNING" ? "loading": "loaded"}
               disabled={loadingStatus === "RUNNING" ? true: false}
               onClick={handleSearch}
-              className='ml-auto border-none bg-stone-200'
+              className='ml-auto border-none bg-stone-100'
             />
           </div>
 
