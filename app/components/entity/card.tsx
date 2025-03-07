@@ -7,9 +7,10 @@ import React, { useEffect } from "react";
 import { capitalize } from "../utils";
 import { cn } from "@/app/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Minimize, Option } from "lucide-react";
+import { Minimize, Option, Clipboard } from "lucide-react";
 import { ColorMode, ColorModeBorderClassName, ColorModeDarkBackgroundClassName, ColorModeTextClassName } from "@/app/types/color-mode";
 import { useAppStore } from "@/app/store";
+import { toast } from "sonner";
 
 
 function groupByType(items: Node_[]): Record<NodeType, Node_[]> {
@@ -148,6 +149,15 @@ const EntityCard: React.FC<EntityCardProps> = ({
     }
   };
 
+  const copyToClipboard = () => {
+    if (basicInfo.content === null) {
+      return;
+    }
+    console.log('Copying to clipboard:', basicInfo.content);
+    navigator.clipboard.writeText(basicInfo.content);
+    toast('Text copied to clipboard!');
+  };
+
   React.useEffect(() => {
     setDynamicDisplayMode(displayMode);
   }, [displayMode]);
@@ -191,7 +201,7 @@ const EntityCard: React.FC<EntityCardProps> = ({
         'transition-all duration-300 ease-in-out w-80 bg-transparent shadow-none border-none max-h-20' :
         dynamicDisplayMode === 'medium' ?
         `transition-all duration-300 ease-in-out w-96 overflow-hidden max-h-[600px] bg-zinc-50 shadow-lg ${isRoot ? ColorModeBorderClassName[colorMode]: 'border-none'}`:
-        'transition-all duration-300 ease-in-out w-[650px] overflow-hidden shadow-none border-none',
+        'transition-all duration-300 ease-in-out w-[650px] overflow-hidden shadow-none border-none relative',
         className
       )}
       {...props}
@@ -241,6 +251,17 @@ const EntityCard: React.FC<EntityCardProps> = ({
             }
           </CardHeader>
         )
+      }
+      {
+        dynamicDisplayMode === 'full' && basicInfo.content !== null &&
+        <div className='absolute top-0 right-0 p-1 z-40'>
+          <button
+            className='hello text-stone-500 text-sm bg-none outline-none hover:bg-stone-100 rounded-lg p-2 transition-all duration-200 ease-in-out'
+            onClick={copyToClipboard}
+          >
+            <Clipboard strokeWidth={1.5} className='w-4 h-4' />
+          </button>
+        </div>
       }
       {
         dynamicDisplayMode === 'full' && basicInfo.content !== null &&

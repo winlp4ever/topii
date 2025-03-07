@@ -45,16 +45,16 @@ const CustomCodeView: React.FC<CustomCodeViewProps> = ({ className, children }) 
   const language = match ? match[1] : 'plaintext';
 
   return match ? (
-    <pre className={cn('text-xs text-mono rounded-xl p-4bg-stone-100 relative my-4', className)} style={{ background: '#f5f5f4', padding: '1em', borderRadius: '5px' }}>
+    <pre className={cn('text-xs text-mono rounded-xl p-4 bg-stone-100 relative my-4 border', className)} style={{ background: '#f5f5f4', padding: '1em', borderRadius: '5px' }}>
       <button
         onClick={() => handleCopy(codeContent)}
-        className="transition-all absolute top-1 right-1 text-xs bg-transparent hover:bg-stone-200 p-2 rounded-lg text-stone-500"
+        className="transition-all absolute top-1 right-1 text-xs bg-transparent hover:bg-stone-200 p-1 rounded-lg text-stone-500"
         aria-label="Copy to clipboard"
       >
         <Clipboard strokeWidth={1.5} className='h-3 w-3' />
       </button>
       {match && (
-        <span className="absolute top-0 left-0 w-auto bg-stone-200 text-xs px-3 py-1 rounded-t text-xs">
+        <span className="absolute top-0 left-0 w-auto bg-transparent text-[11px] px-3 py-1 text-stone-500">
           {language}
         </span>
       )}

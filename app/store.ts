@@ -31,7 +31,7 @@ export interface AppState {
 
   // Async/thunk-like actions
   loadCorpus: (id: string) => Promise<void>
-  searchQuery: (query: string) => Promise<void>
+  searchQuery: (query: string, modelChoice: LLMEnum | null) => Promise<void>
   focusNode: (nodeId: string) => Promise<void>
 }
 
@@ -91,7 +91,7 @@ export const useAppStore = create<AppState>()(
     // ─────────────────────────────────────────────────────────
     // searchQuery: calls query(queryString) → returns GraphData
     // ─────────────────────────────────────────────────────────
-    searchQuery: async (queryStr: string) => {
+    searchQuery: async (query: string, modelChoice: LLMEnum | null = null) => {
       const clientId = useAppStore.getState().clientId;
       if (!clientId) {
         console.error('No client ID found');
@@ -105,21 +105,26 @@ export const useAppStore = create<AppState>()(
       set({ loadingStatus: 'RUNNING', data: null });
       try {
         const cid = Number(corpusId.split('_')[1]);
-        const modelChoice = useAppStore.getState().aiSettings.model;
+        let modelName: LLMEnum;
+        if (modelChoice) {
+          modelName = modelChoice;
+        } else {
+          modelName = useAppStore.getState().aiSettings.model;
+        }
         await queryGraph(
           clientId,
           cid,
-          queryStr,
+          query,
           (data: DataState) => {
             console.log('streamed data:', data);
             set({ data });
           },
-          modelChoice
+          modelName
         );
 
         set({
           loadingStatus: 'COMPLETED',
-          input: queryStr,
+          input: query,
           inputType: 'query',
         });
       } catch (err) {

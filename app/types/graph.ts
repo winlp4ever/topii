@@ -61,6 +61,7 @@ export interface Block {
 export interface Answer {
   id: string;
   text: string;
+  search_query: string[];
 }
 
 export interface ROMECompetency {

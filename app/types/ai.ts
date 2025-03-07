@@ -12,7 +12,7 @@ export const LLMName: Record<LLMEnum, string> = {
   [LLMEnum.GPT4O_MINI]: 'GPT-4o-mini',
   [LLMEnum.MISTRAL_LARGE_LATEST]: 'mistral-large',
   [LLMEnum.GEMINI_2_FLASH]: 'gemini-2.0-flash',
-  [LLMEnum.Stellia_SM_2]: 'stellia-sm-2',
+  [LLMEnum.Stellia_SM_2]: 'stellialm-sm-2',
 };
 
 
