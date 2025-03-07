@@ -80,7 +80,7 @@ const SearchBar: React.FC = () => {
     setInputType('query');
     setInput(query);
 
-    searchQuery(query);
+    searchQuery(query, null);
     setQuery('');
   };
 

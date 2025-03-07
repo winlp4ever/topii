@@ -1,5 +1,5 @@
 import { Node_, NodeType } from "@/app/types/graph";
-import { extractPlainText, shuffleArray, trimText } from "../utils";
+import { cleanMarkdownLinks, extractPlainText, shuffleArray, trimText } from "../utils";
 import { Key, FileText, FolderOpen, ListChecks, Bike, Blocks, FileQuestion, TextSelect, Sparkles, Network } from "lucide-react";
 
 export interface BasicInfo {
@@ -18,12 +18,14 @@ async function extractAnswerInfo(node: Node_): Promise<BasicInfo> {
     throw new Error("Answer node must have an answer field");
   }
 
+  const content = cleanMarkdownLinks(node.answer.text);
+
   const desc = trimText(await extractPlainText(node.answer.text), 500);
   return {
     label: node.answer.text,
     title: null,
     description: desc,
-    content: node.answer.text,
+    content: content,
     entityType: NodeType.Answer,
     typeName: "Answer",
     typeIcon: () => <Sparkles strokeWidth={1.5} />,

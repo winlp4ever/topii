@@ -5,40 +5,14 @@ import EntityCard from './entity/card';
 import { Node_ } from '../types/graph';
 import { LoadingView } from './loading-view';
 import { NodeTypeColorMapping } from './entity/color-mapping';
-import { Repeat } from 'lucide-react';
+import ReactionBar from './reaction-bar';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 
 const UserMessage: React.FC<{ message: string }> = ({ message }) => {
   return (
-    <div className='flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm ml-auto bg-stone-800 text-primary-foreground w-auto'>
+    <div className='flex w-max max-w-[75%] flex-col gap-2 rounded-xl px-3 py-2 text-sm ml-auto bg-stone-200/60 w-auto'>
       {message}
-    </div>
-  );
-}
-
-
-const ReactionBar: React.FC = () => {
-  const input = useAppStore((state) => state.input);
-  const searchQuery = useAppStore((state) => state.searchQuery);
-
-  const regen = () => {
-    if (!input) {
-      return;
-    }
-    searchQuery(input);
-  }
-
-  return (
-    <div className='flex flex-row gap-2 w-full'>
-      <div className='flex flex-row gap-2 items-center p-1'>
-        <button
-          className='flex items-center gap-1 text-xs border-none px-2 py-1 rounded-lg text-stone-400 hover:text-stone-700 transition-all duration-200 ease-in-out'
-          onClick={regen}
-        >
-          <Repeat strokeWidth={1.5} className="h-4 w-4" />
-          <span>{"Rewrite"}</span>
-        </button>
-      </div>
     </div>
   );
 }
@@ -88,32 +62,33 @@ export function ResponseFocus() {
           <LoadingView responseViewType='Response' viewMode='compact' />
         )
       }
-      <div
-        style={{ height: '100vh', width: '100vw' }}
-        className='flex flex-col items-center justify-center overflow-y-scroll bg-stone-100'
+      <ScrollArea
+        className="h-screen w-screen bg-stone-100"
       >
-        <div
-          className='h-full sm:max-w-[800px]'
-        >
-          <div className='mt-32 flex flex-col items-end space-y-4'>
-            {
-              input && inputType === 'query' && (
-                <UserMessage message={input} />
-              )
-            }
-            {
-              response && <div>
-                {cpn}
-                {
-                  input && inputType === 'query' && loadingStatus === 'COMPLETED' && <ReactionBar />
-                }
+        <div className='w-full h-full flex flex-col items-center justify-center'>
+          <div
+            className='h-full sm:max-w-[800px] w-[650px]'
+          >
+            <div className='mt-32 flex flex-col items-end space-y-8'>
+              {
+                input && inputType === 'query' && (
+                  <UserMessage message={input} />
+                )
+              }
+              {
+                response && <div>
+                  {cpn}
+                  {
+                    input && inputType === 'query' && loadingStatus === 'COMPLETED' && <ReactionBar />
+                  }
+                </div>
+              }
+              <div className='h-48'>
               </div>
-            }
-            <div className='h-48'>
             </div>
           </div>
         </div>
-      </div>
+      </ScrollArea>
     </>
   )
 }
