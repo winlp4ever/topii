@@ -18,7 +18,7 @@ export async function resolveClientId(id: string): Promise<number> {
 }
 
 
-async function fetchStreamedData(
+export async function fetchStreamedData(
   url: string | URL,
   onData: (data: DataState) => void,
   method: string = 'GET',
@@ -110,5 +110,23 @@ export async function queryGraph(
     llm_model: modelChoice
   }
   console.log('querying graph data with:', requestBody);
+  await fetchStreamedData(url, onData, 'POST', JSON.stringify(requestBody));
+}
+
+
+export async function fetchStreamedFlowRun(
+  clientId: number,
+  corpusId: number,
+  flowName: 'competency_matching',
+  payload: Record<string, string | number | null>,
+  onData: (data: DataState) => void
+): Promise<void> {
+  const url = new URL(`${process.env.API_URL}/flow`);
+  const requestBody = {
+    client_id: clientId,
+    corpus_id: corpusId,
+    flow_name: flowName,
+    payload,
+  };
   await fetchStreamedData(url, onData, 'POST', JSON.stringify(requestBody));
 }

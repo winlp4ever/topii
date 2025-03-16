@@ -67,7 +67,7 @@ export function ResponseFocus() {
       >
         <div className='w-full h-full flex flex-col items-center justify-center'>
           <div
-            className='h-full sm:max-w-[800px] w-[650px]'
+            className='h-full sm:max-w-[800px] w-[800px]'
           >
             <div className='mt-32 flex flex-col items-end space-y-8'>
               {

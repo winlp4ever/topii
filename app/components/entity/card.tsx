@@ -36,6 +36,8 @@ const TypeTabnameMapping: Record<NodeType, string> = {
   [NodeType.RNCPCompetency]: 'RNCP Competencies',
   [NodeType.Concept]: 'Concepts',
   [NodeType.Corpus]: 'Corpora',
+  [NodeType.Text]: "Texts",
+  [NodeType.Struct]: "Structs",
 };
 
 
@@ -74,7 +76,7 @@ const NodeTabs: React.FC<{ subNodeGroups: Record<NodeType, Node_[]> }> = ({ subN
                 displayMode="mini"
                 node={node}
                 showDot={false}
-                className='transform scale-99 origin-left [&>button]:rounded-lg [&>button]:shadow-none [&>button]:bg-stone-100 w-[600px]
+                className='transform scale-99 origin-left [&>button]:rounded-lg [&>button]:shadow-none [&>button]:bg-stone-100 w-full
                   hover:scale-100 [&>button]:hover:shadow-lg transition-all duration-300 ease-in-out [&>button]:border-none shadow-none border-none bg-stone-100'
               />
             ))}
@@ -201,7 +203,7 @@ const EntityCard: React.FC<EntityCardProps> = ({
         'transition-all duration-300 ease-in-out w-80 bg-transparent shadow-none border-none max-h-20' :
         dynamicDisplayMode === 'medium' ?
         `transition-all duration-300 ease-in-out w-96 overflow-hidden max-h-[600px] bg-zinc-50 shadow-lg ${isRoot ? ColorModeBorderClassName[colorMode]: 'border-none'}`:
-        'transition-all duration-300 ease-in-out w-[650px] overflow-hidden shadow-none border-none relative',
+        'transition-all duration-300 ease-in-out w-[800px] overflow-hidden shadow-none border-none relative',
         className
       )}
       {...props}
@@ -238,7 +240,7 @@ const EntityCard: React.FC<EntityCardProps> = ({
       }
       {
         displayCardHeader && (
-          <CardHeader className='pt-2'>
+          <CardHeader className='pt-2 text-left'>
             {
               basicInfo.title !== null &&
               <CardTitle className='text-lg'>{basicInfo.title}</CardTitle>

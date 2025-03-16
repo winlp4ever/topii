@@ -1,10 +1,10 @@
 'use client';
 import React from 'react';
-import { useAppStore } from '../store';
+import { useAppStore } from '../../store';
 import { ReactFlowProvider } from '@xyflow/react';
 import ForceGraph from './force-graph';
 import AutoGraph from './auto-graph';
-import { LoadingView } from './loading-view';
+import { LoadingView } from '../loading-view';
 
 
 const GraphView: React.FC<{ layout: 'force' | 'auto' }> = ({ layout }) => {

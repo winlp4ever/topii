@@ -1,9 +1,9 @@
 'use client';
 import React from 'react'
 import { useAppStore } from '../store';
-import GraphView from './graph-view';
+import GraphView from './graph/graph-view';
 import { ResponseFocus } from './response-focus';
-import SearchBar from './search-bar';
+import SearchBar from './chat/search-bar';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ChartNetwork, Text, FlipHorizontal2, Network, AtSign } from 'lucide-react';
 

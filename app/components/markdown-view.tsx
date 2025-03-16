@@ -5,7 +5,7 @@ import rehypeHighlight from 'rehype-highlight';
 import remarkGfm from 'remark-gfm';
 import 'katex/dist/katex.min.css'; // Import KaTeX CSS for styling
 import 'highlight.js/styles/github.css'; // Import a highlight.js theme
-import { cn } from "../lib/utils";
+import { cn } from "@/app/lib/utils";
 import { Clipboard } from "lucide-react";
 import { toast } from "sonner";
 import React from "react";
@@ -41,27 +41,36 @@ const CustomCodeView: React.FC<CustomCodeViewProps> = ({ className, children }) 
   };
 
   const codeContent = extractText(children).trim();
+  const isBlock = codeContent.includes('\n'); // Check for multiline content
   const match = /language-(\w+)/.exec(className || '');
   const language = match ? match[1] : 'plaintext';
 
-  return match ? (
-    <pre className={cn('text-xs text-mono rounded-xl p-4 bg-stone-100 relative my-4 border', className)} style={{ background: '#f5f5f4', padding: '1em', borderRadius: '5px' }}>
+  return isBlock ? (
+    <pre
+      className={cn('text-xs text-mono rounded-xl p-4 bg-stone-100 relative my-4 border', className)}
+      style={{ background: '#f5f5f4', padding: '1em', borderRadius: '5px' }}
+    >
       <button
         onClick={() => handleCopy(codeContent)}
-        className="transition-all absolute top-1 right-1 text-xs bg-transparent hover:bg-stone-200 p-1 rounded-lg text-stone-500"
+        className="transition-all absolute top-1 right-1 text-xs bg-transparent hover:bg-stone-200 p-2 rounded-lg text-stone-500"
         aria-label="Copy to clipboard"
       >
-        <Clipboard strokeWidth={1.5} className='h-3 w-3' />
+        <Clipboard strokeWidth={1.5} className='h-4 w-4' />
       </button>
-      {match && (
-        <span className="absolute top-0 left-0 w-auto bg-transparent text-[11px] px-3 py-1 text-stone-500">
-          {language}
-        </span>
-      )}
-      <code className={match ? 'block mt-5': ''}>{children}</code>
+      {
+        language !== 'plaintext' && (
+          <span className="absolute top-0 left-0 w-auto bg-transparent text-[11px] px-3 py-1 text-stone-500">
+            {language}
+          </span>
+        )
+      }
+      <code className={language !== 'plaintext' ? "block mt-5": "block"}>{children}</code>
     </pre>
   ) : (
-    <code className={cn('text-left text-xs text-red-700 bg-stone-100', className)} style={{ background: '#f5f5f4', padding: '0.2em 0.4em', borderRadius: '3px' }} >
+    <code
+      className={cn('text-left text-xs text-red-700 bg-stone-100', className)}
+      style={{ background: '#f5f5f4', padding: '0.2em 0.4em', borderRadius: '3px' }}
+    >
       {children}
     </code>
   );

@@ -8,6 +8,18 @@ export enum NodeType {
   Answer = 'answer',
   ROMECompetency = 'rome_competency',
   RNCPCompetency = 'rncp_competency',
+  Text = 'text',
+  Struct = 'struct'
+}
+
+export interface StructData {
+  originalId: string;
+  type: NodeType;
+}
+
+export interface Text {
+  id: string;
+  text: string;
 }
 
 export interface Doc {
@@ -88,6 +100,7 @@ export interface Node_ {
   answer?: Answer;
   rome_competency?: ROMECompetency;
   rncp_competency?: RNCPCompetency;
+  struct?: StructData;
   x?: number;
   y?: number;
   score?: number;

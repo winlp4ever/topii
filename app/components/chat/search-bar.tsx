@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, KeyboardEvent } from 'react';
-import { useAppStore } from '../store';
-import { Command, CommandInput, CommandList, CommandIcon } from './ui/command';
+import { useAppStore } from '../../store';
+import { Command, CommandInput, CommandList, CommandIcon } from '../ui/command';
 import {
   Select,
   SelectContent,
@@ -16,7 +16,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
-import { LLMDescription, LLMEnum, LLMName } from '../types/ai';
+import { LLMDescription, LLMEnum, LLMName } from '../../types/ai';
 
 
 const ModelCard: React.FC<{ model: LLMEnum }> = ({ model }) => {
@@ -94,21 +94,23 @@ const SearchBar: React.FC = () => {
 
   return (
     <div className="fixed bottom-10 left-1/2 transform -translate-x-1/2 p-4 z-50 flex justify-center items-center">
-      <Command onKeyDown={handleKeyDown} className="md:min-w-[650px] shadow-xl rounded-xl p-3 pt-0 border-stone-200 border" >
+      <Command onKeyDown={handleKeyDown} className="md:min-w-[800px] shadow-xl rounded-3xl p-3 pt-0 border-stone-300 border" >
         <div className="flex flex-col items-center space-y-1 items-stretch">
-          <CommandInput
-            placeholder='Enter your query ...'
-            value={query}
-            onValueChange={setQuery}
-            className='text-sm'
-          />
+          <div className='p-2'>
+            <CommandInput
+              placeholder='Enter your query ...'
+              value={query}
+              onValueChange={setQuery}
+              className='text-md'
+            />
+          </div>
           <div className='flex justify-start'>
             <ModelChoiceMenu />
             <CommandIcon
               loadingStatus={loadingStatus === "RUNNING" ? "loading": "loaded"}
               disabled={loadingStatus === "RUNNING" ? true: false}
               onClick={handleSearch}
-              className='ml-auto border-none bg-stone-100'
+              className={'ml-auto border-none bg-stone-100'}
             />
           </div>
 

@@ -17,7 +17,7 @@ import useAutoLayout, { type LayoutOptions } from './layout/useAutoLayout';
 
 import { useControls, button } from 'leva';
 
-import { GraphData } from '../types/graph';
+import { GraphData } from '../../types/graph';
 import GraphNode from './nodes/graph-node';
 import DashedEdge from './nodes/dashed-edge';
 import { getId } from './layout/utils';
@@ -121,7 +121,7 @@ function AutoGraph({ data, onNodeRightClick }: GraphProps) {
         edgeTypes={edgeTypes}
         zoomOnDoubleClick={false}
       >
-        <Background color='#71717a' variant={ BackgroundVariant.Dots } />
+        <Background color='#71717a' variant={BackgroundVariant.Dots} />
       </ReactFlow>
     </div>
   );
