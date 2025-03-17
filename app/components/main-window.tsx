@@ -5,7 +5,7 @@ import GraphView from './graph/graph-view';
 import { ResponseFocus } from './response-focus';
 import SearchBar from './chat/search-bar';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ChartNetwork, Text, FlipHorizontal2, Network, AtSign } from 'lucide-react';
+import { Text, Network, AtSign } from 'lucide-react';
 
 // This is the main window that displays the graph view and response focus
 export function MainWindow() {
@@ -13,14 +13,9 @@ export function MainWindow() {
   const loadCorpus = useAppStore((state) => state.loadCorpus);
   // we can toggle between "graph" and "response" views
   const [tab, setTab] = React.useState<'graph' | 'response'>('graph');
-  const [layoutOption, setLayoutOption] = React.useState<'force' | 'auto'>('force');
 
   const handleTabChange = (value: string) => {
     setTab(value as 'graph' | 'response');
-  }
-
-  const handleLayoutChange = (value: string) => {
-    setLayoutOption(value as 'force' | 'auto');
   }
 
   const handleHomeCorpusClick = () => {
@@ -71,40 +66,15 @@ export function MainWindow() {
               value="graph"
               className='space-x-2 data-[state=active]:shadow-none data-[state=active]:bg-transparent text-xs font-normal text-gray-400'
             >
-              <ChartNetwork className='h-4 w-4' strokeWidth={1.5}/>
-              <span>Graph View</span>
+              <Network className='h-4 w-4' strokeWidth={1.5} />
+              <span>Mindmap</span>
             </TabsTrigger>
           </TabsList>
         </Tabs>
-        {
-          tab === 'graph' &&
-          <span className='w-2 h-5 rounded-lg bg-white'></span>
-        }
-        {
-          tab === 'graph' &&
-          <Tabs defaultValue="force" onValueChange={handleLayoutChange} className="ml-2" >
-            <TabsList className="flex space-x-2 flex-row justify-around p-0 bg-transparent h-auto" >
-              <TabsTrigger
-                value="force"
-                className='space-x-2 data-[state=active]:shadow-none data-[state=active]:bg-transparent text-xs font-normal text-gray-400'
-              >
-                <FlipHorizontal2 className='h-4 w-4' strokeWidth={1.5} />
-                <span>Force Layout</span>
-              </TabsTrigger>
-              <TabsTrigger
-                value="auto"
-                className='space-x-2 data-[state=active]:shadow-none data-[state=active]:bg-transparent text-xs font-normal text-gray-400'
-              >
-                <Network className='h-4 w-4' strokeWidth={1.5} />
-                <span>Auto Layout</span>
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
-        }
       </div>
       {
         tab === 'graph' &&
-        <GraphView layout={ layoutOption }/>
+        <GraphView />
       }
       {
         tab === 'response' &&

@@ -13,7 +13,7 @@ import {
 import '@xyflow/react/dist/style.css';
 
 
-import useForceLayout from './layout/useForceLayout';
+import useForceLayout from './layout/use-force-layout';
 
 import { GraphData } from '../../types/graph';
 import DashedEdge from './nodes/dashed-edge';

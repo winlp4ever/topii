@@ -13,13 +13,19 @@ export function createStructNodesBFS(originalNodes: Node_[], originalEdges: Edge
     edgesMap.get(edge.target)!.push(edge);
   });
 
+  // Build edge lookup map for quick attribute retrieval
+  const edgeLookup: Map<string, Edge_> = new Map();
+  originalEdges.forEach(edge => {
+    edgeLookup.set(`${edge.source}__${edge.target}`, edge);
+    edgeLookup.set(`${edge.target}__${edge.source}`, edge); // both directions
+  });
+
   const visited: Set<string> = new Set();
   const newNodes: Node_[] = [...originalNodes];
   const newEdges: Edge_[] = [];
 
   const queue: string[] = [];
 
-  // Start BFS from the first node
   if (originalNodes.length === 0) {
     return { nodes: [], edges: [] };
   }
@@ -29,6 +35,7 @@ export function createStructNodesBFS(originalNodes: Node_[], originalEdges: Edge
 
   while (queue.length > 0) {
     const currentNodeId = queue.shift()!;
+    const currentNode = nodesMap.get(currentNodeId)!;
 
     const connectedEdges = edgesMap.get(currentNodeId) || [];
 
@@ -56,29 +63,40 @@ export function createStructNodesBFS(originalNodes: Node_[], originalEdges: Edge
       const structNode: Node_ = {
         id: structNodeId,
         type: NodeType.Struct,
+        struct: {
+          originalId: currentNodeId,
+          type: type as NodeType,
+        },
+        adjacentNodeIds: [],
       };
-
+      currentNode.adjacentNodeIds = [structNodeId];
       newNodes.push(structNode);
 
-      // Connect current node to struct node
+      // Connect current node to struct node (no original attributes here)
       newEdges.push({
         id: `${currentNodeId}__${structNodeId}`,
         source: currentNodeId,
         target: structNodeId,
-        score: null,
-        description: null,
         category: null,
+        score: null,
+        description: `Struct edge from ${currentNodeId} to ${structNodeId}`,
       });
 
       groupNodes.forEach(node => {
-        // Connect struct node to each node in the group
+        // Quickly retrieve original edge attributes using edgeLookup map
+        let originalEdge = edgeLookup.get(`${currentNodeId}__${node.id}`);
+
+        if (!originalEdge) {
+          originalEdge = edgeLookup.get(`${node.id}__${currentNodeId}`);
+        }
+        structNode.adjacentNodeIds?.push(node.id)
         newEdges.push({
           id: `${structNodeId}__${node.id}`,
           source: structNodeId,
           target: node.id,
-          score: null,
-          description: null,
-          category: null,
+          category: originalEdge?.category ?? null,
+          score: originalEdge?.score ?? null,
+          description: originalEdge?.description ?? null,
         });
 
         // Enqueue node for further traversal if not visited

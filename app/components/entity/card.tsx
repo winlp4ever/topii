@@ -26,15 +26,15 @@ function groupByType(items: Node_[]): Record<NodeType, Node_[]> {
 }
 
 
-const TypeTabnameMapping: Record<NodeType, string> = {
+export const TypeTabnameMapping: Record<NodeType, string> = {
   [NodeType.Block]: 'Source Texts',
   [NodeType.Answer]: 'Answers',
   [NodeType.QA]: 'Q&As',
-  [NodeType.Document]: 'Documents',
-  [NodeType.Exercise]: 'Exercises',
+  [NodeType.Document]: 'Sources',
+  [NodeType.Exercise]: 'Activities',
   [NodeType.ROMECompetency]: 'ROME Competencies',
   [NodeType.RNCPCompetency]: 'RNCP Competencies',
-  [NodeType.Concept]: 'Concepts',
+  [NodeType.Concept]: 'Key Concepts',
   [NodeType.Corpus]: 'Corpora',
   [NodeType.Text]: "Texts",
   [NodeType.Struct]: "Structs",
@@ -112,19 +112,24 @@ export interface EntityCardProps extends React.HTMLAttributes<HTMLDivElement>{
   colorMode?: ColorMode;
   isRoot?: boolean;
   showDot?: boolean;
+  toggleCard?: () => void;
 }
 
 
-const EntityCard: React.FC<EntityCardProps> = ({
+const EntityCard = React.forwardRef<
+  HTMLDivElement,
+  EntityCardProps
+>(({
   displayMode,
   node,
   subNodes = [],
   colorMode = 'zinc',
   isRoot = false,
   showDot = true,
+  toggleCard = () => {},
   className,
   ...props
-}) => {
+}, ref) => {
   const [dynamicDisplayMode, setDynamicDisplayMode] = React.useState(displayMode);
   const [basicInfo, setBasicInfo] = React.useState<BasicInfo>({
     label: "untitled",
@@ -144,6 +149,7 @@ const EntityCard: React.FC<EntityCardProps> = ({
   , [node]);
 
   const toggleDisplayMode = () => {
+    toggleCard();
     if (dynamicDisplayMode === 'mini') {
       setDynamicDisplayMode('medium');
     } else if (dynamicDisplayMode === 'medium') {
@@ -198,6 +204,7 @@ const EntityCard: React.FC<EntityCardProps> = ({
 
   return (
     <Card
+      ref={ref}
       className={cn(
         dynamicDisplayMode === 'mini' ?
         'transition-all duration-300 ease-in-out w-80 bg-transparent shadow-none border-none max-h-20' :
@@ -283,6 +290,7 @@ const EntityCard: React.FC<EntityCardProps> = ({
       }
     </Card>
   );
-}
+});
+EntityCard.displayName = "EntityCard";
 
 export default EntityCard;
