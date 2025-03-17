@@ -127,6 +127,7 @@ export interface NodeData extends Node_ {
   expanded?: boolean;
   expandable?: boolean;
   height?: number;
+  setHeight?: boolean;
   [key: string]: unknown;
 }
 

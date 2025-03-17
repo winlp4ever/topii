@@ -16,7 +16,7 @@ const edgeTypes = {
   dashed: DashedEdge,
 };
 
-const defaultEdgeOptions = { style: { stroke: '#ff66aa', strokeWidth: 1 }, type: 'dashed' };
+const defaultEdgeOptions = { style: { stroke: 'var(--tw-color-pink-500)', strokeWidth: 1 }, type: 'dashed' };
 
 export interface AutoExpandProps {
   treeWidth?: number;
@@ -68,7 +68,7 @@ export function AutoExpandGraph({
         nodesDraggable={true}
         nodesConnectable={false}
         zoomOnDoubleClick={false}
-        elementsSelectable={false}
+        elementsSelectable={true}
         defaultEdgeOptions={defaultEdgeOptions}
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}

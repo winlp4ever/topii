@@ -1,6 +1,7 @@
 import { Node_, NodeType } from "@/app/types/graph";
 import { cleanMarkdownLinks, extractPlainText, shuffleArray, trimText } from "../utils";
-import { Key, FileText, FolderOpen, ListChecks, Bike, Blocks, FileQuestion, TextSelect, Sparkles, Network } from "lucide-react";
+import { TextSelect, Network } from "lucide-react";
+import { NodeTypeIconMapping } from "./color-mapping";
 
 export interface BasicInfo {
   label: string | null;
@@ -28,7 +29,7 @@ async function extractAnswerInfo(node: Node_): Promise<BasicInfo> {
     content: content,
     entityType: NodeType.Answer,
     typeName: "Answer",
-    typeIcon: () => <Sparkles strokeWidth={1.5} />,
+    typeIcon: NodeTypeIconMapping[NodeType.Answer],
   };
 }
 
@@ -43,7 +44,7 @@ function extractQAInfo(node: Node_): BasicInfo {
     content: null,
     entityType: NodeType.QA,
     typeName: "Q&A",
-    typeIcon: () => <FileQuestion strokeWidth={1.5} />,
+    typeIcon: NodeTypeIconMapping[NodeType.QA],
   };
 }
 
@@ -83,7 +84,7 @@ function extractConceptInfo(node: Node_): BasicInfo {
     content: null,
     entityType: NodeType.Concept,
     typeName: "Concept",
-    typeIcon: () => <Key strokeWidth={1.5} />,
+    typeIcon: NodeTypeIconMapping[NodeType.Concept],
   };
 }
 
@@ -99,7 +100,7 @@ function extractDocumentInfo(node: Node_): BasicInfo {
     content: node.doc.synthesis_,
     entityType: NodeType.Document,
     typeName: "Document",
-    typeIcon: () => <FileText strokeWidth={1.5} />,
+    typeIcon: NodeTypeIconMapping[NodeType.Document],
   };
 }
 
@@ -115,7 +116,7 @@ function extractCorpusInfo(node: Node_): BasicInfo {
     content: node.corpus.synthesis,
     entityType: NodeType.Corpus,
     typeName: "Corpus",
-    typeIcon: () => <FolderOpen strokeWidth={1.5} />,
+    typeIcon: NodeTypeIconMapping[NodeType.Corpus],
   };
 }
 
@@ -142,7 +143,7 @@ function extractExerciseInfo(node: Node_): BasicInfo {
     content: content,
     entityType: NodeType.Exercise,
     typeName: "Exercise",
-    typeIcon: () => <ListChecks strokeWidth={1.5} />,
+    typeIcon: NodeTypeIconMapping[NodeType.Exercise],
   };
 }
 
@@ -158,7 +159,7 @@ function extractRomeCompetencyInfo(node: Node_): BasicInfo {
     content: null,
     entityType: NodeType.ROMECompetency,
     typeName: "ROME Competency",
-    typeIcon: () => <Blocks strokeWidth={1.5} />,
+    typeIcon: NodeTypeIconMapping[NodeType.ROMECompetency],
   };
 }
 
@@ -174,7 +175,7 @@ function extractRncpCompetencyInfo(node: Node_): BasicInfo {
     content: null,
     entityType: NodeType.RNCPCompetency,
     typeName: "RNCP Competency",
-    typeIcon: () => <Bike strokeWidth={1.5} />,
+    typeIcon: NodeTypeIconMapping[NodeType.RNCPCompetency],
   };
 }
 

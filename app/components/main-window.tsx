@@ -5,7 +5,7 @@ import GraphView from './graph/graph-view';
 import { ResponseFocus } from './response-focus';
 import SearchBar from './chat/search-bar';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Text, Network, AtSign } from 'lucide-react';
+import { Text, GitGraph, AtSign } from 'lucide-react';
 
 // This is the main window that displays the graph view and response focus
 export function MainWindow() {
@@ -66,7 +66,7 @@ export function MainWindow() {
               value="graph"
               className='space-x-2 data-[state=active]:shadow-none data-[state=active]:bg-transparent text-xs font-normal text-gray-400'
             >
-              <Network className='h-4 w-4' strokeWidth={1.5} />
+              <GitGraph className='h-4 w-4' strokeWidth={1.5} />
               <span>Mindmap</span>
             </TabsTrigger>
           </TabsList>

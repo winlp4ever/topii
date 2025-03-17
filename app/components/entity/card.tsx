@@ -207,10 +207,10 @@ const EntityCard = React.forwardRef<
       ref={ref}
       className={cn(
         dynamicDisplayMode === 'mini' ?
-        'transition-all duration-300 ease-in-out w-80 bg-transparent shadow-none border-none max-h-20' :
+        'w-96 bg-transparent shadow-none border-none max-h-20' :
         dynamicDisplayMode === 'medium' ?
-        `transition-all duration-300 ease-in-out w-96 overflow-hidden max-h-[600px] bg-zinc-50 shadow-lg ${isRoot ? ColorModeBorderClassName[colorMode]: 'border-none'}`:
-        'transition-all duration-300 ease-in-out w-[800px] overflow-hidden shadow-none border-none relative',
+        `w-96 overflow-hidden max-h-[600px] bg-stone-50 shadow-lg rounded-3xl border border-stone-200`:
+        'w-[800px] overflow-hidden shadow-none border-none relative',
         className
       )}
       {...props}

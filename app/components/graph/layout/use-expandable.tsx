@@ -58,10 +58,8 @@ function useExpandCollapse(
     // intrinsic width and height, we tell dagre to use the `treeWidth` and
     // `treeHeight` values. This lets you control the space between nodes.
     for (const node of nodes) {
-      const height = node.data.expanded && node.data.type !== NodeType.Struct ? treeHeight + 300 : treeHeight;
-      if (height > treeHeight) {
-        console.log('node id', node.id);
-      }
+      const height = node.data.expanded && node.data.type !== NodeType.Struct && node.data.height ? treeHeight + node.data.height / 2 + 80 : treeHeight;
+      console.log('set node gap', node.data.id, height);
       dagre.setNode(node.id, {
         width: treeWidth,
         height,

@@ -94,7 +94,7 @@ const SearchBar: React.FC = () => {
 
   return (
     <div className="fixed bottom-10 left-1/2 transform -translate-x-1/2 p-4 z-50 flex justify-center items-center">
-      <Command onKeyDown={handleKeyDown} className="md:min-w-[800px] shadow-xl rounded-3xl p-3 pt-0 border-stone-300 border" >
+      <Command onKeyDown={handleKeyDown} className="md:min-w-[800px] shadow-lg rounded-3xl p-3 pt-0 border-stone-200 border" >
         <div className="flex flex-col items-center space-y-1 items-stretch">
           <div className='p-2'>
             <CommandInput
@@ -110,7 +110,7 @@ const SearchBar: React.FC = () => {
               loadingStatus={loadingStatus === "RUNNING" ? "loading": "loaded"}
               disabled={loadingStatus === "RUNNING" ? true: false}
               onClick={handleSearch}
-              className={'ml-auto border-none bg-stone-100'}
+              className={'ml-auto border-none' + (loadingStatus === "RUNNING" ? ' cursor-not-allowed bg-stone-100' : ' cursor-pointer bg-stone-800 text-stone-50 hover:bg-stone-900 hover:text-stone-100')}
             />
           </div>
 
