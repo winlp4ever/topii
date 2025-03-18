@@ -11,6 +11,7 @@ import { Minimize, Option, Clipboard } from "lucide-react";
 import { ColorMode, ColorModeBorderClassName, ColorModeDarkBackgroundClassName, ColorModeTextClassName } from "@/app/types/color-mode";
 import { useAppStore } from "@/app/store";
 import { toast } from "sonner";
+import { NodeTypeIconMapping } from "./color-mapping";
 
 
 function groupByType(items: Node_[]): Record<NodeType, Node_[]> {
@@ -59,11 +60,12 @@ const NodeTabs: React.FC<{ subNodeGroups: Record<NodeType, Node_[]> }> = ({ subN
         {Object.keys(groups).map((type) => (
           <button
             key={type}
-            className="inline-flex items-center justify-center whitespace-nowrap py-1 text-xs ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 py-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
+            className="inline-flex items-center justify-center whitespace-nowrap py-1 text-xs ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 py-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none space-x-2"
             onClick={() => setActiveTab(type as NodeType)}
             data-state={activeTab === type ? 'active' : 'inactive'}
           >
-            {TypeTabnameMapping[type as NodeType]}
+            {React.createElement(NodeTypeIconMapping[type as NodeType])}
+            <span>{TypeTabnameMapping[type as NodeType]}</span>
           </button>
         ))}
       </div>
@@ -76,7 +78,7 @@ const NodeTabs: React.FC<{ subNodeGroups: Record<NodeType, Node_[]> }> = ({ subN
                 displayMode="mini"
                 node={node}
                 showDot={false}
-                className='transform scale-99 origin-left [&>button]:rounded-lg [&>button]:shadow-none [&>button]:bg-stone-100 w-full
+                className='transform scale-99 origin-left [&>button]:rounded-xl [&>button]:shadow-none [&>button]:bg-stone-100 w-full
                   hover:scale-100 [&>button]:hover:shadow-lg transition-all duration-300 ease-in-out [&>button]:border-none shadow-none border-none bg-stone-100'
               />
             ))}
@@ -210,7 +212,7 @@ const EntityCard = React.forwardRef<
         'w-96 bg-transparent shadow-none border-none max-h-20' :
         dynamicDisplayMode === 'medium' ?
         `w-96 overflow-hidden max-h-[600px] bg-stone-50 shadow-lg rounded-3xl border border-stone-200`:
-        'w-[800px] overflow-hidden shadow-none border-none relative',
+        'w-[800px] overflow-hidden shadow-none border-none relative rounded-3xl',
         className
       )}
       {...props}

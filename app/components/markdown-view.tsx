@@ -47,7 +47,7 @@ const CustomCodeView: React.FC<CustomCodeViewProps> = ({ className, children }) 
 
   return isBlock ? (
     <pre
-      className={cn('text-xs text-mono rounded-xl p-4 bg-stone-100 relative my-4 border', className)}
+      className={cn('text-xs text-mono rounded-2xl p-4 bg-stone-100 relative my-4 border', className)}
       style={{ background: '#f5f5f4', padding: '1em', borderRadius: '5px' }}
     >
       <button
@@ -112,7 +112,10 @@ const MarkdownView: React.FC<MarkdownViewProps> = ({ content }) => {
         rehypePlugins={[rehypeKatex, rehypeHighlight]}
         components={{
           h1: ({ ...props }) => <h1 className="mt-6 scroll-m-20 text-xl font-bold tracking-tight lg:text-2xl" {...props} />,
-          h2: ({ ...props }) => <h2 className="mt-4 scroll-m-20 border-b pb-2 text-lg font-semibold tracking-tight transition-colors first:mt-0" {...props} />,
+          h2: ({ ...props }) => <h2
+            className="mt-4 scroll-m-20 border-b pb-2 text-lg font-semibold tracking-tight transition-colors first:mt-0"
+            {...props}
+          />,
           h3: ({ ...props }) => <h3 className="mt-2 scroll-m-20 text-md font-semibold tracking-tight" {...props} />,
           h4: ({ ...props }) => <h4 className="mt-2 scroll-m-20 text-sm font-semibold tracking-tight" {...props} />,
           p: ({ ...props }) => <p className="leading-5 [&:not(:first-child)]:mt-2 text-sm" {...props} />,
