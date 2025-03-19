@@ -33,8 +33,8 @@ export const TypeTabnameMapping: Record<NodeType, string> = {
   [NodeType.QA]: 'Q&As',
   [NodeType.Document]: 'Sources',
   [NodeType.Exercise]: 'Activities',
-  [NodeType.ROMECompetency]: 'ROME Competencies',
-  [NodeType.RNCPCompetency]: 'RNCP Competencies',
+  [NodeType.ROMECompetency]: 'ROME',
+  [NodeType.RNCPCompetency]: 'RNCP',
   [NodeType.Concept]: 'Key Concepts',
   [NodeType.Corpus]: 'Corpora',
   [NodeType.Text]: "Texts",
@@ -60,7 +60,7 @@ const NodeTabs: React.FC<{ subNodeGroups: Record<NodeType, Node_[]> }> = ({ subN
         {Object.keys(groups).map((type) => (
           <button
             key={type}
-            className="inline-flex items-center justify-center whitespace-nowrap py-1 text-xs ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 py-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none space-x-2"
+            className="inline-flex items-center justify-center whitespace-nowrap py-1 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 py-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none space-x-2"
             onClick={() => setActiveTab(type as NodeType)}
             data-state={activeTab === type ? 'active' : 'inactive'}
           >
@@ -71,7 +71,7 @@ const NodeTabs: React.FC<{ subNodeGroups: Record<NodeType, Node_[]> }> = ({ subN
       </div>
       <div>
         {activeTab !== null && (
-          <div className='space-y-2'>
+          <div className='space-y-3'>
             {groups[activeTab].map((node) => (
               <EntityCard
                 key={node.id}
@@ -99,7 +99,7 @@ const ActionSection: React.FC<{ nodeId: string }> = ({ nodeId }) => {
         className='rounded-full text-sm w-auto shadow-none'
         onClick={() => focusNode(nodeId)}
       >
-        <Option strokeWidth={1.5} className='w-4 h-4' />
+        <Option strokeWidth={1.75} className='w-4 h-4' />
         <span>Explore</span>
       </Button>
     </div>
@@ -242,7 +242,7 @@ const EntityCard = React.forwardRef<
               className="bg-none outline-none ml-auto"
               onClick={toggleDisplayMode}
             >
-              <Minimize strokeWidth={1.5} className='w-4 h-4 transition-all'/>
+              <Minimize strokeWidth={1.75} className='w-4 h-4 transition-all'/>
             </button>
           }
         </CardLabel>
@@ -265,12 +265,12 @@ const EntityCard = React.forwardRef<
       }
       {
         dynamicDisplayMode === 'full' && basicInfo.content !== null &&
-        <div className='absolute top-0 right-0 p-1 z-40'>
+        <div className='absolute top-0 right-0 p-2 z-40'>
           <button
-            className='hello text-stone-500 text-sm bg-none outline-none hover:bg-stone-100 rounded-lg p-2 transition-all duration-200 ease-in-out'
+            className='hello text-stone-500 text-sm bg-none outline-none hover:bg-stone-100 rounded-xl p-2 transition-all duration-200 ease-in-out'
             onClick={copyToClipboard}
           >
-            <Clipboard strokeWidth={1.5} className='w-4 h-4' />
+            <Clipboard strokeWidth={1.75} className='w-4 h-4' />
           </button>
         </div>
       }

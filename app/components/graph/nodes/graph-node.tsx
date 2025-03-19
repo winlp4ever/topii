@@ -25,7 +25,7 @@ export const StructNode: React.FC<StructNodeProps> = ({ structNode, onClick }) =
         {React.createElement(icon)}
         <span className='whitespace-nowrap'>{structNode.struct ? TypeTabnameMapping[structNode.struct.type].toUpperCase() : 'STRUCT'}</span>
         <ChevronDown
-          strokeWidth={1.5}
+          strokeWidth={1.75}
           className={'w-4 h-4 transition-all duration-200 ease-in-out' + (structNode.expanded ? ' transform -rotate-90' : '')}
         />
       </button>

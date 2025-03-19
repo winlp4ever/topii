@@ -1,6 +1,6 @@
 import { Node_, NodeType } from "@/app/types/graph";
 import { cleanMarkdownLinks, extractPlainText, shuffleArray, trimText } from "../utils";
-import { TextSelect, Network } from "lucide-react";
+import { TextSelect, LetterText } from "lucide-react";
 import { NodeTypeIconMapping } from "./color-mapping";
 
 export interface BasicInfo {
@@ -55,7 +55,7 @@ async function extractBlockInfo(node: Node_): Promise<BasicInfo> {
   }
 
   const iconCpn = (
-    node.block.title !== null ? () => <Network strokeWidth={1.5} /> : () => <TextSelect strokeWidth={1.5} />
+    node.block.title !== null ? () => <LetterText strokeWidth={1.75} /> : () => <TextSelect strokeWidth={1.75} />
   )
 
   const textPlain = await extractPlainText(node.block.text);

@@ -72,8 +72,8 @@ const CommandIcon = React.forwardRef<
   >
     {
       loadingStatus === "loaded" ?
-      <Send className="h-4 w-4 shrink-0" strokeWidth={1.5}/> :
-      <LoaderCircle strokeWidth={1.5} className="h-4 w-4 shrink-0 animate-spin" />
+      <Send className="h-4 w-4 shrink-0" strokeWidth={1.75}/> :
+      <LoaderCircle strokeWidth={1.75} className="h-4 w-4 shrink-0 animate-spin" />
     }
   </Button>
 ))

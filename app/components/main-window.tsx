@@ -40,14 +40,14 @@ export function MainWindow() {
           bg-stone-200 rounded-lg justify-center items-center
         `}
       >
-        <span className='text-xs px-3 py-1 text-center' >
+        <span className='text-sm px-3 py-1 text-center' >
           <button
             className='transition-all hover:underline text-muted-foreground'
             onClick={handleHomeCorpusClick}
           >
             {"Library"}
           </button>
-          <AtSign strokeWidth={1.5} className='h-4 w-4 inline ml-1' />
+          <AtSign strokeWidth={1.75} className='h-4 w-4 inline ml-1' />
           <span className='font-mono'>{corpusLabel}</span>
         </span>
         <span className='w-2 h-5 rounded-lg bg-white'></span>
@@ -57,16 +57,16 @@ export function MainWindow() {
           >
             <TabsTrigger
               value="response"
-              className='space-x-2 data-[state=active]:shadow-none data-[state=active]:bg-transparent text-xs font-normal text-gray-400'
+              className='space-x-2 data-[state=active]:shadow-none data-[state=active]:bg-transparent text-sm font-normal text-gray-400'
             >
-              <Text className='h-4 w-4' strokeWidth={1.5}/>
+              <Text className='h-4 w-4' strokeWidth={1.75}/>
               <span>Insight View</span>
             </TabsTrigger>
             <TabsTrigger
               value="graph"
-              className='space-x-2 data-[state=active]:shadow-none data-[state=active]:bg-transparent text-xs font-normal text-gray-400'
+              className='space-x-2 data-[state=active]:shadow-none data-[state=active]:bg-transparent text-sm font-normal text-gray-400'
             >
-              <GitGraph className='h-4 w-4' strokeWidth={1.5} />
+              <GitGraph className='h-4 w-4' strokeWidth={1.75} />
               <span>Mindmap</span>
             </TabsTrigger>
           </TabsList>
