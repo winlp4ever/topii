@@ -11,6 +11,7 @@ import { Minimize, Option, Clipboard } from "lucide-react";
 import { ColorMode, ColorModeBorderClassName, ColorModeDarkBackgroundClassName, ColorModeTextClassName } from "@/app/types/color-mode";
 import { useAppStore } from "@/app/store";
 import { toast } from "sonner";
+import { NodeTypeIconMapping } from "./color-mapping";
 
 
 function groupByType(items: Node_[]): Record<NodeType, Node_[]> {
@@ -26,16 +27,18 @@ function groupByType(items: Node_[]): Record<NodeType, Node_[]> {
 }
 
 
-const TypeTabnameMapping: Record<NodeType, string> = {
+export const TypeTabnameMapping: Record<NodeType, string> = {
   [NodeType.Block]: 'Source Texts',
   [NodeType.Answer]: 'Answers',
   [NodeType.QA]: 'Q&As',
-  [NodeType.Document]: 'Documents',
-  [NodeType.Exercise]: 'Exercises',
-  [NodeType.ROMECompetency]: 'ROME Competencies',
-  [NodeType.RNCPCompetency]: 'RNCP Competencies',
-  [NodeType.Concept]: 'Concepts',
+  [NodeType.Document]: 'Sources',
+  [NodeType.Exercise]: 'Activities',
+  [NodeType.ROMECompetency]: 'ROME',
+  [NodeType.RNCPCompetency]: 'RNCP',
+  [NodeType.Concept]: 'Key Concepts',
   [NodeType.Corpus]: 'Corpora',
+  [NodeType.Text]: "Texts",
+  [NodeType.Struct]: "Structs",
 };
 
 
@@ -57,24 +60,25 @@ const NodeTabs: React.FC<{ subNodeGroups: Record<NodeType, Node_[]> }> = ({ subN
         {Object.keys(groups).map((type) => (
           <button
             key={type}
-            className="inline-flex items-center justify-center whitespace-nowrap py-1 text-xs ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 py-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
+            className="inline-flex items-center justify-center whitespace-nowrap py-1 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 py-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none space-x-2"
             onClick={() => setActiveTab(type as NodeType)}
             data-state={activeTab === type ? 'active' : 'inactive'}
           >
-            {TypeTabnameMapping[type as NodeType]}
+            {React.createElement(NodeTypeIconMapping[type as NodeType])}
+            <span>{TypeTabnameMapping[type as NodeType]}</span>
           </button>
         ))}
       </div>
       <div>
         {activeTab !== null && (
-          <div className='space-y-2'>
+          <div className='space-y-3'>
             {groups[activeTab].map((node) => (
               <EntityCard
                 key={node.id}
                 displayMode="mini"
                 node={node}
                 showDot={false}
-                className='transform scale-99 origin-left [&>button]:rounded-lg [&>button]:shadow-none [&>button]:bg-stone-100 w-[600px]
+                className='transform scale-99 origin-left [&>button]:rounded-xl [&>button]:shadow-none [&>button]:bg-stone-100 w-full
                   hover:scale-100 [&>button]:hover:shadow-lg transition-all duration-300 ease-in-out [&>button]:border-none shadow-none border-none bg-stone-100'
               />
             ))}
@@ -95,7 +99,7 @@ const ActionSection: React.FC<{ nodeId: string }> = ({ nodeId }) => {
         className='rounded-full text-sm w-auto shadow-none'
         onClick={() => focusNode(nodeId)}
       >
-        <Option strokeWidth={1.5} className='w-4 h-4' />
+        <Option strokeWidth={1.75} className='w-4 h-4' />
         <span>Explore</span>
       </Button>
     </div>
@@ -110,19 +114,24 @@ export interface EntityCardProps extends React.HTMLAttributes<HTMLDivElement>{
   colorMode?: ColorMode;
   isRoot?: boolean;
   showDot?: boolean;
+  toggleCard?: () => void;
 }
 
 
-const EntityCard: React.FC<EntityCardProps> = ({
+const EntityCard = React.forwardRef<
+  HTMLDivElement,
+  EntityCardProps
+>(({
   displayMode,
   node,
   subNodes = [],
   colorMode = 'zinc',
   isRoot = false,
   showDot = true,
+  toggleCard = () => {},
   className,
   ...props
-}) => {
+}, ref) => {
   const [dynamicDisplayMode, setDynamicDisplayMode] = React.useState(displayMode);
   const [basicInfo, setBasicInfo] = React.useState<BasicInfo>({
     label: "untitled",
@@ -142,6 +151,7 @@ const EntityCard: React.FC<EntityCardProps> = ({
   , [node]);
 
   const toggleDisplayMode = () => {
+    toggleCard();
     if (dynamicDisplayMode === 'mini') {
       setDynamicDisplayMode('medium');
     } else if (dynamicDisplayMode === 'medium') {
@@ -196,12 +206,13 @@ const EntityCard: React.FC<EntityCardProps> = ({
 
   return (
     <Card
+      ref={ref}
       className={cn(
         dynamicDisplayMode === 'mini' ?
-        'transition-all duration-300 ease-in-out w-80 bg-transparent shadow-none border-none max-h-20' :
+        'w-96 bg-transparent shadow-none border-none max-h-20' :
         dynamicDisplayMode === 'medium' ?
-        `transition-all duration-300 ease-in-out w-96 overflow-hidden max-h-[600px] bg-zinc-50 shadow-lg ${isRoot ? ColorModeBorderClassName[colorMode]: 'border-none'}`:
-        'transition-all duration-300 ease-in-out w-[650px] overflow-hidden shadow-none border-none relative',
+        `w-96 overflow-hidden max-h-[600px] bg-stone-50 shadow-lg rounded-3xl border border-stone-200`:
+        'w-[800px] overflow-hidden shadow-none border-none relative rounded-3xl',
         className
       )}
       {...props}
@@ -231,14 +242,14 @@ const EntityCard: React.FC<EntityCardProps> = ({
               className="bg-none outline-none ml-auto"
               onClick={toggleDisplayMode}
             >
-              <Minimize strokeWidth={1.5} className='w-4 h-4 transition-all'/>
+              <Minimize strokeWidth={1.75} className='w-4 h-4 transition-all'/>
             </button>
           }
         </CardLabel>
       }
       {
         displayCardHeader && (
-          <CardHeader className='pt-2'>
+          <CardHeader className='pt-2 text-left'>
             {
               basicInfo.title !== null &&
               <CardTitle className='text-lg'>{basicInfo.title}</CardTitle>
@@ -254,12 +265,12 @@ const EntityCard: React.FC<EntityCardProps> = ({
       }
       {
         dynamicDisplayMode === 'full' && basicInfo.content !== null &&
-        <div className='absolute top-0 right-0 p-1 z-40'>
+        <div className='absolute top-0 right-0 p-2 z-40'>
           <button
-            className='hello text-stone-500 text-sm bg-none outline-none hover:bg-stone-100 rounded-lg p-2 transition-all duration-200 ease-in-out'
+            className='hello text-stone-500 text-sm bg-none outline-none hover:bg-stone-100 rounded-xl p-2 transition-all duration-200 ease-in-out'
             onClick={copyToClipboard}
           >
-            <Clipboard strokeWidth={1.5} className='w-4 h-4' />
+            <Clipboard strokeWidth={1.75} className='w-4 h-4' />
           </button>
         </div>
       }
@@ -281,6 +292,7 @@ const EntityCard: React.FC<EntityCardProps> = ({
       }
     </Card>
   );
-}
+});
+EntityCard.displayName = "EntityCard";
 
 export default EntityCard;

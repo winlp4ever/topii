@@ -1,27 +1,36 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { fetchStreamedGraph, queryGraph, resolveClientId } from './lib/api';
+import { fetchStreamedFlowRun, fetchStreamedGraph, queryGraph, resolveClientId } from './lib/api';
 import { DataState, State } from './types/data-state';
 import { AISettings, LLMEnum } from './types/ai';
+import { Doc } from './types/graph';
 
 export type Stage = 'local' | 'dev' | 'preprod' | 'prod' | 'test';
 export type InputType = 'query' | 'nodeId';
 
 export interface AppState {
   stage: Stage
+  // context
   clientId: number | null
   corpusId: string | null
-  inputType: InputType
+  docs: Doc[]
+
+  // input
   input: string | null
+  inputType: InputType
+  flowName: string | null
+  aiSettings: AISettings
+
+  // data
   data: DataState | null
   loadingStatus: State
-  aiSettings: AISettings
 
   // Synchronous actions
   setStage: (stage: Stage) => void
   setCorpusId: (id: string) => void
   setInputType: (type: InputType) => void
   setInput: (input: string) => void
+  setFlowName: (name: string) => void
 
   setData: (d: DataState) => void
 
@@ -33,6 +42,7 @@ export interface AppState {
   loadCorpus: (id: string) => Promise<void>
   searchQuery: (query: string, modelChoice: LLMEnum | null) => Promise<void>
   focusNode: (nodeId: string) => Promise<void>
+  launchFlow: (payload: Record<string, string | number | null>) => Promise<void>
 }
 
 export const useAppStore = create<AppState>()(
@@ -40,13 +50,15 @@ export const useAppStore = create<AppState>()(
     stage: 'local',
     clientId: null,
     corpusId: null,
-    inputType: 'nodeId',
+    docs: [],
     input: '',
-    data: null,
-    loadingStatus: 'IDLE',
+    inputType: 'nodeId',
+    flowName: null,
     aiSettings: {
       model: LLMEnum.GPT4O
     },
+    data: null,
+    loadingStatus: 'IDLE',
 
     setStage: (stage: Stage) => set({ stage }),
     setClientId: (id: number) => set({ clientId: id }),
@@ -76,6 +88,11 @@ export const useAppStore = create<AppState>()(
           console.log('streamed data:', data);
           set({ data });
         });
+
+        const data = useAppStore.getState().data;
+        if (data !== null && data.data !== null) {
+          set({ docs: data.data.nodes.filter((node) => node.type === 'doc').map((node) => node.doc as Doc) });
+        }
 
         set({
           loadingStatus: 'COMPLETED',
@@ -161,5 +178,37 @@ export const useAppStore = create<AppState>()(
         set({ loadingStatus: 'FAILED' });
       }
     },
+
+    // ─────────────────────────────────────────────────────────
+    // launchFlow: calls launch_flow(payload) -> run a specific workflow
+    // ─────────────────────────────────────────────────────────
+    launchFlow: async (payload: Record<string, string | number | null>) => {
+      const clientId = useAppStore.getState().clientId;
+      if (!clientId) {
+        console.error('No client ID found');
+        return; // Exit early
+      }
+      const corpusId = useAppStore.getState().corpusId;
+      if (!corpusId) {
+        console.error('No corpus ID found');
+        return;
+      }
+      console.log('launching flow with payload:', payload);
+      set({ loadingStatus: 'RUNNING', data: null });
+      try {
+        // Use the streaming endpoint: pass node_id as the node id string
+        await fetchStreamedFlowRun(clientId, Number(corpusId.split('_')[1]), 'competency_matching', payload, (data: DataState) => {
+          // Update the data as it arrives
+          console.log('streamed data:', data);
+          set({ data });
+        });
+        set({
+          loadingStatus: 'COMPLETED',
+        });
+      } catch (err) {
+        console.error('Error launching flow:', err);
+        set({ loadingStatus: 'FAILED' });
+      }
+    }
   }))
 )

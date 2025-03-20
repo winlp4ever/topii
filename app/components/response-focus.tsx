@@ -11,7 +11,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 
 const UserMessage: React.FC<{ message: string }> = ({ message }) => {
   return (
-    <div className='flex w-max max-w-[75%] flex-col gap-2 rounded-xl px-3 py-2 text-sm ml-auto bg-stone-200/60 w-auto'>
+    <div className='flex w-max max-w-[75%] flex-col gap-2 rounded-2xl px-4 py-2 text-base ml-auto bg-stone-200/60 w-auto'>
       {message}
     </div>
   );
@@ -67,7 +67,7 @@ export function ResponseFocus() {
       >
         <div className='w-full h-full flex flex-col items-center justify-center'>
           <div
-            className='h-full sm:max-w-[800px] w-[650px]'
+            className='h-full sm:max-w-[800px] w-[800px]'
           >
             <div className='mt-32 flex flex-col items-end space-y-8'>
               {

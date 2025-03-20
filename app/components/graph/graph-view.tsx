@@ -1,13 +1,12 @@
 'use client';
 import React from 'react';
-import { useAppStore } from '../store';
+import { useAppStore } from '../../store';
 import { ReactFlowProvider } from '@xyflow/react';
-import ForceGraph from './force-graph';
-import AutoGraph from './auto-graph';
-import { LoadingView } from './loading-view';
+import { LoadingView } from '../loading-view';
+import { AutoExpandGraph } from './expand-graph';
 
 
-const GraphView: React.FC<{ layout: 'force' | 'auto' }> = ({ layout }) => {
+const GraphView: React.FC = () => {
   const loadingStatus = useAppStore((state) => state.loadingStatus);
   const data = useAppStore((state) => state.data);
 
@@ -23,11 +22,7 @@ const GraphView: React.FC<{ layout: 'force' | 'auto' }> = ({ layout }) => {
       {
         loadingStatus === 'COMPLETED' && data !== null && data.data !== null &&  (
           <ReactFlowProvider>
-            {
-              layout === 'force' ? (
-                <ForceGraph data={data.data} />
-              ) : <AutoGraph data={data.data} />
-            }
+            <AutoExpandGraph data={data.data} />
           </ReactFlowProvider>
         )
       }

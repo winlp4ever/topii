@@ -1,3 +1,5 @@
+import { Node } from '@xyflow/react';
+
 export enum NodeType {
   Document = 'doc',
   Concept = 'concept',
@@ -8,6 +10,18 @@ export enum NodeType {
   Answer = 'answer',
   ROMECompetency = 'rome_competency',
   RNCPCompetency = 'rncp_competency',
+  Text = 'text',
+  Struct = 'struct'
+}
+
+export interface StructData {
+  originalId: string;
+  type: NodeType;
+}
+
+export interface Text {
+  id: string;
+  text: string;
 }
 
 export interface Doc {
@@ -88,9 +102,11 @@ export interface Node_ {
   answer?: Answer;
   rome_competency?: ROMECompetency;
   rncp_competency?: RNCPCompetency;
+  struct?: StructData;
   x?: number;
   y?: number;
   score?: number;
+  adjacentNodeIds?: string[];
 }
 
 export interface Edge_ {
@@ -106,3 +122,13 @@ export interface GraphData {
   nodes: Node_[];
   edges: Edge_[];
 }
+
+export interface NodeData extends Node_ {
+  expanded?: boolean;
+  expandable?: boolean;
+  height?: number;
+  setHeight?: boolean;
+  [key: string]: unknown;
+}
+
+export type ExpandableNode = Node<NodeData>;
