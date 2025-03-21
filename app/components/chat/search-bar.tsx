@@ -17,6 +17,7 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { LLMDescription, LLMEnum, LLMName } from '../../types/ai';
+import CompetencyMatchingFlowTrigger from './competency-matching';
 
 
 const ModelCard: React.FC<{ model: LLMEnum }> = ({ model }) => {
@@ -64,6 +65,17 @@ const ModelChoiceMenu = () => {
 }
 
 
+const ComplexToolSelect: React.FC = () => {
+  return (
+    <div
+      className='flex flex-row space-x-2'
+    >
+      <CompetencyMatchingFlowTrigger />
+    </div>
+  );
+}
+
+
 const SearchBar: React.FC = () => {
   const setInput = useAppStore((state) => state.setInput);
   const setInputType = useAppStore((state) => state.setInputType);
@@ -94,30 +106,35 @@ const SearchBar: React.FC = () => {
 
   return (
     <div className="fixed bottom-10 left-1/2 transform -translate-x-1/2 p-4 z-50 flex justify-center items-center">
-      <Command onKeyDown={handleKeyDown} className="md:min-w-[800px] shadow-lg rounded-3xl p-3 pt-0 border-stone-200 border" >
-        <div className="flex flex-col items-center space-y-1 items-stretch">
-          <div className='p-2'>
-            <CommandInput
-              placeholder='Enter your query ...'
-              value={query}
-              onValueChange={setQuery}
-              className='text-md'
-            />
-          </div>
-          <div className='flex justify-start'>
-            <ModelChoiceMenu />
-            <CommandIcon
-              loadingStatus={loadingStatus === "RUNNING" ? "loading": "loaded"}
-              disabled={loadingStatus === "RUNNING" ? true: false}
-              onClick={handleSearch}
-              className={'ml-auto border-none' + (loadingStatus === "RUNNING" ? ' cursor-not-allowed bg-stone-100' : ' cursor-pointer bg-stone-800 text-stone-50 hover:bg-stone-900 hover:text-stone-100')}
-            />
-          </div>
+      <div className='flex flex-col space-y-2'>
+        <ComplexToolSelect />
+        <div>
+          <Command onKeyDown={handleKeyDown} className="md:min-w-[800px] shadow-lg rounded-3xl p-3 pt-0 border-stone-200 border" >
+            <div className="flex flex-col items-center space-y-1 items-stretch">
+              <div className='p-2'>
+                <CommandInput
+                  placeholder='Enter your query ...'
+                  value={query}
+                  onValueChange={setQuery}
+                  className='text-md'
+                />
+              </div>
+              <div className='flex justify-start'>
+                <ModelChoiceMenu />
+                <CommandIcon
+                  loadingStatus={loadingStatus === "RUNNING" ? "loading": "loaded"}
+                  disabled={loadingStatus === "RUNNING" ? true: false}
+                  onClick={handleSearch}
+                  className={'ml-auto border-none' + (loadingStatus === "RUNNING" ? ' cursor-not-allowed bg-stone-100' : ' cursor-pointer bg-stone-800 text-stone-50 hover:bg-stone-900 hover:text-stone-100')}
+                />
+              </div>
 
+            </div>
+            <CommandList>
+            </CommandList>
+          </Command>
         </div>
-        <CommandList>
-        </CommandList>
-      </Command>
+      </div>
     </div>
   );
 };

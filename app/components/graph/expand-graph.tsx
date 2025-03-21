@@ -1,4 +1,4 @@
-import { applyEdgeChanges, applyNodeChanges, Background, BackgroundVariant, Edge, OnEdgesChange, OnNodesChange, ReactFlow } from "@xyflow/react";
+import { applyEdgeChanges, applyNodeChanges, Edge, OnEdgesChange, OnNodesChange, ReactFlow } from "@xyflow/react";
 import { createStruct } from "./use-struct";
 import { useCallback, useEffect, useState } from "react";
 import useExpandCollapse from "./layout/use-expandable";
@@ -58,7 +58,7 @@ export function AutoExpandGraph({
 
 
   return (
-    <div style={{ height: '100vh', width: '100vw' }} className='bg-stone-100' >
+    <div style={{ height: '100vh', width: '100vw' }} className='bg-white' >
       <ReactFlow
         fitView
         nodes={visibleNodes}
@@ -73,7 +73,6 @@ export function AutoExpandGraph({
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
       >
-        <Background color='#71717a' variant={BackgroundVariant.Dots} />
       </ReactFlow>
     </div>
   );

@@ -111,7 +111,7 @@ export default function GraphNode({ data }: NodeProps<ExpandableNode>) {
           <div className="left-0 w-80 h-8 bg-transparent rounded-full z-0" />
           {
             data.type === NodeType.Struct ? (
-              <div className='absolute -left-2 top-0 -translate-y-1/2 w-auto border-none p-1 bg-stone-100 rounded-full'>
+              <div className='absolute -left-2 top-0 -translate-y-1/2 w-auto border-none p-1 bg-white rounded-full'>
                 <StructNode structNode={data} onClick={toggleExpand} />
               </div>
             ) : <EntityCard

@@ -180,6 +180,22 @@ function extractRncpCompetencyInfo(node: Node_): BasicInfo {
 }
 
 
+function extractTextInfo(node: Node_): BasicInfo {
+  if (node.text === undefined) {
+    throw new Error("Text node must have a text field");
+  }
+  return {
+    label: 'Text',
+    title: null,
+    description: null,
+    content: node.text.text,
+    entityType: NodeType.Text,
+    typeName: "Text",
+    typeIcon: NodeTypeIconMapping[NodeType.Text],
+  };
+}
+
+
 export async function extractBasicInfo(node: Node_): Promise<BasicInfo> {
   switch (node.type) {
     case NodeType.Answer:
@@ -200,6 +216,8 @@ export async function extractBasicInfo(node: Node_): Promise<BasicInfo> {
       return extractRomeCompetencyInfo(node);
     case NodeType.RNCPCompetency:
       return extractRncpCompetencyInfo(node);
+    case NodeType.Text:
+      return extractTextInfo(node);
     default:
       return {
         label: "untitled",

@@ -211,7 +211,7 @@ const EntityCard = React.forwardRef<
         dynamicDisplayMode === 'mini' ?
         'w-96 bg-transparent shadow-none border-none max-h-20' :
         dynamicDisplayMode === 'medium' ?
-        `w-96 overflow-hidden max-h-[600px] bg-stone-50 shadow-lg rounded-3xl border border-stone-200`:
+        `w-96 overflow-hidden max-h-[600px] bg-white shadow-lg rounded-3xl border border-stone-200`:
         'w-[800px] overflow-hidden shadow-none border-none relative rounded-3xl',
         className
       )}
@@ -234,7 +234,11 @@ const EntityCard = React.forwardRef<
         <CardLabel className={cardLabelClassName}>
           <CardLabelTitle className={cardLabelTitleClassName}>
             <TypeIcon />
-            <span className='font-medium'>{capitalize(basicInfo.typeName)}</span>
+            <span
+              className={'font-medium' + (dynamicDisplayMode === 'full' ? ' text-base' : ' text-sm')}
+            >
+              {capitalize(basicInfo.typeName)}
+            </span>
           </CardLabelTitle>
           {
             dynamicDisplayMode === 'medium' &&

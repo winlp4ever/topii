@@ -12,7 +12,7 @@ export function MainWindow() {
   const corpusId = useAppStore((state) => state.corpusId);
   const loadCorpus = useAppStore((state) => state.loadCorpus);
   // we can toggle between "graph" and "response" views
-  const [tab, setTab] = React.useState<'graph' | 'response'>('graph');
+  const [tab, setTab] = React.useState<'graph' | 'response'>('response');
 
   const handleTabChange = (value: string) => {
     setTab(value as 'graph' | 'response');
@@ -37,7 +37,7 @@ export function MainWindow() {
     <>
       <div className={`
           fixed top-10 left-1/2 transform -translate-x-1/2 p-2 z-50 flex flex-row w-auto
-          bg-stone-200 rounded-lg justify-center items-center
+          bg-stone-100 rounded-2xl justify-center items-center
         `}
       >
         <span className='text-sm px-3 py-1 text-center' >

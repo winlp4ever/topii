@@ -6,7 +6,7 @@ import { AISettings, LLMEnum } from './types/ai';
 import { Doc } from './types/graph';
 
 export type Stage = 'local' | 'dev' | 'preprod' | 'prod' | 'test';
-export type InputType = 'query' | 'nodeId';
+export type InputType = 'query' | 'nodeId' | 'flow';
 
 export interface AppState {
   stage: Stage
@@ -203,7 +203,10 @@ export const useAppStore = create<AppState>()(
           set({ data });
         });
         set({
+          flowName: 'competency_matching',
           loadingStatus: 'COMPLETED',
+          inputType: 'flow',
+          input: ''
         });
       } catch (err) {
         console.error('Error launching flow:', err);
