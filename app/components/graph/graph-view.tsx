@@ -3,7 +3,7 @@ import React from 'react';
 import { useAppStore } from '../../store';
 import { ReactFlowProvider } from '@xyflow/react';
 import { LoadingView } from '../loading-view';
-import { AutoExpandGraph } from './expand-graph';
+import AutoGraph from './auto-graph';
 
 
 const GraphView: React.FC = () => {
@@ -22,7 +22,7 @@ const GraphView: React.FC = () => {
       {
         loadingStatus === 'COMPLETED' && data !== null && data.data !== null &&  (
           <ReactFlowProvider>
-            <AutoExpandGraph data={data.data} />
+            <AutoGraph data={data.data} />
           </ReactFlowProvider>
         )
       }

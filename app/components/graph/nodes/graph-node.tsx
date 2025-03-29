@@ -106,6 +106,7 @@ export default function GraphNode({ data }: NodeProps<ExpandableNode>) {
         type="source"
         className="!absolute !top-0 !right-0 !-translate-y-1/2 w-3 h-3 bg-blue-500 border-2 border-white"
       />
+      
       {
         <>
           <div className="left-0 w-80 h-8 bg-transparent rounded-full z-0" />

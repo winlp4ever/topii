@@ -8,7 +8,7 @@ import { capitalize } from "../utils";
 import { cn } from "@/app/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Minimize, Option, Clipboard } from "lucide-react";
-import { ColorMode, ColorModeBorderClassName, ColorModeDarkBackgroundClassName, ColorModeTextClassName } from "@/app/types/color-mode";
+import { ColorMode, ColorModeBorderClassName, ColorModeTextClassName } from "@/app/types/color-mode";
 import { useAppStore } from "@/app/store";
 import { toast } from "sonner";
 import { NodeTypeIconMapping } from "./color-mapping";
@@ -77,7 +77,6 @@ const NodeTabs: React.FC<{ subNodeGroups: Record<NodeType, Node_[]> }> = ({ subN
                 key={node.id}
                 displayMode="mini"
                 node={node}
-                showDot={false}
                 className='transform scale-99 origin-left [&>button]:rounded-xl [&>button]:shadow-none [&>button]:bg-stone-100 w-full
                   hover:scale-100 [&>button]:hover:shadow-lg transition-all duration-300 ease-in-out [&>button]:border-none shadow-none border-none bg-stone-100'
               />
@@ -113,7 +112,6 @@ export interface EntityCardProps extends React.HTMLAttributes<HTMLDivElement>{
   subNodes?: Node_[];
   colorMode?: ColorMode;
   isRoot?: boolean;
-  showDot?: boolean;
   toggleCard?: () => void;
 }
 
@@ -127,7 +125,6 @@ const EntityCard = React.forwardRef<
   subNodes = [],
   colorMode = 'zinc',
   isRoot = false,
-  showDot = true,
   toggleCard = () => {},
   className,
   ...props
@@ -186,17 +183,14 @@ const EntityCard = React.forwardRef<
   const TypeIcon = basicInfo.typeIcon;
   useEffect(() => {
     if (subNodes.length > 0) {
-      console.log('subNodes:', subNodes);
       setSubNodeGroups(groupByType(subNodes));
     }
   }, [subNodes]);
 
-  const nodeButtonClassName = `rounded-full w-full items-center justify-start px-3 py-1 border-none
-    ${ColorModeTextClassName[colorMode]} overflow-hidden text-left
+  const nodeButtonClassName = `rounded-xl max-w-[400px] h-auto px-3 py-1 border-none
+    break-words text-left whitespace-normal
+    ${ColorModeTextClassName[colorMode]}
     ${isRoot ? ColorModeBorderClassName[colorMode]: ''}`;
-
-  const nodeButtonNodeClassName = `flex items-center justify-center w-3 h-3
-    ${ColorModeDarkBackgroundClassName[colorMode]} rounded-full`;
 
   const cardLabelClassName = dynamicDisplayMode === 'medium' ?
     `bg-transparent` :
@@ -209,7 +203,7 @@ const EntityCard = React.forwardRef<
       ref={ref}
       className={cn(
         dynamicDisplayMode === 'mini' ?
-        'w-96 bg-transparent shadow-none border-none max-h-20' :
+        'max-w-[400px] bg-transparent shadow-none border-none break-words' :
         dynamicDisplayMode === 'medium' ?
         `w-96 overflow-hidden max-h-[600px] bg-white shadow-lg rounded-3xl border border-stone-200`:
         'w-[800px] overflow-hidden shadow-none border-none relative rounded-3xl',
@@ -224,9 +218,8 @@ const EntityCard = React.forwardRef<
           variant={colorMode}
           onClick={toggleDisplayMode}
         >
-          {showDot && <span className={nodeButtonNodeClassName} />}
           <TypeIcon />
-          <span className="truncate" style={{ width: 'calc(100% - 3rem)' }} >{basicInfo.label}</span>
+          <span>{basicInfo.label}</span>
         </Button>
       }
       {

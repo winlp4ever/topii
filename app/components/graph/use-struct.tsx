@@ -10,11 +10,11 @@ export function createStruct(
   // createStructNodesBFS is a function that takes in nodes and edges and returns a GraphData object
   const { nodes, edges } = createStructNodesBFS(data.nodes, data.edges);
   console.log('createStructNodesBFS', nodes, edges);
-  const newNodes = nodes.map((node, idx) => ({
+  const newNodes = nodes.map(node => ({
     id: node.id,
     position: { x: node.x ? node.x : 0, y: node.y ? node.y : 0 },
     data: {
-      expanded: idx === 0,
+      expanded: false,
       ...node,
     },
   }));

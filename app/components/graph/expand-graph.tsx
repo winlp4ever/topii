@@ -3,7 +3,7 @@ import { createStruct } from "./use-struct";
 import { useCallback, useEffect, useState } from "react";
 import useExpandCollapse from "./layout/use-expandable";
 import { ExpandableNode, GraphData } from "@/app/types/graph";
-import DashedEdge from "./nodes/dashed-edge";
+import DashedEdge from "./edges/dashed-edge";
 import GraphNode from "./nodes/graph-node";
 import '@xyflow/react/dist/style.css';
 
