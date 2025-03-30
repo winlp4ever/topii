@@ -19,15 +19,15 @@ export const NodeTypeColorMapping: Record<NodeType, ColorMode> = {
 
 
 export const NodeTypeIconMapping: Record<NodeType, React.FC> = {
-  [NodeType.Corpus]: () => <FolderOpen className='w-4 h-4' />,
-  [NodeType.Answer]: () => <Sparkles className='w-4 h-4' />,
-  [NodeType.QA]: () => <MessageCircleQuestion className='w-4 h-4' />,
-  [NodeType.Block]: () => <TextSelect className='w-4 h-4' />,
-  [NodeType.Concept]: () => <Key className='w-4 h-4' />,
-  [NodeType.Document]: () => <FileText className='w-4 h-4' />,
-  [NodeType.Exercise]: () => <Puzzle className='w-4 h-4' />,
-  [NodeType.ROMECompetency]: () => <Blocks className='w-4 h-4' />,
-  [NodeType.RNCPCompetency]: () => <BriefcaseBusiness className='w-4 h-4' />,
-  [NodeType.Text]: () => <Text className='w-4 h-4' />,
-  [NodeType.Struct]: () => <FileText className='w-4 h-4' />,
+  [NodeType.Corpus]: () => <FolderOpen className='w-4 h-4 flex-shrink-0' />,
+  [NodeType.Answer]: () => <Sparkles className='w-4 h-4 flex-shrink-0' />,
+  [NodeType.QA]: () => <MessageCircleQuestion className='w-4 h-4 flex-shrink-0' />,
+  [NodeType.Block]: () => <TextSelect className='w-4 h-4 flex-shrink-0' />,
+  [NodeType.Concept]: () => <Key className='w-4 h-4 flex-shrink-0' />,
+  [NodeType.Document]: () => <FileText className='w-4 h-4 flex-shrink-0' />,
+  [NodeType.Exercise]: () => <Puzzle className='w-4 h-4 flex-shrink-0' />,
+  [NodeType.ROMECompetency]: () => <Blocks className='w-4 h-4 flex-shrink-0' />,
+  [NodeType.RNCPCompetency]: () => <BriefcaseBusiness className='w-4 h-4 flex-shrink-0' />,
+  [NodeType.Text]: () => <Text className='w-4 h-4 flex-shrink-0' />,
+  [NodeType.Struct]: () => <FileText className='w-4 h-4 flex-shrink-0' />,
 };

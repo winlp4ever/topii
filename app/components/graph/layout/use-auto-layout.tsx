@@ -11,6 +11,7 @@ import { getSourceHandlePosition, getTargetHandlePosition } from './utils';
 import layoutAlgorithms, { type LayoutAlgorithmOptions } from './algorithms';
 
 export type LayoutOptions = {
+  finishSetup: boolean;
   algorithm: keyof typeof layoutAlgorithms;
 } & LayoutAlgorithmOptions;
 
@@ -31,7 +32,6 @@ function useAutoLayout(options: LayoutOptions) {
     // dimensions, the number of nodes, or changes to edge sources/targets.
     compareElements
   );
-
   useEffect(() => {
     // Only run the layout if there are nodes and they have been initialized with
     // their dimensions
@@ -63,6 +63,7 @@ function useAutoLayout(options: LayoutOptions) {
       for (const edge of edges) {
         edge.style = { ...edge.style, opacity: 1 };
       }
+      console.log('change layout');
 
       setNodes(nextNodes);
       setEdges(nextEdges);

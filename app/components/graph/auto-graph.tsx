@@ -9,6 +9,7 @@ import {
   BackgroundVariant,
   Edge,
   useReactFlow,
+  useNodesInitialized,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 
@@ -46,12 +47,13 @@ const initialEdges: Edge[] = [];
 const defaultLayoutOptions = {
   algorithm: 'dagre',
   direction: 'LR',
-  spacing: [20, 200],
+  spacing: [20, 80],
 } as LayoutOptions;
 
 function AutoGraph({ data }: GraphProps) {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const nodesInitialized = useNodesInitialized();
 
   const [finishSetup, setFinishSetup] = React.useState(false);
 
@@ -64,8 +66,15 @@ function AutoGraph({ data }: GraphProps) {
       setNodes(newNodes);
       setEdges(newEdges);
     }
-    setFinishSetup(true);
   }, [data, setNodes, setEdges]);
+
+  useEffect(() => {
+    if (!finishSetup && nodesInitialized) {
+      setFinishSetup(true);
+    }
+  }
+  , [nodesInitialized, finishSetup]);
+
 
   const { fitView } = useReactFlow();
 
@@ -77,19 +86,19 @@ function AutoGraph({ data }: GraphProps) {
 
   // every time our nodes change, we want to center the graph again
   useEffect(() => {
+    console.log('hmm')
     if (finishSetup) {
       fitView();
     }
   }, [finishSetup, fitView]);
 
   return (
-    <div style={{ height: '100vh', width: '100vw' }} className='bg-zinc-50' >
+    <div style={{ height: '100vh', width: '100vw' }} className='bg-stone-50' >
       <ReactFlow
         nodes={nodes}
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
-        nodesDraggable={true}
         defaultEdgeOptions={defaultEdgeOptions}
         edgeTypes={edgeTypes}
         nodeTypes={nodeTypes}
