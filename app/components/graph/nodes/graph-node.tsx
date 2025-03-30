@@ -3,12 +3,12 @@ import { ColorMode } from "@/app/types/color-mode";
 import { ExpandableNode, NodeType } from "../../../types/graph";
 import { NodeTypeColorMapping } from "../../entity/color-mapping";
 import React, { useEffect } from "react";
-import { Handle, NodeProps, Position, useReactFlow } from "@xyflow/react";
+import { Handle, NodeProps, NodeResizer, Position, useReactFlow } from "@xyflow/react";
 import NodeView from "../../entity/node-view";
 
 
 // Define the GraphNode component as an arrow function with typed props
-export default function GraphNode({ data }: NodeProps<ExpandableNode>) {
+export default function GraphNode({ data, selected }: NodeProps<ExpandableNode>) {
   const { setNodes } = useReactFlow();
 
   const cardDivRef = React.useRef<HTMLDivElement>(null);
@@ -31,7 +31,8 @@ export default function GraphNode({ data }: NodeProps<ExpandableNode>) {
   }, [data, setNodes]);
 
   return (
-    <div className="relative flex items-center bg-transparent">
+    <>
+      <NodeResizer minWidth={100} minHeight={30} isVisible={selected === true} />
       <Handle
         type="target"
         position={Position.Left}
@@ -42,16 +43,11 @@ export default function GraphNode({ data }: NodeProps<ExpandableNode>) {
         type="source"
         className="w-3 h-3 bg-blue-500 border-2 border-white"
       />
-
-      {
-        <>
-          <NodeView
-            node={data}
-            colorMode={NodeTypeColorMapping[data.type] as ColorMode}
-            className='font-handwriting'
-          />
-        </>
-      }
-    </div>
+      <NodeView
+        node={data}
+        colorMode={NodeTypeColorMapping[data.type] as ColorMode}
+        className='font-handwriting'
+      />
+    </>
   );
 };

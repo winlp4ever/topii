@@ -51,7 +51,7 @@ const EntityLabel = React.forwardRef<
     console.log("clicked");
   }
   const color = colorMode || 'stone';
-  const clName = 'flex flex-row justify-start gap-2 items-center rounded-xl px-4 py-2 text-base space-x-2 break-words whitespace-normal h-auto text-left shadow-none border-none ' + DivLabelColorClassNameMapping[color];
+  const clName = 'flex flex-row justify-start gap-2 items-center rounded-xl px-4 py-2 text-base space-x-2 break-words whitespace-normal text-left shadow-none border-none ' + DivLabelColorClassNameMapping[color];
 
 
   const main = (

@@ -54,19 +54,21 @@ const NodeView = React.forwardRef<
   }
 
   return (
-    <Popover>
-      <PopoverTrigger>
-        {entityLabel}
-      </PopoverTrigger>
-      <PopoverContent className='p-0 bg-transparent border-none shadow-none'>
-        <EntityMediumView
-          title={title}
-          text={text}
-          icon={typeIcon}
-          typeName={basicInfo.typeName}
-        />
-      </PopoverContent>
-    </Popover>
+    <>
+      <Popover>
+        <PopoverTrigger>
+          {entityLabel}
+        </PopoverTrigger>
+        <PopoverContent className='p-0 bg-transparent border-none shadow-none'>
+          <EntityMediumView
+            title={title}
+            text={text}
+            icon={typeIcon}
+            typeName={basicInfo.typeName}
+          />
+        </PopoverContent>
+      </Popover>
+    </>
   )
 })
 NodeView.displayName = "NodeView";
