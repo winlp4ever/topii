@@ -38,18 +38,25 @@ const NodeView = React.forwardRef<
   const text: string = basicInfo.description || "";
   const typeIcon = React.createElement(basicInfo.typeIcon);
 
+  const entityLabel = (
+    <EntityLabel
+      nodeId={node.id}
+      icon={typeIcon}
+      label={label}
+      colorMode={colorMode}
+      className={className}
+      ref={ref}
+      {...props}
+    />
+  )
+  if (basicInfo.title === null && basicInfo.description === null) {
+    return entityLabel;
+  }
+
   return (
     <Popover>
       <PopoverTrigger>
-        <EntityLabel
-          nodeId={node.id}
-          icon={typeIcon}
-          label={label}
-          colorMode={colorMode}
-          className={className}
-          ref={ref}
-          {...props}
-        />
+        {entityLabel}
       </PopoverTrigger>
       <PopoverContent className='p-0 bg-transparent border-none shadow-none'>
         <EntityMediumView

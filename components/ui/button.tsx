@@ -41,6 +41,7 @@ const buttonVariants = cva(
         sky: "bg-sky-200/90 shadow-sm hover:bg-sky-100/90 shadow-md border",
         fuchsia: "bg-fuchsia-200/90 shadow-sm hover:bg-fuchsia-100/90 shadow-md border",
         emerald: "bg-emerald-200/90 shadow-sm hover:bg-emerald-100/90 shadow-md border",
+        transparent: "bg-transparent hover:bg-accent hover:text-accent-foreground",
       },
       size: {
         default: "h-9 px-4 py-2",

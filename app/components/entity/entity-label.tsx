@@ -37,6 +37,7 @@ export const DivLabelColorClassNameMapping: Record<ColorMode, string> = {
   red: "bg-red-100 text-red-900",
   indigo: "bg-indigo-100 text-indigo-900",
   yellow: "bg-yellow-100 text-yellow-900",
+  transparent: "bg-stone-50 text-stone-900",
 }
 
 

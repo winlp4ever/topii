@@ -4,6 +4,7 @@ import { fetchStreamedFlowRun, fetchStreamedGraph, queryGraph, resolveClientId }
 import { DataState, State } from './types/data-state';
 import { AISettings, LLMEnum } from './types/ai';
 import { Doc } from './types/graph';
+import { GraphViewMode } from './types/graphViewMode';
 
 export type Stage = 'local' | 'dev' | 'preprod' | 'prod' | 'test';
 export type InputType = 'query' | 'nodeId' | 'flow';
@@ -25,6 +26,9 @@ export interface AppState {
   data: DataState | null
   loadingStatus: State
 
+  // app settings
+  viewMode: GraphViewMode
+
   // Synchronous actions
   setStage: (stage: Stage) => void
   setCorpusId: (id: string) => void
@@ -34,7 +38,9 @@ export interface AppState {
 
   setData: (d: DataState) => void
 
+  // app settings
   setLoadingStatus: (status: State) => void
+  setViewMode: (mode: GraphViewMode) => void
 
   setAIModel: (model: LLMEnum) => void
 
@@ -59,6 +65,7 @@ export const useAppStore = create<AppState>()(
     },
     data: null,
     loadingStatus: 'IDLE',
+    viewMode: GraphViewMode.INSIGHT,
 
     setStage: (stage: Stage) => set({ stage }),
     setClientId: (id: number) => set({ clientId: id }),
@@ -66,6 +73,8 @@ export const useAppStore = create<AppState>()(
     setInputType: (type: InputType) => set({ inputType: type }),
     setInput: (val: string | null) => set({ input: val }),
     setData: (d: DataState) => set({ data: d }),
+
+    setViewMode: (mode: GraphViewMode) => set({ viewMode: mode }),
     setLoadingStatus: (status: State) => set({ loadingStatus: status }),
     setAIModel: (model: LLMEnum) => set({ aiSettings: { model } }),
 
@@ -73,7 +82,7 @@ export const useAppStore = create<AppState>()(
     // loadCorpus: gets the corpus node's graph from the backend
     // ─────────────────────────────────────────────────────────
     loadCorpus: async (id: string) => {
-      set({ loadingStatus: 'RUNNING', data: null });
+      set({ loadingStatus: 'RUNNING', data: null, viewMode: GraphViewMode.INSIGHT });
       try {
         set({ corpusId: id });
         console.log('loading corpus:', id);
@@ -119,7 +128,7 @@ export const useAppStore = create<AppState>()(
         console.error('No corpus ID found');
         return;
       }
-      set({ loadingStatus: 'RUNNING', data: null });
+      set({ loadingStatus: 'RUNNING', data: null, viewMode: GraphViewMode.INSIGHT });
       try {
         const cid = Number(corpusId.split('_')[1]);
         let modelName: LLMEnum;
@@ -160,7 +169,7 @@ export const useAppStore = create<AppState>()(
         return; // Exit early
       }
       console.log('focusing node:', nodeId);
-      set({ loadingStatus: 'RUNNING', data: null });
+      set({ loadingStatus: 'RUNNING', data: null, viewMode: GraphViewMode.INSIGHT });
       try {
         // Use the streaming endpoint: pass node_id as the node id string
         await fetchStreamedGraph(clientId, nodeId, (data: DataState) => {
@@ -194,7 +203,7 @@ export const useAppStore = create<AppState>()(
         return;
       }
       console.log('launching flow with payload:', payload);
-      set({ loadingStatus: 'RUNNING', data: null });
+      set({ loadingStatus: 'RUNNING', data: null, viewMode: GraphViewMode.INSIGHT });
       try {
         // Use the streaming endpoint: pass node_id as the node id string
         await fetchStreamedFlowRun(clientId, Number(corpusId.split('_')[1]), 'competency_matching', payload, (data: DataState) => {

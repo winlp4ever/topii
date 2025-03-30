@@ -1,5 +1,5 @@
 export type ColorMode = 'stone' | 'neutral' | 'zinc' | 'gray' | 'blue' | 'green' | 'red' | 'yellow' | 'indigo' | 'purple' | 'pink' | 'amber' | 'cyan' | 'teal' | 'lime' | 'orange'
-  | 'slate' | 'rose' | 'violet' | 'sky' | 'fuchsia' | 'emerald';
+  | 'slate' | 'rose' | 'violet' | 'sky' | 'fuchsia' | 'emerald' | 'transparent';
 
 export const ColorModeTextClassName: Record<ColorMode, string> = {
   stone: 'text-stone-800',
@@ -24,6 +24,7 @@ export const ColorModeTextClassName: Record<ColorMode, string> = {
   sky: 'text-sky-800',
   fuchsia: 'text-fuchsia-800',
   emerald: 'text-emerald-800',
+  transparent: 'text-black'
 };
 
 export const ColorModeNeutralBackgroundClassName: Record<ColorMode, string> = {
@@ -49,6 +50,7 @@ export const ColorModeNeutralBackgroundClassName: Record<ColorMode, string> = {
   sky: 'bg-sky-200',
   fuchsia: 'bg-fuchsia-200',
   emerald: 'bg-emerald-200',
+  transparent: 'bg-stone-50',
 };
 
 export const ColorModeLightBackgroundClassName: Record<ColorMode, string> = {
@@ -74,6 +76,7 @@ export const ColorModeLightBackgroundClassName: Record<ColorMode, string> = {
   sky: 'bg-sky-100',
   fuchsia: 'bg-fuchsia-100',
   emerald: 'bg-emerald-100',
+  transparent: 'bg-stone-50',
 };
 
 
@@ -100,6 +103,7 @@ export const ColorModeDarkBackgroundClassName: Record<ColorMode, string> = {
   sky: 'bg-sky-500',
   fuchsia: 'bg-fuchsia-500',
   emerald: 'bg-emerald-500',
+  transparent: 'bg-stone-50',
 };
 
 export const ColorModeBorderClassName: Record<ColorMode, string> = {
@@ -125,4 +129,5 @@ export const ColorModeBorderClassName: Record<ColorMode, string> = {
   sky: 'border-sky-500',
   fuchsia: 'border-fuchsia-500',
   emerald: 'border-emerald-500',
+  transparent: 'border-transparent',
 };

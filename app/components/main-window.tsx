@@ -1,22 +1,21 @@
 'use client';
-import React from 'react'
+import React from 'react';
+import { Text, GitGraph } from 'lucide-react';
+
 import { useAppStore } from '../store';
 import GraphView from './graph/graph-view';
 import { ResponseFocus } from './response-focus';
 import SearchBar from './chat/search-bar';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Text, GitGraph, AtSign } from 'lucide-react';
+import { GraphViewMode } from '../types/graphViewMode';
+
 
 // This is the main window that displays the graph view and response focus
 export function MainWindow() {
   const corpusId = useAppStore((state) => state.corpusId);
   const loadCorpus = useAppStore((state) => state.loadCorpus);
   // we can toggle between "graph" and "response" views
-  const [tab, setTab] = React.useState<'graph' | 'response'>('response');
-
-  const handleTabChange = (value: string) => {
-    setTab(value as 'graph' | 'response');
-  }
+  const viewMode = useAppStore((state) => state.viewMode);
+  const setViewMode = useAppStore((state) => state.setViewMode);
 
   const handleHomeCorpusClick = () => {
     if (!corpusId) {
@@ -25,13 +24,7 @@ export function MainWindow() {
     loadCorpus(corpusId);
   }
 
-
-  let corpusLabel;
-  if (!corpusId) {
-    corpusLabel = 'No corpus selected';
-  } else {
-    corpusLabel = corpusId.split('_')[1];
-  }
+  const focusClassName = 'text-stone-900'
 
   return (
     <>
@@ -47,37 +40,41 @@ export function MainWindow() {
           >
             {"Library"}
           </button>
-          <AtSign strokeWidth={1.75} className='h-4 w-4 inline ml-1' />
-          <span className='font-mono'>{corpusLabel}</span>
         </span>
         <span className='w-2 h-5 rounded-lg bg-white'></span>
-        <Tabs defaultValue="graph" onValueChange={handleTabChange} className="" >
-          <TabsList
-            className="flex space-x-2 flex-row justify-around p-0 bg-transparent h-auto"
+        <span className='text-sm px-3 py-1 text-center' >
+          <button
+            className={'transition-all hover:underline flex flex-row items-center justify-center gap-2 ' + (viewMode === GraphViewMode.INSIGHT ? focusClassName : 'text-muted-foreground')}
+            onClick={() => setViewMode(GraphViewMode.INSIGHT)}
           >
-            <TabsTrigger
-              value="response"
-              className='space-x-2 data-[state=active]:shadow-none data-[state=active]:bg-transparent text-sm font-normal text-gray-400'
-            >
-              <Text className='h-4 w-4' strokeWidth={1.75}/>
-              <span>Insight View</span>
-            </TabsTrigger>
-            <TabsTrigger
-              value="graph"
-              className='space-x-2 data-[state=active]:shadow-none data-[state=active]:bg-transparent text-sm font-normal text-gray-400'
-            >
-              <GitGraph className='h-4 w-4' strokeWidth={1.75} />
-              <span>Mindmap</span>
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
+            <span className='text-sm'>
+              <Text className='w-4 h-4' />
+            </span>
+            <span className='text-sm'>
+              {"Insight"}
+            </span>
+          </button>
+        </span>
+        <span className='text-sm px-3 py-1 text-center' >
+          <button
+            className={'transition-all hover:underline flex flex-row items-center justify-center gap-2 ' + (viewMode === GraphViewMode.GRAPH ? focusClassName : 'text-muted-foreground')}
+            onClick={() => setViewMode(GraphViewMode.GRAPH)}
+          >
+            <span className='text-sm'>
+              <GitGraph className='w-4 h-4' />
+            </span>
+            <span className='text-sm'>
+              {"Graph"}
+            </span>
+          </button>
+        </span>
       </div>
       {
-        tab === 'graph' &&
+        viewMode === GraphViewMode.GRAPH &&
         <GraphView />
       }
       {
-        tab === 'response' &&
+        viewMode === GraphViewMode.INSIGHT &&
         <ResponseFocus />
       }
       <SearchBar />

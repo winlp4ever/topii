@@ -1,38 +1,11 @@
 "use client";
 import { ColorMode } from "@/app/types/color-mode";
-import { ExpandableNode, NodeData, NodeType } from "../../../types/graph";
-import { TypeTabnameMapping } from "../../entity/card";
-import { NodeTypeColorMapping, NodeTypeIconMapping } from "../../entity/color-mapping";
+import { ExpandableNode, NodeType } from "../../../types/graph";
+import { NodeTypeColorMapping } from "../../entity/color-mapping";
 import React, { useEffect } from "react";
 import { Handle, NodeProps, Position, useReactFlow } from "@xyflow/react";
-import { ChevronDown } from "lucide-react";
 import NodeView from "../../entity/node-view";
 
-
-export interface StructNodeProps {
-  structNode: NodeData;
-  onClick: () => void;
-}
-
-
-export const StructNode: React.FC<StructNodeProps> = ({ structNode, onClick }) => {
-  const icon = structNode.struct?.type ? NodeTypeIconMapping[structNode.struct.type]: NodeTypeIconMapping[NodeType.Struct];
-  return (
-    <div className='min-w-60 flex flex-row items-center justify-center'>
-      <button
-        className={'text-lg border-none flex flex-row space-x-2 items-center font-semibold' + (structNode.expanded ? ' text-stone-900' : ' text-stone-400')}
-        onClick={onClick}
-      >
-        {React.createElement(icon)}
-        <span className='whitespace-nowrap'>{structNode.struct ? TypeTabnameMapping[structNode.struct.type].toUpperCase() : 'STRUCT'}</span>
-        <ChevronDown
-          strokeWidth={1.75}
-          className={'w-4 h-4 transition-all duration-200 ease-in-out' + (structNode.expanded ? ' transform -rotate-90' : '')}
-        />
-      </button>
-    </div>
-  );
-}
 
 // Define the GraphNode component as an arrow function with typed props
 export default function GraphNode({ data }: NodeProps<ExpandableNode>) {
@@ -75,6 +48,7 @@ export default function GraphNode({ data }: NodeProps<ExpandableNode>) {
           <NodeView
             node={data}
             colorMode={NodeTypeColorMapping[data.type] as ColorMode}
+            className='font-handwriting'
           />
         </>
       }

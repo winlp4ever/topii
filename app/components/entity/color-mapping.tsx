@@ -14,7 +14,7 @@ export const NodeTypeColorMapping: Record<NodeType, ColorMode> = {
   [NodeType.ROMECompetency]: 'orange',
   [NodeType.RNCPCompetency]: 'teal',
   [NodeType.Text]: 'stone',
-  [NodeType.Struct]: 'rose',
+  [NodeType.Struct]: 'transparent',
 };
 
 

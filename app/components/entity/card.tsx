@@ -13,6 +13,7 @@ import { NodeTypeIconMapping } from "./color-mapping";
 import { EntityCardDisplayMode } from "@/app/types/entity/displayMode";
 import NodeView from "./node-view";
 import CopyToClipboard from "../basic/copyToClipboard";
+import { TypeTabnameMapping } from "./typeMapping";
 
 
 
@@ -27,21 +28,6 @@ function groupByType(items: Node_[]): Record<NodeType, Node_[]> {
     return acc;
   }, {} as Record<NodeType, Node_[]>);
 }
-
-
-export const TypeTabnameMapping: Record<NodeType, string> = {
-  [NodeType.Block]: 'Source Texts',
-  [NodeType.Answer]: 'Answers',
-  [NodeType.QA]: 'Q&As',
-  [NodeType.Document]: 'Sources',
-  [NodeType.Exercise]: 'Activities',
-  [NodeType.ROMECompetency]: 'ROME',
-  [NodeType.RNCPCompetency]: 'RNCP',
-  [NodeType.Concept]: 'Key Concepts',
-  [NodeType.Corpus]: 'Corpora',
-  [NodeType.Text]: "Texts",
-  [NodeType.Struct]: "Structs",
-};
 
 
 const NodeTabs: React.FC<{ subNodeGroups: Record<NodeType, Node_[]> }> = ({ subNodeGroups }) => {
@@ -79,6 +65,7 @@ const NodeTabs: React.FC<{ subNodeGroups: Record<NodeType, Node_[]> }> = ({ subN
                 key={node.id}
                 node={node}
                 colorMode='stone'
+                className='max-w-[650px]'
               />
             ))}
           </div>
