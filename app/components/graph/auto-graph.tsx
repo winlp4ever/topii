@@ -1,15 +1,12 @@
 'use client';
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   ReactFlow,
   Background,
   useNodesState,
   useEdgesState,
-  Node,
   BackgroundVariant,
   Edge,
-  useReactFlow,
-  useNodesInitialized,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 
@@ -17,9 +14,9 @@ import '@xyflow/react/dist/style.css';
 import useAutoLayout, { LayoutOptions } from './layout/use-auto-layout';
 
 
-import { GraphData } from '../../types/graph';
+import { ExpandableNode, GraphData } from '../../types/graph';
 import DashedEdge from './edges/dashed-edge';
-import { createStruct } from './use-struct';
+import { useStruct } from './use-struct';
 import GraphNode from './nodes/graph-node';
 
 type GraphProps = {
@@ -40,10 +37,6 @@ const edgeTypes = {
 
 const defaultEdgeOptions = { style: { stroke: '#ff66aa', strokeWidth: 1 }, type: 'dashed' };
 
-const initialNodes: Node[] = [];
-
-const initialEdges: Edge[] = [];
-
 const defaultLayoutOptions = {
   algorithm: 'dagre',
   direction: 'LR',
@@ -51,46 +44,14 @@ const defaultLayoutOptions = {
 } as LayoutOptions;
 
 function AutoGraph({ data }: GraphProps) {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-  const nodesInitialized = useNodesInitialized();
+  const [nodes, , onNodesChange] = useNodesState([] as ExpandableNode[]);
+  const [edges, , onEdgesChange] = useEdgesState([] as Edge[]);
 
-  const [finishSetup, setFinishSetup] = React.useState(false);
-
-  // Update nodes and edges when data changes
-  useEffect(() => {
-    setFinishSetup(false);
-    console.log('changes')
-    if (data) {
-      const { nodes: newNodes, edges: newEdges } = createStruct(data);
-      setNodes(newNodes);
-      setEdges(newEdges);
-    }
-  }, [data, setNodes, setEdges]);
-
-  useEffect(() => {
-    if (!finishSetup && nodesInitialized) {
-      setFinishSetup(true);
-    }
-  }
-  , [nodesInitialized, finishSetup]);
-
-
-  const { fitView } = useReactFlow();
+  useStruct(data);
 
   // this hook handles the computation of the layout once the elements or the direction changes
   useAutoLayout(defaultLayoutOptions);
 
-
-  // const dragEvents = useForceLayout({ strength, distance });
-
-  // every time our nodes change, we want to center the graph again
-  useEffect(() => {
-    console.log('hmm')
-    if (finishSetup) {
-      fitView();
-    }
-  }, [finishSetup, fitView]);
 
   return (
     <div style={{ height: '100vh', width: '100vw' }} className='bg-stone-50' >
