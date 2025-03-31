@@ -1,7 +1,7 @@
 import { ExpandableNode, GraphData } from "@/app/types/graph";
-import { Edge, Node } from "@xyflow/react";
+import { Edge, useReactFlow } from "@xyflow/react";
 import { createStructNodesBFS } from "@/app/lib/graph/struct";
-import { useMemo } from "react";
+import { useEffect } from "react";
 
 
 export function createStruct(
@@ -10,13 +10,14 @@ export function createStruct(
   // createStructNodesBFS is a function that takes in nodes and edges and returns a GraphData object
   const { nodes, edges } = createStructNodesBFS(data.nodes, data.edges);
   console.log('createStructNodesBFS', nodes, edges);
-  const newNodes = nodes.map((node, idx) => ({
+  const newNodes = nodes.map(node => ({
     id: node.id,
     position: { x: node.x ? node.x : 0, y: node.y ? node.y : 0 },
     data: {
-      expanded: idx === 0,
+      expanded: false,
       ...node,
     },
+    dragHandle: '.drag-handle',
   }));
 
   const newEdges = edges.map((edge) => ({
@@ -35,10 +36,12 @@ export function createStruct(
 }
 
 
-export function useStruct(data: GraphData): { nodes: Node[]; edges: Edge[] } {
-  return useMemo(() => {
+export function useStruct(data: GraphData): void {
+  const { setNodes, setEdges } = useReactFlow();
+  useEffect(() => {
     console.log('Calling createStruct');
     const {nodes, edges} = createStruct(data);
-    return {nodes, edges};
-  }, [data]);
+    setNodes(nodes);
+    setEdges(edges);
+  }, [data, setEdges, setNodes]);
 }

@@ -50,7 +50,7 @@ const DashedEdge: React.FC<EdgeProps<Edge<{ label: string, description: string |
                 <PopoverTrigger className='text-xs py-1 px-3 rounded-xl text-pink-600 text-mono bg-pink-50 shadow-md font-semibold hover:bg-pink-100'>{data.label}</PopoverTrigger>
                 {
                   data.description && (
-                    <PopoverContent className='p-0 bg-popover rounded-xl text-xs shadow-md border bg-stone-100 border-stone-200 w-60 h-48'>
+                    <PopoverContent className='p-0 bg-popover rounded-xl leading-7 text-sm shadow-md border bg-stone-100 border-stone-200 w-60 h-48'>
                       <ScrollArea className='h-full p-1'>
                         <div className='px-3 py-2'>
                           {data.description}

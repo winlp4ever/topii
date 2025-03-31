@@ -2,6 +2,7 @@ import { Node_, NodeType } from "@/app/types/graph";
 import { cleanMarkdownLinks, extractPlainText, shuffleArray, trimText } from "../utils";
 import { TextSelect, LetterText } from "lucide-react";
 import { NodeTypeIconMapping } from "./color-mapping";
+import { TypeTabnameMapping } from "./typeMapping";
 
 export interface BasicInfo {
   label: string | null;
@@ -180,6 +181,38 @@ function extractRncpCompetencyInfo(node: Node_): BasicInfo {
 }
 
 
+function extractTextInfo(node: Node_): BasicInfo {
+  if (node.text === undefined) {
+    throw new Error("Text node must have a text field");
+  }
+  return {
+    label: 'Text',
+    title: null,
+    description: null,
+    content: node.text.text,
+    entityType: NodeType.Text,
+    typeName: "Text",
+    typeIcon: NodeTypeIconMapping[NodeType.Text],
+  };
+}
+
+
+function extractStructInfo(node: Node_): BasicInfo {
+  if (node.struct === undefined) {
+    throw new Error("Struct node must have a struct field");
+  }
+  return {
+    label: TypeTabnameMapping[node.struct.type].toUpperCase(),
+    typeIcon: NodeTypeIconMapping[node.struct.type],
+    title: null,
+    description: null,
+    content: null,
+    entityType: NodeType.Struct,
+    typeName: "Structure Node"
+  };
+}
+
+
 export async function extractBasicInfo(node: Node_): Promise<BasicInfo> {
   switch (node.type) {
     case NodeType.Answer:
@@ -200,6 +233,10 @@ export async function extractBasicInfo(node: Node_): Promise<BasicInfo> {
       return extractRomeCompetencyInfo(node);
     case NodeType.RNCPCompetency:
       return extractRncpCompetencyInfo(node);
+    case NodeType.Text:
+      return extractTextInfo(node);
+    case NodeType.Struct:
+      return extractStructInfo(node);
     default:
       return {
         label: "untitled",

@@ -11,7 +11,8 @@ const config: Config = {
   	extend: {
 			fontFamily: {
 				sans: ['var(--font-geist-sans)'],
-				mono: ['var(--font-geist-mono)']
+				mono: ['var(--font-geist-mono)'],
+				handwriting: ['var(--font-gochi-hand)'],
 			},
   		colors: {
   			background: 'hsl(var(--background))',

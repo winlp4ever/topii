@@ -42,3 +42,4 @@ next-env.d.ts
 .vscode/
 
 package-lock.json
+*storybook.log

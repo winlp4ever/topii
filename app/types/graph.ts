@@ -93,6 +93,7 @@ export interface RNCPCompetency {
 export interface Node_ {
   id: string;
   type: NodeType;
+  text?: Text;
   doc?: Doc;
   concept?: Concept;
   qa?: QA;

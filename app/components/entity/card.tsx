@@ -1,17 +1,20 @@
+import React, { useEffect } from "react";
+import { toast } from "sonner";
+
 import { Node_, NodeType } from "@/app/types/graph";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { CardLabel, CardLabelTitle } from "../ui/card";
 import MarkdownView from "../markdown-view";
 import { BasicInfo, extractBasicInfo } from "./utils";
-import React, { useEffect } from "react";
 import { capitalize } from "../utils";
 import { cn } from "@/app/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Minimize, Option, Clipboard } from "lucide-react";
-import { ColorMode, ColorModeBorderClassName, ColorModeDarkBackgroundClassName, ColorModeTextClassName } from "@/app/types/color-mode";
-import { useAppStore } from "@/app/store";
-import { toast } from "sonner";
+import { ColorMode, ColorModeTextClassName } from "@/app/types/color-mode";
 import { NodeTypeIconMapping } from "./color-mapping";
+import { EntityCardDisplayMode } from "@/app/types/entity/displayMode";
+import NodeView from "./node-view";
+import CopyToClipboard from "../basic/copyToClipboard";
+import { TypeTabnameMapping } from "./typeMapping";
+
 
 
 function groupByType(items: Node_[]): Record<NodeType, Node_[]> {
@@ -25,21 +28,6 @@ function groupByType(items: Node_[]): Record<NodeType, Node_[]> {
     return acc;
   }, {} as Record<NodeType, Node_[]>);
 }
-
-
-export const TypeTabnameMapping: Record<NodeType, string> = {
-  [NodeType.Block]: 'Source Texts',
-  [NodeType.Answer]: 'Answers',
-  [NodeType.QA]: 'Q&As',
-  [NodeType.Document]: 'Sources',
-  [NodeType.Exercise]: 'Activities',
-  [NodeType.ROMECompetency]: 'ROME',
-  [NodeType.RNCPCompetency]: 'RNCP',
-  [NodeType.Concept]: 'Key Concepts',
-  [NodeType.Corpus]: 'Corpora',
-  [NodeType.Text]: "Texts",
-  [NodeType.Struct]: "Structs",
-};
 
 
 const NodeTabs: React.FC<{ subNodeGroups: Record<NodeType, Node_[]> }> = ({ subNodeGroups }) => {
@@ -71,15 +59,13 @@ const NodeTabs: React.FC<{ subNodeGroups: Record<NodeType, Node_[]> }> = ({ subN
       </div>
       <div>
         {activeTab !== null && (
-          <div className='space-y-3'>
+          <div className='flex flex-col justify-start items-start gap-2'>
             {groups[activeTab].map((node) => (
-              <EntityCard
+              <NodeView
                 key={node.id}
-                displayMode="mini"
                 node={node}
-                showDot={false}
-                className='transform scale-99 origin-left [&>button]:rounded-xl [&>button]:shadow-none [&>button]:bg-stone-100 w-full
-                  hover:scale-100 [&>button]:hover:shadow-lg transition-all duration-300 ease-in-out [&>button]:border-none shadow-none border-none bg-stone-100'
+                colorMode='stone'
+                className='max-w-[650px]'
               />
             ))}
           </div>
@@ -90,31 +76,11 @@ const NodeTabs: React.FC<{ subNodeGroups: Record<NodeType, Node_[]> }> = ({ subN
 }
 
 
-const ActionSection: React.FC<{ nodeId: string }> = ({ nodeId }) => {
-  const focusNode = useAppStore((state) => state.focusNode);
-  return (
-    <div className="flex space-y-2 w-full items-center justify-center">
-      <Button
-        variant='default'
-        className='rounded-full text-sm w-auto shadow-none'
-        onClick={() => focusNode(nodeId)}
-      >
-        <Option strokeWidth={1.75} className='w-4 h-4' />
-        <span>Explore</span>
-      </Button>
-    </div>
-  );
-}
-
-
 export interface EntityCardProps extends React.HTMLAttributes<HTMLDivElement>{
-  displayMode: 'mini' | 'medium' | 'full';
+  displayMode: EntityCardDisplayMode;
   node: Node_;
   subNodes?: Node_[];
   colorMode?: ColorMode;
-  isRoot?: boolean;
-  showDot?: boolean;
-  toggleCard?: () => void;
 }
 
 
@@ -126,9 +92,6 @@ const EntityCard = React.forwardRef<
   node,
   subNodes = [],
   colorMode = 'zinc',
-  isRoot = false,
-  showDot = true,
-  toggleCard = () => {},
   className,
   ...props
 }, ref) => {
@@ -142,22 +105,12 @@ const EntityCard = React.forwardRef<
     typeName: "Unknown",
     typeIcon: () => <span>?</span>,
   });
-  const [displayCardHeader, setDisplayCardHeader] = React.useState(true);
   const [subNodeGroups, setSubNodeGroups] = React.useState<Record<NodeType, Node_[]>>({} as Record<NodeType, Node_[]>);
 
   useEffect(() => {
     extractBasicInfo(node).then(setBasicInfo);
   }
   , [node]);
-
-  const toggleDisplayMode = () => {
-    toggleCard();
-    if (dynamicDisplayMode === 'mini') {
-      setDynamicDisplayMode('medium');
-    } else if (dynamicDisplayMode === 'medium') {
-      setDynamicDisplayMode('mini');
-    }
-  };
 
   const copyToClipboard = () => {
     if (basicInfo.content === null) {
@@ -173,32 +126,14 @@ const EntityCard = React.forwardRef<
   }, [displayMode]);
 
   useEffect(() => {
-    setDisplayCardHeader(
-      (
-        dynamicDisplayMode === 'full' && basicInfo.title !== null
-      )  || (
-        dynamicDisplayMode === 'medium' && (basicInfo.title !== null || basicInfo.description !== null)
-      )
-    )
-  }
-  , [dynamicDisplayMode, basicInfo.title, basicInfo.description]);
-
-  const TypeIcon = basicInfo.typeIcon;
-  useEffect(() => {
     if (subNodes.length > 0) {
-      console.log('subNodes:', subNodes);
       setSubNodeGroups(groupByType(subNodes));
     }
   }, [subNodes]);
 
-  const nodeButtonClassName = `rounded-full w-full items-center justify-start px-3 py-1 border-none
-    ${ColorModeTextClassName[colorMode]} overflow-hidden text-left
-    ${isRoot ? ColorModeBorderClassName[colorMode]: ''}`;
+  const TypeIcon = basicInfo.typeIcon;
 
-  const nodeButtonNodeClassName = `flex items-center justify-center w-3 h-3
-    ${ColorModeDarkBackgroundClassName[colorMode]} rounded-full`;
-
-  const cardLabelClassName = dynamicDisplayMode === 'medium' ?
+  const cardLabelClassName = dynamicDisplayMode === EntityCardDisplayMode.MEDIUM ?
     `bg-transparent` :
     '';
 
@@ -208,87 +143,36 @@ const EntityCard = React.forwardRef<
     <Card
       ref={ref}
       className={cn(
-        dynamicDisplayMode === 'mini' ?
-        'w-96 bg-transparent shadow-none border-none max-h-20' :
-        dynamicDisplayMode === 'medium' ?
-        `w-96 overflow-hidden max-h-[600px] bg-stone-50 shadow-lg rounded-3xl border border-stone-200`:
         'w-[800px] overflow-hidden shadow-none border-none relative rounded-3xl',
         className
       )}
       {...props}
     >
-      {
-        dynamicDisplayMode === 'mini' &&
-        <Button
-          className={nodeButtonClassName}
-          variant={colorMode}
-          onClick={toggleDisplayMode}
-        >
-          {showDot && <span className={nodeButtonNodeClassName} />}
+      <CardLabel className={cardLabelClassName}>
+        <CardLabelTitle className={cardLabelTitleClassName}>
           <TypeIcon />
-          <span className="truncate" style={{ width: 'calc(100% - 3rem)' }} >{basicInfo.label}</span>
-        </Button>
-      }
-      {
-        dynamicDisplayMode !== 'mini' &&
-        <CardLabel className={cardLabelClassName}>
-          <CardLabelTitle className={cardLabelTitleClassName}>
-            <TypeIcon />
-            <span className='font-medium'>{capitalize(basicInfo.typeName)}</span>
-          </CardLabelTitle>
-          {
-            dynamicDisplayMode === 'medium' &&
-            <button
-              className="bg-none outline-none ml-auto"
-              onClick={toggleDisplayMode}
-            >
-              <Minimize strokeWidth={1.75} className='w-4 h-4 transition-all'/>
-            </button>
-          }
-        </CardLabel>
-      }
-      {
-        displayCardHeader && (
-          <CardHeader className='pt-2 text-left'>
-            {
-              basicInfo.title !== null &&
-              <CardTitle className='text-lg'>{basicInfo.title}</CardTitle>
-            }
-            {
-              dynamicDisplayMode === 'medium' && basicInfo.description !== null &&
-              <CardDescription className='[&_*_li]:mt-2 text-zinc-700'>
-                <MarkdownView content={basicInfo.description} />
-              </CardDescription>
-            }
-          </CardHeader>
-        )
-      }
-      {
-        dynamicDisplayMode === 'full' && basicInfo.content !== null &&
-        <div className='absolute top-0 right-0 p-2 z-40'>
-          <button
-            className='hello text-stone-500 text-sm bg-none outline-none hover:bg-stone-100 rounded-xl p-2 transition-all duration-200 ease-in-out'
-            onClick={copyToClipboard}
+          <span
+            className={'font-medium' + (dynamicDisplayMode === 'full' ? ' text-base' : ' text-sm')}
           >
-            <Clipboard strokeWidth={1.75} className='w-4 h-4' />
-          </button>
-        </div>
+            {capitalize(basicInfo.typeName)}
+          </span>
+        </CardLabelTitle>
+      </CardLabel>
+      {
+        basicInfo.content !== null &&
+        <CopyToClipboard
+          copyToClipboard={copyToClipboard}
+        />
       }
       {
-        dynamicDisplayMode === 'full' && basicInfo.content !== null &&
-        <CardContent className={displayCardHeader ? 'pt-0' : 'pt-6'}>
+        basicInfo.content !== null &&
+        <CardContent className='pt-6'>
           <MarkdownView content={basicInfo.content} />
         </CardContent>
       }
       {
-        dynamicDisplayMode === 'full' && subNodes.length > 0 &&
+        subNodes.length > 0 &&
         <NodeTabs subNodeGroups={subNodeGroups} />
-      }
-      {
-        dynamicDisplayMode === 'medium' && !isRoot &&
-        <CardFooter className="flex flex-col space-y-2 items-start">
-          <ActionSection nodeId={node.id} />
-        </CardFooter>
       }
     </Card>
   );
