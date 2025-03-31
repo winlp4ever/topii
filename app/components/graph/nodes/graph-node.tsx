@@ -32,7 +32,6 @@ function GraphNode({ data, selected }: NodeProps<ExpandableNode>) {
 
   return (
     <>
-      <NodeResizer minWidth={100} minHeight={30} maxWidth={400} isVisible={selected === true} />
       <Handle
         type="target"
         position={Position.Left}
@@ -44,9 +43,11 @@ function GraphNode({ data, selected }: NodeProps<ExpandableNode>) {
         className="w-3 h-3 bg-blue-500 border-2 border-white"
       />
       <NodeView
+        selectable={true}
+        selected={selected}
         node={data}
         colorMode={NodeTypeColorMapping[data.type] as ColorMode}
-        className='font-handwriting'
+        className='font-handwriting drag-handle pointer-events-auto'
       />
     </>
   );

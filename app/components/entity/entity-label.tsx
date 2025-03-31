@@ -5,12 +5,15 @@ import BaseContextMenu from "../basic/context-menu";
 import { useAppStore } from "@/app/store";
 import { BaseEntityProps } from "./entity.type";
 import { cn } from "@/app/lib/utils";
+import ResizableDiv from "../ui/resizeable-div/ResizeableDiv";
 
 
 export interface EntityLabelProps extends BaseEntityProps {
   label: string;
   onLabelChange?: (value: string) => void;
   colorMode?: ColorMode;
+  selected?: boolean;
+  selectable?: boolean;
 }
 
 
@@ -44,29 +47,39 @@ export const DivLabelColorClassNameMapping: Record<ColorMode, string> = {
 const EntityLabel = React.forwardRef<
   HTMLDivElement,
   EntityLabelProps
->(({ nodeId, label, icon, colorMode, className }, ref) => {
+>(({
+  nodeId,
+  label,
+  icon,
+  colorMode,
+  selected = false,
+  selectable = false,
+  className
+}, ref) => {
   const focusNode = useAppStore((state) => state.focusNode);
 
   const handleClick = () => {
     console.log("clicked");
   }
   const color = colorMode || 'stone';
-  const clName = 'flex flex-row justify-start gap-2 items-center rounded-xl px-4 py-2 text-base space-x-2 break-words whitespace-normal text-left shadow-none border-none ' + DivLabelColorClassNameMapping[color];
-
+  const defaultClName = 'relative flex max-w-[400px] rounded-xl px-4 py-2 text-base space-x-2 break-words whitespace-normal text-left shadow-none border-none ' + DivLabelColorClassNameMapping[color];
+  const childClassName = 'flex flex-row justify-start gap-2 items-center'
 
   const main = (
-    <div
+    <ResizableDiv
+      selected={selected}
+      selectable={selectable}
       ref={ref}
-      className={cn("relative flex bg-transparent max-w-[400px]", className)}
+      className={cn(defaultClName, className)}
     >
       <div
-        className={clName}
+        className={childClassName}
         onClick={handleClick}
       >
         {icon}
         <span className="">{label}</span>
       </div>
-    </div>
+    </ResizableDiv>
   )
 
   if (!nodeId) {

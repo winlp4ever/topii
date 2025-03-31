@@ -7,6 +7,7 @@ import { LoadingView } from './loading-view';
 import { NodeTypeColorMapping } from './entity/color-mapping';
 import ReactionBar from './reaction-bar';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { EntityCardDisplayMode } from '../types/entity/displayMode';
 
 
 const UserMessage: React.FC<{ message: string }> = ({ message }) => {
@@ -48,7 +49,7 @@ export function ResponseFocus() {
     cpn = <div>No response to display.</div>;
   } else {
     cpn = <EntityCard
-      displayMode='full'
+      displayMode={EntityCardDisplayMode.FULL}
       node={response}
       subNodes={sourceNodes}
       colorMode={NodeTypeColorMapping[response.type]}

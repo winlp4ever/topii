@@ -11,13 +11,15 @@ import EntityMediumView from "./entity-medium-view";
 export interface NodeViewProps extends React.HTMLAttributes<HTMLDivElement> {
   node: Node_;
   colorMode?: ColorMode;
+  selected?: boolean;
+  selectable?: boolean;
 }
 
 
 const NodeView = React.forwardRef<
   HTMLDivElement,
   NodeViewProps
->(({ node, colorMode, className, ...props }, ref) => {
+>(({ node, colorMode, selected, selectable, className, ...props }, ref) => {
   const [basicInfo, setBasicInfo] = React.useState<BasicInfo>({
     label: "untitled",
     title: "untitled",
@@ -40,6 +42,8 @@ const NodeView = React.forwardRef<
 
   const entityLabel = (
     <EntityLabel
+      selected={selected}
+      selectable={selectable}
       nodeId={node.id}
       icon={typeIcon}
       label={label}

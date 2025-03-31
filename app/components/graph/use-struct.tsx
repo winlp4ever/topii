@@ -17,6 +17,7 @@ export function createStruct(
       expanded: false,
       ...node,
     },
+    dragHandle: '.drag-handle',
   }));
 
   const newEdges = edges.map((edge) => ({
