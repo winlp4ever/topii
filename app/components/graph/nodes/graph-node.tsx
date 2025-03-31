@@ -2,13 +2,13 @@
 import { ColorMode } from "@/app/types/color-mode";
 import { ExpandableNode, NodeType } from "../../../types/graph";
 import { NodeTypeColorMapping } from "../../entity/color-mapping";
-import React, { useEffect } from "react";
+import React, { memo, useEffect } from "react";
 import { Handle, NodeProps, NodeResizer, Position, useReactFlow } from "@xyflow/react";
 import NodeView from "../../entity/node-view";
 
 
 // Define the GraphNode component as an arrow function with typed props
-export default function GraphNode({ data, selected }: NodeProps<ExpandableNode>) {
+function GraphNode({ data, selected }: NodeProps<ExpandableNode>) {
   const { setNodes } = useReactFlow();
 
   const cardDivRef = React.useRef<HTMLDivElement>(null);
@@ -32,7 +32,7 @@ export default function GraphNode({ data, selected }: NodeProps<ExpandableNode>)
 
   return (
     <>
-      <NodeResizer minWidth={100} minHeight={30} isVisible={selected === true} />
+      <NodeResizer minWidth={100} minHeight={30} maxWidth={400} isVisible={selected === true} />
       <Handle
         type="target"
         position={Position.Left}
@@ -51,3 +51,5 @@ export default function GraphNode({ data, selected }: NodeProps<ExpandableNode>)
     </>
   );
 };
+
+export default memo(GraphNode);

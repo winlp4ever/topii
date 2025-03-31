@@ -12,7 +12,7 @@ const config: Config = {
 			fontFamily: {
 				sans: ['var(--font-geist-sans)'],
 				mono: ['var(--font-geist-mono)'],
-				handwriting: ['var(--font-indie-flower)'],
+				handwriting: ['var(--font-gochi-hand)'],
 			},
   		colors: {
   			background: 'hsl(var(--background))',
