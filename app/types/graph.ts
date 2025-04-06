@@ -2,7 +2,7 @@ import { Node } from '@xyflow/react';
 
 export enum NodeType {
   Document = 'doc',
-  Concept = 'concept',
+  Concept = 'kernel_concept',
   Corpus = 'corpus',
   QA = 'qa',
   Exercise = 'exercise',
@@ -116,7 +116,7 @@ export interface Edge_ {
   target: string;
   score: number | null;
   description: string | null;
-  category: 'source' | null;
+  category: string | null;
 }
 
 export interface GraphData {
@@ -129,6 +129,11 @@ export interface NodeData extends Node_ {
   expandable?: boolean;
   height?: number;
   setHeight?: boolean;
+  lockAspectRatio?: boolean;
+  minWidth?: number;
+  minHeight?: number;
+  maxWidth?: number;
+  maxHeight?: number;
   [key: string]: unknown;
 }
 
