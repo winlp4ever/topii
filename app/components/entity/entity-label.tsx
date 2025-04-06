@@ -54,7 +54,9 @@ const EntityLabel = React.forwardRef<
   colorMode,
   selected = false,
   selectable = false,
-  className
+  className,
+  children,
+  ...props
 }, ref) => {
   const focusNode = useAppStore((state) => state.focusNode);
 
@@ -71,6 +73,7 @@ const EntityLabel = React.forwardRef<
       selectable={selectable}
       ref={ref}
       className={cn(defaultClName, className)}
+      {...props}
     >
       <div
         className={childClassName}
@@ -79,6 +82,7 @@ const EntityLabel = React.forwardRef<
         {icon}
         <span className="">{label}</span>
       </div>
+      {children}
     </ResizableDiv>
   )
 

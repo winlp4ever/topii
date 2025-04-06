@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Indie_Flower, Gochi_Hand } from "next/font/google";
+import { Indie_Flower, DM_Sans, Schoolbell } from "next/font/google";
 import "./globals.css";
 
 const geistSans = localFont({
@@ -15,17 +15,29 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-dm-sans",
+  weight: "variable"
+});
+
+const dmMono = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-dm-mono",
+  weight: "variable"
+});
+
 const indieFlower = Indie_Flower({
   subsets: ["latin"],
   variable: "--font-indie-flower",
   weight: "400",
 });
 
-const gochiHand = Gochi_Hand({
+const schoolbell = Schoolbell({
   subsets: ["latin"],
-  variable: "--font-gochi-hand",
+  variable: "--font-schoolbell",
   weight: "400",
-});
+})
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -40,7 +52,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${indieFlower.variable} ${gochiHand.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${indieFlower.variable} ${schoolbell.variable} ${dmSans.variable} ${dmMono.variable} antialiased`}
       >
         {children}
       </body>

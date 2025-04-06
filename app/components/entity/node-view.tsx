@@ -19,7 +19,7 @@ export interface NodeViewProps extends React.HTMLAttributes<HTMLDivElement> {
 const NodeView = React.forwardRef<
   HTMLDivElement,
   NodeViewProps
->(({ node, colorMode, selected, selectable, className, ...props }, ref) => {
+>(({ node, colorMode, selected, selectable, children, className, ...props }, ref) => {
   const [basicInfo, setBasicInfo] = React.useState<BasicInfo>({
     label: "untitled",
     title: "untitled",
@@ -51,7 +51,9 @@ const NodeView = React.forwardRef<
       className={className}
       ref={ref}
       {...props}
-    />
+    >
+      {children}
+    </EntityLabel>
   )
   if (basicInfo.title === null && basicInfo.description === null) {
     return entityLabel;
