@@ -10,9 +10,9 @@ const config: Config = {
   theme: {
   	extend: {
 			fontFamily: {
-				sans: ['var(--font-geist-sans)'],
-				mono: ['var(--font-geist-mono)'],
-				handwriting: ['var(--font-gochi-hand)'],
+				sans: ['var(--font-dm-sans)'],
+				mono: ['var(--font-dm-mono)'],
+				handwriting: ['var(--font-schoolbell)'],
 			},
   		colors: {
   			background: 'hsl(var(--background))',
