@@ -4,6 +4,7 @@ import MarkdownView from "../markdown-view";
 import { BaseEntityProps } from "./entity.type";
 import React from "react";
 import { cn } from "@/app/lib/utils";
+import TiptapMarkdownEditor from "../editor/MarkdownEditor";
 
 
 export interface EntityMediumViewProps extends BaseEntityProps {
@@ -36,7 +37,7 @@ const EntityMediumView = React.forwardRef<
       <CardHeader className='pt-2 text-left'>
         <CardTitle className='text-lg'>{title}</CardTitle>
         <CardDescription className='[&_*_li]:mt-2 text-zinc-700'>
-          <MarkdownView content={text} />
+          <TiptapMarkdownEditor markdown={text} />
         </CardDescription>
       </CardHeader>
     </Card>

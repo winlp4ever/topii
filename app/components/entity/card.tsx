@@ -14,6 +14,7 @@ import { EntityCardDisplayMode } from "@/app/types/entity/displayMode";
 import NodeView from "./node-view";
 import CopyToClipboard from "../basic/copyToClipboard";
 import { TypeTabnameMapping } from "./typeMapping";
+import TiptapMarkdownEditor from "../editor/MarkdownEditor";
 
 
 
@@ -173,7 +174,7 @@ const EntityCard = React.forwardRef<
       {
         basicInfo.content !== null &&
         <CardContent className='pt-6'>
-          <MarkdownView content={basicInfo.content} />
+          <TiptapMarkdownEditor markdown={basicInfo.content} />
         </CardContent>
       }
       {
