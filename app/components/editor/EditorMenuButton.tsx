@@ -1,4 +1,3 @@
-import { cn } from "@/app/lib/utils";
 import { Editor } from "@tiptap/react";
 import React from "react";
 
@@ -16,15 +15,13 @@ const EditorMenuButton: React.FC<EditorMenuButtonProps> = ({
   handleClick,
   editor,
   isActive,
-  className,
   children
 }) => {
   if (!editor) {
     return null;
   }
-  const defaultStyleClassName = "transition-all p-1 rounded [&>svg]:stroke-stone-800";
-  const styleClassName = cn(defaultStyleClassName, className);
-  console.log(styleClassName);
+  const styleClassName = isActive ? "transition-all p-1 w-6 h-6 rounded flex items-center hover:bg-stone-50 text-rose-600":
+    "transition-all p-1 w-6 h-6 rounded flex items-center hover:bg-stone-50 text-stone-600";
   return (
     <button
       onClick={handleClick}

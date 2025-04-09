@@ -21,21 +21,48 @@
     @apply leading-7 text-base mt-5;
   }
 
-  /* Lists */
   ul {
-    @apply my-6 ml-6 list-disc;
+    @apply ml-6 list-disc;
+
+    li {
+      @apply mt-2;
+
+      p {
+        @apply mt-0;
+      }
+
+      /* Nested unordered lists */
+      ul {
+        @apply list-[circle] ml-6;
+      }
+
+      ul ul {
+        @apply list-[square] ml-6;
+      }
+    }
   }
 
   ol {
-    @apply my-6 ml-6 list-decimal;
-  }
+    @apply ml-6 list-decimal;
 
-  li {
-    @apply mt-2;
-    p {
-      @apply mt-0;
+    li {
+      @apply mt-2;
+
+      p {
+        @apply mt-0;
+      }
+
+      /* Nested ordered lists */
+      ol {
+        @apply list-[lower-alpha] ml-6;
+      }
+
+      ol ol {
+        @apply list-[lower-roman] ml-6;
+      }
     }
   }
+
 
   /* Blockquotes */
   blockquote {
@@ -66,10 +93,10 @@
 
   /* Code Blocks */
   pre {
-    @apply relative my-4 p-4 overflow-x-auto bg-stone-100 border rounded-xl text-sm font-mono;
+    @apply relative my-4 p-4 pt-8 overflow-x-auto bg-stone-100 border rounded-xl text-base font-mono whitespace-pre overflow-x-auto;
 
     code {
-      @apply bg-transparent text-inherit text-sm p-0;
+      @apply bg-transparent text-inherit text-sm p-0 whitespace-pre;
     }
   }
 
@@ -94,6 +121,34 @@
 
   .Tiptap-mathematics-render--editable:hover {
     @apply bg-stone-200;
+  }
+
+  ul[data-type="taskList"] {
+    @apply list-none m-0 p-0;
+
+    li {
+      @apply flex items-start;
+
+      > label {
+        @apply flex-none mr-2 ml-1 select-none block flex items-center flex-row h-full m-auto;
+      }
+
+      > div {
+        @apply flex-grow;
+      }
+
+      input[type="checkbox"] {
+        @apply cursor-pointer w-4 h-4;
+      }
+
+      ul[data-type="taskList"] {
+        @apply m-0;
+      }
+    }
+
+    li[data-checked="true"] {
+      @apply line-through text-stone-400;
+    }
   }
 }
 

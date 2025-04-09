@@ -17,14 +17,14 @@ const EditorMenu: React.FC<EditorMenuProps> = ({ editor }) => {
   }
   return (
     <BubbleMenu
-      className='bg-stone-50 rounded-xl shadow-md px-3 py-1 border-none'
+      className='bg-white rounded-xl shadow-md px-3 py-1 border'
       editor={editor}
       tippyOptions={{
         duration: 100,
         placement: 'top',
       }}
     >
-      <div className="flex gap-2">
+      <div className="flex flex-row gap-2 items-center">
         <EditorMenuButton
           handleClick={() => editor.chain().focus().toggleBold().run()}
           isActive={editor.isActive('bold')}
@@ -46,7 +46,7 @@ const EditorMenu: React.FC<EditorMenuProps> = ({ editor }) => {
         >
           <Strikethrough className="w-4 h-4 flex-shrink-0" />
         </EditorMenuButton>
-        <Separator orientation='vertical' className='my-4' />
+        <Separator orientation='vertical' />
         <EditorMenuButton
           handleClick={() => editor.chain().focus().toggleBulletList().run()}
           isActive={editor.isActive('bulletList')}
@@ -61,7 +61,7 @@ const EditorMenu: React.FC<EditorMenuProps> = ({ editor }) => {
         >
           <ListOrdered className="w-4 h-4 flex-shrink-0" />
         </EditorMenuButton>
-        <Separator orientation='vertical' className='' />
+        <Separator orientation='vertical' />
         <EditorMenuButton
           handleClick={() => editor.chain().focus().setCode().run()}
           isActive={editor.isActive('code')}

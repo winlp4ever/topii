@@ -1,6 +1,6 @@
 // components/TiptapMarkdownEditor.tsx
 import React, { useEffect, useState } from 'react';
-import { useEditor, EditorContent } from '@tiptap/react';
+import { useEditor, EditorContent, ReactNodeViewRenderer } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { Markdown } from 'tiptap-markdown';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
@@ -10,13 +10,20 @@ import History from '@tiptap/extension-history';
 import { all, createLowlight } from 'lowlight';
 import 'katex/dist/katex.min.css';
 
-import { markdownToHtml } from '../../lib/markdownToHtml';
 import '@/app/styles/editorStyles.css';
 import EditorMenu from './EditorMenu';
+import CodeBlockComponent from './CodeBlockComponent';
+import TaskItem from '@tiptap/extension-task-item';
+import TaskList from '@tiptap/extension-task-list';
+import TabHandler from './extensions/TabHandler';
 
 
 const lowlight = createLowlight(all);
-const CodeBlock = CodeBlockLowlight.configure({
+const CodeBlock = CodeBlockLowlight.extend({
+  addNodeView() {
+    return ReactNodeViewRenderer(CodeBlockComponent);
+  }
+}).configure({
   lowlight
 });
 
@@ -26,19 +33,16 @@ interface TiptapMarkdownEditorProps {
   onChange?: (md: string) => void;
 }
 
+
 const TiptapMarkdownEditor: React.FC<TiptapMarkdownEditorProps> = ({ markdown, onChange }) => {
-  const [initialHtml, setInitialHtml] = useState('');
+  const [initialMd, setInitialMd] = useState('');
 
   const editor = useEditor({
     extensions: [
+      TabHandler,
       StarterKit.configure({
         codeBlock: false,
-        history: false,
-        listItem: {
-          HTMLAttributes: {
-            class: 'mt-2 text-base [&>p]:mt-0',
-          },
-        },
+        history: false
       }),
       Markdown,
       Mathematics,
@@ -47,31 +51,39 @@ const TiptapMarkdownEditor: React.FC<TiptapMarkdownEditorProps> = ({ markdown, o
       History.configure({
         depth: 100,
         newGroupDelay: 500
-      })
+      }),
+      TaskItem.configure({
+        nested: true
+      }),
+      TaskList
     ],
     content: '',
     onUpdate: ({ editor }) => {
       const md = editor.storage.markdown.getMarkdown();
-      console.log('Markdown:', md);
       onChange?.(md);
     },
-    immediatelyRender: false
+    immediatelyRender: false,
+    parseOptions: {
+      preserveWhitespace: "full",
+    }
   });
 
   // Load initial markdown
   useEffect(() => {
     const load = async () => {
-      const html = await markdownToHtml(markdown);
-      setInitialHtml(html);
+      setInitialMd(markdown);
     };
     load();
   }, [markdown]);
 
   useEffect(() => {
-    if (editor && initialHtml) {
-      editor.commands.setContent(initialHtml, false);
+    if (editor && initialMd) {
+      editor.commands.setContent(
+        initialMd,
+        false
+      );
     }
-  }, [editor, initialHtml]);
+  }, [editor, initialMd]);
 
   return (
     <>
