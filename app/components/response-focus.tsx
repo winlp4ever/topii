@@ -12,7 +12,7 @@ import { EntityCardDisplayMode } from '../types/entity/displayMode';
 
 const UserMessage: React.FC<{ message: string }> = ({ message }) => {
   return (
-    <div className='flex w-max max-w-[75%] flex-col gap-2 rounded-full px-5 py-2 text-base ml-auto bg-stone-100 w-auto'>
+    <div className='flex w-max max-w-[75%] flex-col gap-2 rounded-xl px-5 py-2 text-base ml-auto bg-stone-100 w-auto'>
       {message}
     </div>
   );

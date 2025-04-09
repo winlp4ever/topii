@@ -12,7 +12,7 @@ const config: Config = {
 			fontFamily: {
 				sans: ['var(--font-dm-sans)'],
 				mono: ['var(--font-dm-mono)'],
-				handwriting: ['var(--font-schoolbell)'],
+				handwriting: ['var(--font-indie-flower)'],
 			},
   		colors: {
   			background: 'hsl(var(--background))',
