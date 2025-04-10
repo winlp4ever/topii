@@ -2,7 +2,7 @@ import {
   BubbleMenu, Editor
 } from '@tiptap/react';
 import EditorMenuButton from './EditorMenuButton';
-import { Bold, Code, Italic, List, ListOrdered, Strikethrough, Terminal } from 'lucide-react';
+import { Bold, Code, Italic, List, ListOrdered, Strikethrough, Terminal, Underline } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 
 
@@ -38,6 +38,13 @@ const EditorMenu: React.FC<EditorMenuProps> = ({ editor }) => {
           editor={editor}
         >
           <Italic className="w-4 h-4 flex-shrink-0" />
+        </EditorMenuButton>
+        <EditorMenuButton
+          handleClick={() => editor.chain().focus().toggleUnderline().run()}
+          isActive={editor.isActive('underline')}
+          editor={editor}
+        >
+          <Underline className="w-4 h-4 flex-shrink-0" />
         </EditorMenuButton>
         <EditorMenuButton
           handleClick={() => editor.chain().focus().toggleStrike().run()}

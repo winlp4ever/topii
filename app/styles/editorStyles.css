@@ -22,7 +22,7 @@
   }
 
   ul {
-    @apply ml-6 list-disc;
+    @apply ml-6 list-disc my-6;
 
     li {
       @apply mt-2;
@@ -33,11 +33,11 @@
 
       /* Nested unordered lists */
       ul {
-        @apply list-[circle] ml-6;
+        @apply list-[circle] ml-6 my-0;
       }
 
       ul ul {
-        @apply list-[square] ml-6;
+        @apply list-[square] ml-6 my-0;
       }
     }
   }
@@ -54,11 +54,11 @@
 
       /* Nested ordered lists */
       ol {
-        @apply list-[lower-alpha] ml-6;
+        @apply list-[lower-alpha] ml-6 my-0;
       }
 
       ol ol {
-        @apply list-[lower-roman] ml-6;
+        @apply list-[lower-roman] ml-6 my-0;
       }
     }
   }

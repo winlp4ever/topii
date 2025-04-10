@@ -7,14 +7,15 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import Mathematics from '@tiptap-pro/extension-mathematics';
 import Typography from '@tiptap/extension-typography';
 import History from '@tiptap/extension-history';
+import Underline from '@tiptap/extension-underline';
+import TaskItem from '@tiptap/extension-task-item';
+import TaskList from '@tiptap/extension-task-list';
 import { all, createLowlight } from 'lowlight';
 import 'katex/dist/katex.min.css';
 
 import '@/app/styles/editorStyles.css';
 import EditorMenu from './EditorMenu';
 import CodeBlockComponent from './CodeBlockComponent';
-import TaskItem from '@tiptap/extension-task-item';
-import TaskList from '@tiptap/extension-task-list';
 import TabHandler from './extensions/TabHandler';
 
 
@@ -44,6 +45,7 @@ const TiptapMarkdownEditor: React.FC<TiptapMarkdownEditorProps> = ({ markdown, o
         codeBlock: false,
         history: false
       }),
+      Underline,
       Markdown,
       Mathematics,
       CodeBlock,
