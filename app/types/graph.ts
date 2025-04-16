@@ -2,7 +2,7 @@ import { Node } from '@xyflow/react';
 
 export enum NodeType {
   Document = 'doc',
-  Concept = 'kernel_concept',
+  Concept = 'concept',
   Corpus = 'corpus',
   QA = 'qa',
   Exercise = 'exercise',

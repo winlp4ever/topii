@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Indie_Flower, DM_Sans, DM_Mono } from "next/font/google";
+import { DM_Sans, DM_Mono, Architects_Daughter } from "next/font/google";
 import "./globals.css";
 
 const geistSans = localFont({
@@ -27,9 +27,9 @@ const dmMono = DM_Mono({
   weight: "400"
 });
 
-const indieFlower = Indie_Flower({
+const tillana = Architects_Daughter({
   subsets: ["latin"],
-  variable: "--font-indie-flower",
+  variable: "--font-tillana",
   weight: "400",
 });
 
@@ -46,7 +46,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${indieFlower.variable} ${dmSans.variable} ${dmMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${dmSans.variable} ${dmMono.variable} ${tillana.variable} antialiased`}
       >
         {children}
       </body>

@@ -4,7 +4,6 @@ import { toast } from "sonner";
 import { Node_, NodeType } from "@/app/types/graph";
 import { Card, CardContent } from "@/components/ui/card";
 import { CardLabel, CardLabelTitle } from "../ui/card";
-import MarkdownView from "../markdown-view";
 import { BasicInfo, extractBasicInfo } from "./utils";
 import { capitalize } from "../utils";
 import { cn } from "@/app/lib/utils";
@@ -15,7 +14,6 @@ import NodeView from "./node-view";
 import CopyToClipboard from "../basic/copyToClipboard";
 import { TypeTabnameMapping } from "./typeMapping";
 import TiptapMarkdownEditor from "../editor/MarkdownEditor";
-
 
 
 function groupByType(items: Node_[]): Record<NodeType, Node_[]> {
@@ -44,6 +42,11 @@ const NodeTabs: React.FC<{ subNodeGroups: Record<NodeType, Node_[]> }> = ({ subN
   }, [subNodeGroups]);
 
   const tab = (type: NodeType) => {
+    const ele = TypeTabnameMapping[type];
+    if (!ele) {
+      return null;
+    }
+
     return (
       <button
         key={type}
