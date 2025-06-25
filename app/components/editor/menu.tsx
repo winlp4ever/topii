@@ -1,7 +1,7 @@
 import {
   BubbleMenu, Editor
 } from '@tiptap/react';
-import EditorMenuButton from './EditorMenuButton';
+import EditorMenuButton from './menu-button';
 import { Bold, Code, Italic, List, ListOrdered, Strikethrough, Terminal, Underline } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 

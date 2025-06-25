@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import TiptapMarkdownEditor from './MarkdownEditor';
+import TiptapMarkdownEditor from './markdown-editor';
 import MarkdownView from '../markdown-view';
 
 const meta: Meta<typeof TiptapMarkdownEditor> = {

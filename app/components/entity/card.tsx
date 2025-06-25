@@ -13,7 +13,7 @@ import { EntityCardDisplayMode } from "@/app/types/entity/displayMode";
 import NodeView from "./node-view";
 import CopyToClipboard from "../basic/copyToClipboard";
 import { TypeTabnameMapping } from "./typeMapping";
-import TiptapMarkdownEditor from "../editor/MarkdownEditor";
+import TiptapMarkdownEditor from "../editor/markdown-editor";
 
 
 function groupByType(items: Node_[]): Record<NodeType, Node_[]> {

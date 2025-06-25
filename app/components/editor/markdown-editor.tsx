@@ -14,9 +14,9 @@ import { all, createLowlight } from 'lowlight';
 import 'katex/dist/katex.min.css';
 
 import '@/app/styles/editorStyles.css';
-import EditorMenu from './EditorMenu';
-import CodeBlockComponent from './CodeBlockComponent';
-import TabHandler from './extensions/TabHandler';
+import EditorMenu from './menu';
+import CodeBlockComponent from './code-block';
+import TabHandler from './extensions/indent';
 
 
 const lowlight = createLowlight(all);
