@@ -11,10 +11,10 @@ import {
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 
-import useAutoLayout, { LayoutOptions } from './layout/use-auto-layout';
-import { ExpandableNode, GraphData } from '../../types/graph';
+import useAutoLayout, { LayoutOptions } from '../hooks/layout/use-auto-layout';
+import { ExpandableNode, GraphData } from '../../../types/graph';
 import DashedEdge from './edges/dashed-edge';
-import { useStruct } from './use-struct';
+import { useStruct } from '../hooks/use-struct';
 import GraphNode from './nodes/graph-node';
 
 type GraphProps = {

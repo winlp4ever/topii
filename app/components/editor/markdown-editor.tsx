@@ -10,13 +10,18 @@ import History from '@tiptap/extension-history';
 import Underline from '@tiptap/extension-underline';
 import TaskItem from '@tiptap/extension-task-item';
 import TaskList from '@tiptap/extension-task-list';
+import Link from '@tiptap/extension-link';
+import Table from '@tiptap/extension-table';
+import TableCell from '@tiptap/extension-table-cell';
+import TableHeader from '@tiptap/extension-table-header';
+import TableRow from '@tiptap/extension-table-row';
 import { all, createLowlight } from 'lowlight';
 import 'katex/dist/katex.min.css';
 
-import '@/app/styles/editorStyles.css';
+import '@/app/styles/editor.css';
 import EditorMenu from './menu';
 import CodeBlockComponent from './code-block';
-import TabHandler from './extensions/indent';
+import { IndentHandler } from './extensions/indent';
 
 
 const lowlight = createLowlight(all);
@@ -29,18 +34,31 @@ const CodeBlock = CodeBlockLowlight.extend({
 });
 
 
+/**
+ * TiptapMarkdownEditorProps defines the properties for the TiptapMarkdownEditor component.
+ *
+ * @property {string} markdown - The initial Markdown content to be displayed in the editor.
+ * @property {function} [onChange] - Optional callback function that is called when the Markdown content changes.
+ * @property {boolean} [readonly=false] - If true, the editor will be in read-only mode, preventing any edits.
+ */
 interface TiptapMarkdownEditorProps {
   markdown: string;
   onChange?: (md: string) => void;
+  readonly?: boolean;
 }
 
 
-const TiptapMarkdownEditor: React.FC<TiptapMarkdownEditorProps> = ({ markdown, onChange }) => {
+/**
+ * TiptapMarkdownEditor is a React component that provides a rich text editor
+ * with Markdown support using Tiptap. It allows users to edit and format text,
+ * including code blocks, mathematics, and tables. The editor can be configured
+ * to be read-only or editable based on the `readonly` prop.
+ */
+const TiptapMarkdownEditor: React.FC<TiptapMarkdownEditorProps> = ({ markdown, onChange, readonly = false }) => {
   const [initialMd, setInitialMd] = useState('');
 
   const editor = useEditor({
     extensions: [
-      TabHandler,
       StarterKit.configure({
         codeBlock: false,
         history: false
@@ -57,7 +75,19 @@ const TiptapMarkdownEditor: React.FC<TiptapMarkdownEditorProps> = ({ markdown, o
       TaskItem.configure({
         nested: true
       }),
-      TaskList
+      TaskList,
+      Table.configure({
+        resizable: true,
+      }),
+      TableRow,
+      TableHeader,
+      TableCell,
+      Link.configure({
+        openOnClick: false,
+        autolink: true,
+        linkOnPaste: true
+      }),
+      IndentHandler
     ],
     content: '',
     onUpdate: ({ editor }) => {
@@ -67,7 +97,8 @@ const TiptapMarkdownEditor: React.FC<TiptapMarkdownEditorProps> = ({ markdown, o
     immediatelyRender: false,
     parseOptions: {
       preserveWhitespace: "full",
-    }
+    },
+    editable: !readonly
   });
 
   // Load initial markdown
@@ -89,7 +120,7 @@ const TiptapMarkdownEditor: React.FC<TiptapMarkdownEditorProps> = ({ markdown, o
 
   return (
     <>
-      <EditorMenu editor={editor} />
+      { !readonly && <EditorMenu editor={editor} /> }
       <EditorContent
         editor={editor}
         className="focus:outline-none"

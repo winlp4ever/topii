@@ -1,4 +1,9 @@
 .tiptap {
+  > * {
+    &:first-child {
+      @apply mt-0;
+    }
+  }
   /* Headings */
   h1 {
     @apply mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0;
@@ -19,6 +24,10 @@
   /* Paragraphs */
   p {
     @apply leading-7 text-base mt-5;
+  }
+
+  a {
+    @apply text-sky-600 inline-block rounded-full h-5 w-5 text-center bg-gray-100 font-mono hover:underline transition-all text-xs;
   }
 
   ul {

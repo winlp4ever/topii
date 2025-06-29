@@ -1,19 +1,18 @@
 import React, { useEffect } from "react";
-import { toast } from "sonner";
 
 import { Node_, NodeType } from "@/app/types/graph";
 import { Card, CardContent } from "@/components/ui/card";
 import { CardLabel, CardLabelTitle } from "../ui/card";
 import { BasicInfo, extractBasicInfo } from "./utils";
-import { capitalize } from "../utils";
+import { capitalize } from "../../utils/common";
 import { cn } from "@/app/lib/utils";
 import { ColorMode, ColorModeTextClassName } from "@/app/types/color-mode";
 import { NodeTypeIconMapping } from "./color-mapping";
-import { EntityCardDisplayMode } from "@/app/types/entity/displayMode";
+import { EntityCardDisplayMode } from "@/app/types/entity/display-mode";
 import NodeView from "./node-view";
-import CopyToClipboard from "../basic/copyToClipboard";
-import { TypeTabnameMapping } from "./typeMapping";
+import { TypeTabnameMapping } from "../../types/type-mapping";
 import TiptapMarkdownEditor from "../editor/markdown-editor";
+import { rewriteMarkdownLinks } from "@/app/features/agent/utils/common";
 
 
 function groupByType(items: Node_[]): Record<NodeType, Node_[]> {
@@ -122,15 +121,6 @@ const EntityCard = React.forwardRef<
   }
   , [node]);
 
-  const copyToClipboard = () => {
-    if (basicInfo.content === null) {
-      return;
-    }
-    console.log('Copying to clipboard:', basicInfo.content);
-    navigator.clipboard.writeText(basicInfo.content);
-    toast('Text copied to clipboard!');
-  };
-
   React.useEffect(() => {
     setDynamicDisplayMode(displayMode);
   }, [displayMode]);
@@ -148,6 +138,8 @@ const EntityCard = React.forwardRef<
     '';
 
   const cardLabelTitleClassName = `${ColorModeTextClassName[colorMode]}`;
+
+  const content = rewriteMarkdownLinks(basicInfo.content || '');
 
   return (
     <Card
@@ -169,15 +161,9 @@ const EntityCard = React.forwardRef<
         </CardLabelTitle>
       </CardLabel>
       {
-        basicInfo.content !== null &&
-        <CopyToClipboard
-          copyToClipboard={copyToClipboard}
-        />
-      }
-      {
-        basicInfo.content !== null &&
+        basicInfo.content &&
         <CardContent className='pt-6'>
-          <TiptapMarkdownEditor markdown={basicInfo.content} />
+          <TiptapMarkdownEditor markdown={content} readonly />
         </CardContent>
       }
       {

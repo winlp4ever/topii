@@ -1,7 +1,7 @@
 import { applyEdgeChanges, applyNodeChanges, Edge, OnEdgesChange, OnNodesChange, ReactFlow } from "@xyflow/react";
-import { createStruct } from "./use-struct";
+import { createStruct } from "../hooks/use-struct";
 import { useCallback, useEffect, useState } from "react";
-import useExpandCollapse from "./layout/use-expandable";
+import useExpandCollapse from "../hooks/layout/use-expandable";
 import { ExpandableNode, GraphData } from "@/app/types/graph";
 import DashedEdge from "./edges/dashed-edge";
 import GraphNode from "./nodes/graph-node";

@@ -3,10 +3,10 @@ import React from 'react';
 import { Text, GitGraph } from 'lucide-react';
 
 import { useAppStore } from '../store';
-import GraphView from './graph/graph-view';
+import GraphView from '../features/graph/components/graph-view';
 import { ResponseFocus } from './response-focus';
-import SearchBar from './chat/search-bar';
-import { GraphViewMode } from '../types/graphViewMode';
+import SearchBar from '../features/agent/components/chat/search-bar';
+import { GraphViewMode } from '../types/graph-view-mode';
 
 
 // This is the main window that displays the graph view and response focus

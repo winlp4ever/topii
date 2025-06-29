@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Meta, StoryObj } from '@storybook/react';
-import ResizableDiv from './ResizeableDiv';
+import ResizableDiv from './resizeable-div';
 
 const meta: Meta<typeof ResizableDiv> = {
   title: 'UI/ResizableDiv',

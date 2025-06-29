@@ -7,8 +7,8 @@ import {
   useStore,
 } from '@xyflow/react';
 
-import { getSourceHandlePosition, getTargetHandlePosition } from './utils';
-import layoutAlgorithms, { type LayoutAlgorithmOptions } from './algorithms';
+import { getSourceHandlePosition, getTargetHandlePosition } from '../../utils/layout/utils';
+import layoutAlgorithms, { type LayoutAlgorithmOptions } from '../../utils/layout/algorithms';
 
 export type LayoutOptions = {
   finishSetup: boolean;

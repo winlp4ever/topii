@@ -5,7 +5,7 @@ import BaseContextMenu from "../basic/context-menu";
 import { useAppStore } from "@/app/store";
 import { BaseEntityProps } from "./entity.type";
 import { cn } from "@/app/lib/utils";
-import ResizableDiv from "../ui/resizeable-div/ResizeableDiv";
+import ResizableDiv from "../ui/resizeable-div/resizeable-div";
 
 
 export interface EntityLabelProps extends BaseEntityProps {

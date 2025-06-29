@@ -4,7 +4,7 @@ import * as React from "react";
 
 import { Progress } from "@/components/ui/progress";
 import { useAppStore } from "../store";
-import { capitalize } from "./utils";
+import { capitalize } from "../utils/common";
 
 
 interface LoadingViewProps {

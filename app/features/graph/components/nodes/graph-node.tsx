@@ -1,10 +1,10 @@
 "use client";
 import { ColorMode } from "@/app/types/color-mode";
-import { ExpandableNode } from "../../../types/graph";
-import { NodeTypeColorMapping } from "../../entity/color-mapping";
+import { ExpandableNode } from "../../../../types/graph";
+import { NodeTypeColorMapping } from "../../../../components/entity/color-mapping";
 import React, { memo, useRef } from "react";
 import { Handle, NodeProps, Position, useReactFlow } from "@xyflow/react";
-import NodeView from "../../entity/node-view";
+import NodeView from "../../../../components/entity/node-view";
 
 
 // Define the GraphNode component as an arrow function with typed props

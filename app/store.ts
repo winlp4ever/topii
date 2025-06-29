@@ -4,7 +4,7 @@ import { fetchStreamedFlowRun, fetchStreamedGraph, queryGraph, resolveClientId }
 import { DataState, State } from './types/data-state';
 import { AISettings, LLMEnum } from './types/ai';
 import { Doc } from './types/graph';
-import { GraphViewMode } from './types/graphViewMode';
+import { GraphViewMode } from './types/graph-view-mode';
 
 export type Stage = 'local' | 'dev' | 'preprod' | 'prod' | 'test';
 export type InputType = 'query' | 'nodeId' | 'flow';

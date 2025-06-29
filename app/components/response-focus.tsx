@@ -5,9 +5,9 @@ import EntityCard from './entity/card';
 import { Node_ } from '../types/graph';
 import { LoadingView } from './loading-view';
 import { NodeTypeColorMapping } from './entity/color-mapping';
-import ReactionBar from './reaction-bar';
+import { ReactionBar } from './reaction-bar';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { EntityCardDisplayMode } from '../types/entity/displayMode';
+import { EntityCardDisplayMode } from '../types/entity/display-mode';
 
 
 const UserMessage: React.FC<{ message: string }> = ({ message }) => {
@@ -25,6 +25,7 @@ export function ResponseFocus() {
   const data = useAppStore((state) => state.data);
   const input = useAppStore((state) => state.input);
   const inputType = useAppStore((state) => state.inputType);
+
   const [response, setResponse] = React.useState<Node_ | null>(null);
   const [sourceNodes, setSourceNodes] = React.useState<Node_[]>([]);
 
@@ -38,7 +39,6 @@ export function ResponseFocus() {
       const graph = data.data;
       const response = graph.nodes[0];
       const nodes = graph.nodes.slice(1);
-      // const srcNodes = filterSourceNodes(response.id, nodes, graph.edges);
       setSourceNodes(nodes);
       setResponse(response);
     }
@@ -80,7 +80,8 @@ export function ResponseFocus() {
                 response && <div>
                   {cpn}
                   {
-                    input && inputType === 'query' && loadingStatus === 'COMPLETED' && <ReactionBar />
+                    input && inputType === 'query' && loadingStatus === 'COMPLETED' &&
+                    <ReactionBar />
                   }
                 </div>
               }

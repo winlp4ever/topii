@@ -13,11 +13,11 @@ import {
 import '@xyflow/react/dist/style.css';
 
 
-import useForceLayout from './layout/use-force-layout';
+import useForceLayout from '../hooks/layout/use-force-layout';
 
-import { GraphData } from '../../types/graph';
+import { GraphData } from '../../../types/graph';
 import DashedEdge from './edges/dashed-edge';
-import { createStruct } from './use-struct';
+import { createStruct } from '../hooks/use-struct';
 
 type GraphProps = {
   strength?: number;

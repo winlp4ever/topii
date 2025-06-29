@@ -1,8 +1,8 @@
 'use client';
 import React from 'react';
-import { useAppStore } from '../../store';
+import { useAppStore } from '../../../store';
 import { ReactFlowProvider } from '@xyflow/react';
-import { LoadingView } from '../loading-view';
+import { LoadingView } from '../../../components/loading-view';
 import AutoGraph from './auto-graph';
 
 

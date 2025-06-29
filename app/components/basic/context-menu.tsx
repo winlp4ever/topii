@@ -19,6 +19,10 @@ export interface BaseContextMenuProps {
 }
 
 
+/**
+ * BaseContextMenu is a reusable context menu component that wraps an element
+ * and provides a set of options that can be selected by the user.
+ */
 const BaseContextMenu: React.FC<BaseContextMenuProps> = ({ wrappedElement, options }) => {
   return (
     <ContextMenu>
