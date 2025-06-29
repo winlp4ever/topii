@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { DM_Sans, DM_Mono, Architects_Daughter } from "next/font/google";
+import { DM_Sans, DM_Mono, Architects_Daughter, Darker_Grotesque } from "next/font/google";
 import "./globals.css";
 
 const geistSans = localFont({
@@ -13,6 +13,12 @@ const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
+});
+
+const darkerGrotesque = Darker_Grotesque({
+  subsets: ["latin"],
+  variable: "--font-darker-grotesque",
+  weight: "variable"
 });
 
 const dmSans = DM_Sans({
@@ -46,7 +52,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${dmSans.variable} ${dmMono.variable} ${tillana.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${dmSans.variable} ${dmMono.variable} ${tillana.variable} ${darkerGrotesque.variable} antialiased`}
       >
         {children}
       </body>

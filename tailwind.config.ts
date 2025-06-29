@@ -13,6 +13,7 @@ const config: Config = {
 				sans: ['var(--font-dm-sans)'],
 				mono: ['var(--font-dm-mono)'],
 				handwriting: ['var(--font-tillana)'],
+				heading: ['var(--font-darker-grotesque)'],
 			},
   		colors: {
   			background: 'hsl(var(--background))',
