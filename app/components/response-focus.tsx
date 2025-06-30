@@ -64,7 +64,7 @@ export function ResponseFocus() {
         )
       }
       <ScrollArea
-        className="h-screen w-screen bg-white"
+        className="h-screen w-screen bg-stone-50"
       >
         <div className='w-full h-full flex flex-col items-center justify-center'>
           <div

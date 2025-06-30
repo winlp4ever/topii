@@ -148,7 +148,7 @@ function GraphNode({ id, data, selected }: NodeProps<ExpandableNode>) {
           className={nodeViewClassName}
         >
           {selected && (
-            <div className="absolute -inset-1 border border-blue-500 pointer-events-none rounded" />
+            <div className="absolute -inset-1 -left-3 border border-blue-500 pointer-events-none rounded z-10" />
           )}
         </NodeView>
       </RoughRect>
@@ -159,7 +159,7 @@ function GraphNode({ id, data, selected }: NodeProps<ExpandableNode>) {
             key={pos}
             onMouseDown={handleDown(pos)}
             onTouchStart={handleDown(pos)}
-            className={`absolute w-3 h-3 bg-white border border-blue-500 rounded-full ${posClass} z-10`}
+            className={`absolute w-3 h-3 bg-white border border-blue-500 rounded-full ${posClass} z-20`}
             style={{
               transform: `translate(${pos.includes('right') ? '50%' : '-50%'}, ${
                 pos.includes('bottom') ? '50%' : '-50%'

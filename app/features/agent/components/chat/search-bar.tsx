@@ -111,7 +111,7 @@ const SearchBar: React.FC = () => {
     <div className="fixed bottom-10 left-1/2 transform -translate-x-1/2 p-4 z-50 flex justify-center items-center">
       <div className='flex flex-col space-y-2'>
         <div>
-          <Command onKeyDown={handleKeyDown} className="md:min-w-[800px] shadow-lg rounded-3xl p-3 pt-0 border-stone-200 border" >
+          <Command onKeyDown={handleKeyDown} className="md:min-w-[800px] rounded-3xl p-3 pt-0 bg-stone-50 text-lg border border-stone-300" >
             <div className="flex flex-col items-center space-y-1 items-stretch">
               <div className='p-2'>
                 <CommandInput
