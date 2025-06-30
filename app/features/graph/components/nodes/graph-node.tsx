@@ -1,13 +1,15 @@
 "use client";
-import { ColorMode } from "@/app/types/color-mode";
 import { ExpandableNode } from "../../../../types/graph";
-import { NodeTypeColorMapping } from "../../../../components/entity/color-mapping";
 import React, { memo, useRef } from "react";
 import { Handle, NodeProps, Position, useReactFlow } from "@xyflow/react";
 import NodeView from "../../../../components/entity/node-view";
+import { RoughRect } from "@/app/components/rough/rect";
 
 
-// Define the GraphNode component as an arrow function with typed props
+/**
+ * GraphNode component for rendering a resizable node in a graph.
+ * It supports aspect ratio locking, resizing from corners, and handles minimum/maximum dimensions.
+ */
 function GraphNode({ id, data, selected }: NodeProps<ExpandableNode>) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const isResizingRef = useRef(false);
@@ -119,10 +121,7 @@ function GraphNode({ id, data, selected }: NodeProps<ExpandableNode>) {
     startResize(e.nativeEvent, handle);
   };
 
-
-  // const isSelected = selected === true;
-
-  const nodeViewClassName = 'relative font-handwriting drag-handle pointer-events-auto' + (hasResizedRef.current ? ' max-w-none' : ' max-w-[400px]');
+  const nodeViewClassName = 'relative font-handwriting drag-handle pointer-events-auto bg-transparent' + (hasResizedRef.current ? ' max-w-none' : ' max-w-[400px]');
 
   return (
     <>
@@ -136,17 +135,23 @@ function GraphNode({ id, data, selected }: NodeProps<ExpandableNode>) {
         type="source"
         className="w-3 h-3 bg-blue-500 border-2 border-white"
       />
-      <NodeView
-        ref={containerRef}
-        style={{ width, height }}
-        node={data}
-        colorMode={NodeTypeColorMapping[data.type] as ColorMode}
-        className={nodeViewClassName}
+      <RoughRect
+        rounded="rounded-2xl"
+        roughness={1.5}
+        fill={data.fill}
+        fillStyle={data.fillStyle}
       >
-        {selected && (
-          <div className="absolute -inset-1 border border-blue-500 pointer-events-none rounded" />
-        )}
-      </NodeView>
+        <NodeView
+          ref={containerRef}
+          style={{ width, height }}
+          node={data}
+          className={nodeViewClassName}
+        >
+          {selected && (
+            <div className="absolute -inset-1 border border-blue-500 pointer-events-none rounded" />
+          )}
+        </NodeView>
+      </RoughRect>
       {/* Resize Handles */}
       {selected &&
         resizeHandles.map(({ pos, class: posClass }) => (

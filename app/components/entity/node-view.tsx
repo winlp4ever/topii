@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 
-import { ColorMode } from "@/app/types/color-mode";
 import { BasicInfo, extractBasicInfo } from "./utils";
 import { Node_, NodeType } from "@/app/types/graph";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -10,16 +9,13 @@ import EntityMediumView from "./entity-medium-view";
 
 export interface NodeViewProps extends React.HTMLAttributes<HTMLDivElement> {
   node: Node_;
-  colorMode?: ColorMode;
-  selected?: boolean;
-  selectable?: boolean;
 }
 
 
 const NodeView = React.forwardRef<
   HTMLDivElement,
   NodeViewProps
->(({ node, colorMode, selected, selectable, children, className, ...props }, ref) => {
+>(({ node, children, className, ...props }, ref) => {
   const [basicInfo, setBasicInfo] = React.useState<BasicInfo>({
     label: "untitled",
     title: "untitled",
@@ -42,12 +38,9 @@ const NodeView = React.forwardRef<
 
   const entityLabel = (
     <EntityLabel
-      selected={selected}
-      selectable={selectable}
       nodeId={node.id}
       icon={typeIcon}
       label={label}
-      colorMode={colorMode}
       className={className}
       ref={ref}
       {...props}

@@ -35,7 +35,7 @@ const DashedEdge: React.FC<EdgeProps<Edge<{ label: string, description: string |
       <BaseEdge
         path={edgePath}
         markerEnd={markerEnd}
-        style={{ strokeDasharray: '5,5', ...style }}
+        style={style}
       />
       {
         data && data.label && (

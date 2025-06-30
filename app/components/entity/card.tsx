@@ -73,7 +73,6 @@ const NodeTabs: React.FC<{ subNodeGroups: Record<NodeType, Node_[]> }> = ({ subN
               <NodeView
                 key={node.id}
                 node={node}
-                colorMode='stone'
                 className='max-w-[650px]'
               />
             ))}

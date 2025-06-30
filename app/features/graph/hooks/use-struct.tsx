@@ -2,6 +2,7 @@ import { ExpandableNode, GraphData } from "@/app/types/graph";
 import { Edge, useReactFlow } from "@xyflow/react";
 import { createStructNodesBFS } from "@/app/lib/graph/struct";
 import { useEffect } from "react";
+import { getRandomTailwindBaseColor } from "@/app/utils/tailwind";
 
 
 export function createStruct(
@@ -36,12 +37,23 @@ export function createStruct(
 }
 
 
+/**
+ * useStruct is a custom hook that initializes the graph structure
+ * by creating nodes and edges from the provided GraphData.
+ * It sets the nodes and edges in the React Flow state.
+ */
 export function useStruct(data: GraphData): void {
   const { setNodes, setEdges } = useReactFlow();
   useEffect(() => {
     console.log('Calling createStruct');
     const {nodes, edges} = createStruct(data);
-    setNodes(nodes);
+    setNodes(nodes.map(node => ({
+      ...node,
+      data: {
+        ...node.data,
+        fill: getRandomTailwindBaseColor('200')
+      }
+    })));
     setEdges(edges);
   }, [data, setEdges, setNodes]);
 }
