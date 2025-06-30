@@ -83,6 +83,7 @@
     "remark": "^15.0.1",
     "remark-gfm": "^4.0.1",
     "remark-math": "^6.0.0",
+    "roughjs": "^4.6.6",
     "sass": "^1.83.1",
     "scss": "^0.2.4",
     "sonner": "^2.0.1",
