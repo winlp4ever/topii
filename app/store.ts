@@ -65,7 +65,7 @@ export const useAppStore = create<AppState>()(
     },
     data: null,
     loadingStatus: 'IDLE',
-    viewMode: GraphViewMode.INSIGHT,
+    viewMode: GraphViewMode.Insight,
 
     setStage: (stage: Stage) => set({ stage }),
     setClientId: (id: number) => set({ clientId: id }),
@@ -82,7 +82,7 @@ export const useAppStore = create<AppState>()(
     // loadCorpus: gets the corpus node's graph from the backend
     // ─────────────────────────────────────────────────────────
     loadCorpus: async (id: string) => {
-      set({ loadingStatus: 'RUNNING', data: null, viewMode: GraphViewMode.INSIGHT });
+      set({ loadingStatus: 'RUNNING', data: null, viewMode: GraphViewMode.Insight });
       try {
         set({ corpusId: id });
         console.log('loading corpus:', id);
@@ -128,7 +128,7 @@ export const useAppStore = create<AppState>()(
         console.error('No corpus ID found');
         return;
       }
-      set({ loadingStatus: 'RUNNING', data: null, viewMode: GraphViewMode.INSIGHT });
+      set({ loadingStatus: 'RUNNING', data: null, viewMode: GraphViewMode.Insight });
       try {
         const cid = Number(corpusId.split('_')[1]);
         let modelName: LLMEnum;
@@ -169,7 +169,7 @@ export const useAppStore = create<AppState>()(
         return; // Exit early
       }
       console.log('focusing node:', nodeId);
-      set({ loadingStatus: 'RUNNING', data: null, viewMode: GraphViewMode.INSIGHT });
+      set({ loadingStatus: 'RUNNING', data: null, viewMode: GraphViewMode.Insight });
       try {
         // Use the streaming endpoint: pass node_id as the node id string
         await fetchStreamedGraph(clientId, nodeId, (data: DataState) => {
@@ -203,7 +203,7 @@ export const useAppStore = create<AppState>()(
         return;
       }
       console.log('launching flow with payload:', payload);
-      set({ loadingStatus: 'RUNNING', data: null, viewMode: GraphViewMode.INSIGHT });
+      set({ loadingStatus: 'RUNNING', data: null, viewMode: GraphViewMode.Insight });
       try {
         // Use the streaming endpoint: pass node_id as the node id string
         await fetchStreamedFlowRun(clientId, Number(corpusId.split('_')[1]), 'competency_matching', payload, (data: DataState) => {

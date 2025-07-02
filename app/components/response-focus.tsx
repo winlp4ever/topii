@@ -8,15 +8,7 @@ import { NodeTypeColorMapping } from './entity/color-mapping';
 import { ReactionBar } from './reaction-bar';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { EntityCardDisplayMode } from '../types/entity/display-mode';
-
-
-const UserMessage: React.FC<{ message: string }> = ({ message }) => {
-  return (
-    <div className='flex w-max max-w-[75%] flex-col gap-2 rounded-xl px-5 py-2 text-base ml-auto bg-stone-100 w-auto'>
-      {message}
-    </div>
-  );
-}
+import { UserMessage } from '../features/agent/components/chat/user-message';
 
 
 // This is the response focus component

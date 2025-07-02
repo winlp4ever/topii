@@ -1,17 +1,17 @@
 import { GraphData } from "./graph";
 
-
-export type State = 'IDLE' |
-  'SCHEDULED' |
-  'PENDING' |
-  'RUNNING' |
-  'COMPLETED' |
-  'FAILED' |
-  'CRASHED' |
-  'ARCHIVED' |
-  'DELETED' |
-  'CANCELLING' |
-  'CANCELLED';
+export type State =
+  | 'IDLE'
+  | 'SCHEDULED'
+  | 'PENDING'
+  | 'RUNNING'
+  | 'COMPLETED'
+  | 'FAILED'
+  | 'CRASHED'
+  | 'ARCHIVED'
+  | 'DELETED'
+  | 'CANCELLING'
+  | 'CANCELLED';
 
 
 export interface DataState {

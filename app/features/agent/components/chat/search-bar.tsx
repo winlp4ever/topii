@@ -17,6 +17,9 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { LLMDescription, LLMEnum, LLMName } from '../../../../types/ai';
+import { useAgentStore } from '../../store/agent';
+import { useSendMessage } from '../../api/chat';
+import clsx from 'clsx';
 
 
 /**
@@ -80,54 +83,75 @@ const ModelChoiceMenu = () => {
  * from the UI library to create a styled input and button.
  */
 const SearchBar: React.FC = () => {
-  const setInput = useAppStore((state) => state.setInput);
-  const setInputType = useAppStore((state) => state.setInputType);
-  const searchQuery = useAppStore((state) => state.searchQuery);
-  const loadingStatus = useAppStore((state) => state.loadingStatus);
+  const setQuery = useAgentStore((state) => state.setQuery);
+  const isStreaming = useAgentStore((state) => state.isStreaming);
+  const corpusId = useAppStore((state) => state.corpusId);
+  const docs = useAppStore((state) => state.docs);
+  const [input, setInput] = useState<string>('');
 
-  const [query, setQuery] = useState<string>('');
+  const { sendMessage } = useSendMessage();
 
   const handleSearch = () => {
     // Implement your search logic here
-    if (!query.trim()) {
+    if (!input.trim()) {
       return;
     }
-    setInputType('query');
-    setInput(query);
-
-    searchQuery(query, null);
-    setQuery('');
+    setQuery(input.trim());
+    const corpus = corpusId?.split('_')[1];
+    sendMessage({
+      query: input.trim(),
+      corpusId: Number(corpus),
+      documentIds: docs.map(doc => doc.id.toString()),
+    })
+    setInput(''); // Clear the input after search
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Escape' || (e.key === 'Backspace' && !query)) {
+    if (e.key === 'Escape' || (e.key === 'Backspace' && !input)) {
       e.preventDefault()
     } else if (e.key === 'Enter') {
       handleSearch();
     }
   };
 
+  const commandIconClass = clsx(
+    'ml-auto border-none',
+    isStreaming
+      ? 'cursor-not-allowed bg-stone-100'
+      : 'cursor-pointer bg-stone-800 text-stone-50 hover:bg-stone-900 hover:text-stone-100'
+  );
+
   return (
     <div className="fixed bottom-10 left-1/2 transform -translate-x-1/2 p-4 z-50 flex justify-center items-center">
       <div className='flex flex-col space-y-2'>
         <div>
-          <Command onKeyDown={handleKeyDown} className="md:min-w-[800px] rounded-3xl p-3 pt-0 bg-stone-50 text-lg border border-stone-300" >
+          <Command
+            onKeyDown={handleKeyDown}
+            className={`
+              md:min-w-[800px]
+              rounded-3xl
+              p-3 pt-0
+              bg-stone-50
+              text-lg
+              border border-stone-300
+            `}
+          >
             <div className="flex flex-col items-center space-y-1 items-stretch">
               <div className='p-2'>
                 <CommandInput
                   placeholder='Enter your query ...'
-                  value={query}
-                  onValueChange={setQuery}
+                  value={input}
+                  onValueChange={setInput}
                   className='text-md'
                 />
               </div>
               <div className='flex justify-start'>
                 <ModelChoiceMenu />
                 <CommandIcon
-                  loadingStatus={loadingStatus === "RUNNING" ? "loading": "loaded"}
-                  disabled={loadingStatus === "RUNNING" ? true: false}
+                  loadingStatus={isStreaming ? "loading": "loaded"}
+                  disabled={isStreaming}
                   onClick={handleSearch}
-                  className={'ml-auto border-none' + (loadingStatus === "RUNNING" ? ' cursor-not-allowed bg-stone-100' : ' cursor-pointer bg-stone-800 text-stone-50 hover:bg-stone-900 hover:text-stone-100')}
+                  className={commandIconClass}
                 />
               </div>
 

@@ -1,4 +1,5 @@
 export enum GraphViewMode {
-  INSIGHT = 'insight',
-  GRAPH = 'graph'
+  Insight = 'insight',
+  Graph = 'graph',
+  Agent = 'agent',
 }
