@@ -1,21 +1,18 @@
 import React, { useEffect } from "react";
-import { toast } from "sonner";
 
 import { Node_, NodeType } from "@/app/types/graph";
 import { Card, CardContent } from "@/components/ui/card";
 import { CardLabel, CardLabelTitle } from "../ui/card";
-import MarkdownView from "../markdown-view";
 import { BasicInfo, extractBasicInfo } from "./utils";
-import { capitalize } from "../utils";
+import { capitalize } from "../../utils/common";
 import { cn } from "@/app/lib/utils";
 import { ColorMode, ColorModeTextClassName } from "@/app/types/color-mode";
 import { NodeTypeIconMapping } from "./color-mapping";
-import { EntityCardDisplayMode } from "@/app/types/entity/displayMode";
+import { EntityCardDisplayMode } from "@/app/types/entity/display-mode";
 import NodeView from "./node-view";
-import CopyToClipboard from "../basic/copyToClipboard";
-import { TypeTabnameMapping } from "./typeMapping";
-import TiptapMarkdownEditor from "../editor/MarkdownEditor";
-
+import { TypeTabnameMapping } from "../../types/type-mapping";
+import TiptapMarkdownEditor from "../editor/markdown-editor";
+import { rewriteMarkdownLinks } from "@/app/features/agent/utils/common";
 
 
 function groupByType(items: Node_[]): Record<NodeType, Node_[]> {
@@ -44,10 +41,15 @@ const NodeTabs: React.FC<{ subNodeGroups: Record<NodeType, Node_[]> }> = ({ subN
   }, [subNodeGroups]);
 
   const tab = (type: NodeType) => {
+    const ele = TypeTabnameMapping[type];
+    if (!ele) {
+      return null;
+    }
+
     return (
       <button
         key={type}
-        className="inline-flex items-center justify-center whitespace-nowrap py-1 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 py-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none space-x-2"
+        className="inline-flex items-center justify-center whitespace-nowrap py-1 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-stone-50 relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 py-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none space-x-2"
         onClick={() => setActiveTab(type)}
         data-state={activeTab === type ? 'active' : 'inactive'}
       >
@@ -71,7 +73,6 @@ const NodeTabs: React.FC<{ subNodeGroups: Record<NodeType, Node_[]> }> = ({ subN
               <NodeView
                 key={node.id}
                 node={node}
-                colorMode='stone'
                 className='max-w-[650px]'
               />
             ))}
@@ -119,15 +120,6 @@ const EntityCard = React.forwardRef<
   }
   , [node]);
 
-  const copyToClipboard = () => {
-    if (basicInfo.content === null) {
-      return;
-    }
-    console.log('Copying to clipboard:', basicInfo.content);
-    navigator.clipboard.writeText(basicInfo.content);
-    toast('Text copied to clipboard!');
-  };
-
   React.useEffect(() => {
     setDynamicDisplayMode(displayMode);
   }, [displayMode]);
@@ -146,11 +138,13 @@ const EntityCard = React.forwardRef<
 
   const cardLabelTitleClassName = `${ColorModeTextClassName[colorMode]}`;
 
+  const content = rewriteMarkdownLinks(basicInfo.content || '');
+
   return (
     <Card
       ref={ref}
       className={cn(
-        'w-[800px] overflow-hidden shadow-none border-none relative rounded-3xl',
+        'w-[800px] overflow-hidden shadow-none border-none relative rounded-3xl bg-stone-50',
         className
       )}
       {...props}
@@ -166,15 +160,9 @@ const EntityCard = React.forwardRef<
         </CardLabelTitle>
       </CardLabel>
       {
-        basicInfo.content !== null &&
-        <CopyToClipboard
-          copyToClipboard={copyToClipboard}
-        />
-      }
-      {
-        basicInfo.content !== null &&
+        basicInfo.content &&
         <CardContent className='pt-6'>
-          <TiptapMarkdownEditor markdown={basicInfo.content} />
+          <TiptapMarkdownEditor markdown={content} readonly />
         </CardContent>
       }
       {

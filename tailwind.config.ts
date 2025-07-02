@@ -12,7 +12,8 @@ const config: Config = {
 			fontFamily: {
 				sans: ['var(--font-dm-sans)'],
 				mono: ['var(--font-dm-mono)'],
-				handwriting: ['var(--font-indie-flower)'],
+				handwriting: ['var(--font-dyna-puff)'],
+				heading: ['var(--font-darker-grotesque)'],
 			},
   		colors: {
   			background: 'hsl(var(--background))',

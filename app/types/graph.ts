@@ -2,7 +2,7 @@ import { Node } from '@xyflow/react';
 
 export enum NodeType {
   Document = 'doc',
-  Concept = 'kernel_concept',
+  Concept = 'concept',
   Corpus = 'corpus',
   QA = 'qa',
   Exercise = 'exercise',
@@ -134,6 +134,10 @@ export interface NodeData extends Node_ {
   minHeight?: number;
   maxWidth?: number;
   maxHeight?: number;
+  fill?: string;
+  fillStyle?: 'solid' | 'hachure' | 'zigzag' | 'cross-hatch';
+  stroke?: string;
+  strokeWidth?: number;
   [key: string]: unknown;
 }
 

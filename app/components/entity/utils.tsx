@@ -1,8 +1,8 @@
 import { Node_, NodeType } from "@/app/types/graph";
-import { cleanMarkdownLinks, extractPlainText, shuffleArray, trimText } from "../utils";
+import { cleanMarkdownLinks, extractPlainText, shuffleArray, trimText } from "../../utils/common";
 import { TextSelect, LetterText } from "lucide-react";
 import { NodeTypeIconMapping } from "./color-mapping";
-import { TypeTabnameMapping } from "./typeMapping";
+import { TypeTabnameMapping } from "../../types/type-mapping";
 
 export interface BasicInfo {
   label: string | null;

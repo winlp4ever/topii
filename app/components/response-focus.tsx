@@ -5,18 +5,10 @@ import EntityCard from './entity/card';
 import { Node_ } from '../types/graph';
 import { LoadingView } from './loading-view';
 import { NodeTypeColorMapping } from './entity/color-mapping';
-import ReactionBar from './reaction-bar';
+import { ReactionBar } from './reaction-bar';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { EntityCardDisplayMode } from '../types/entity/displayMode';
-
-
-const UserMessage: React.FC<{ message: string }> = ({ message }) => {
-  return (
-    <div className='flex w-max max-w-[75%] flex-col gap-2 rounded-xl px-5 py-2 text-base ml-auto bg-stone-100 w-auto'>
-      {message}
-    </div>
-  );
-}
+import { EntityCardDisplayMode } from '../types/entity/display-mode';
+import { UserMessage } from '../features/agent/components/chat/user-message';
 
 
 // This is the response focus component
@@ -25,6 +17,7 @@ export function ResponseFocus() {
   const data = useAppStore((state) => state.data);
   const input = useAppStore((state) => state.input);
   const inputType = useAppStore((state) => state.inputType);
+
   const [response, setResponse] = React.useState<Node_ | null>(null);
   const [sourceNodes, setSourceNodes] = React.useState<Node_[]>([]);
 
@@ -38,7 +31,6 @@ export function ResponseFocus() {
       const graph = data.data;
       const response = graph.nodes[0];
       const nodes = graph.nodes.slice(1);
-      // const srcNodes = filterSourceNodes(response.id, nodes, graph.edges);
       setSourceNodes(nodes);
       setResponse(response);
     }
@@ -64,7 +56,7 @@ export function ResponseFocus() {
         )
       }
       <ScrollArea
-        className="h-screen w-screen bg-white"
+        className="h-screen w-screen bg-stone-50"
       >
         <div className='w-full h-full flex flex-col items-center justify-center'>
           <div
@@ -80,7 +72,8 @@ export function ResponseFocus() {
                 response && <div>
                   {cpn}
                   {
-                    input && inputType === 'query' && loadingStatus === 'COMPLETED' && <ReactionBar />
+                    input && inputType === 'query' && loadingStatus === 'COMPLETED' &&
+                    <ReactionBar />
                   }
                 </div>
               }
