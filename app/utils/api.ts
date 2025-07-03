@@ -1,6 +1,6 @@
 import camelCaseKeys from 'camelcase-keys';
 import { AgentSourceLabels, isTool, ReasoningStep } from '../features/agent/types/message';
-import { Agent } from 'http';
+
 
 /**
  * Handle streaming response from the AI assistant.
