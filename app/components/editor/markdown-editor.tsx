@@ -103,10 +103,7 @@ const TiptapMarkdownEditor: React.FC<TiptapMarkdownEditorProps> = ({ markdown, o
 
   // Load initial markdown
   useEffect(() => {
-    const load = async () => {
-      setInitialMd(markdown);
-    };
-    load();
+    setInitialMd(markdown);
   }, [markdown]);
 
   useEffect(() => {

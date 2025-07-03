@@ -6,7 +6,7 @@ import remarkGfm from 'remark-gfm';
 import 'katex/dist/katex.min.css'; // Import KaTeX CSS for styling
 import 'highlight.js/styles/github.css'; // Import a highlight.js theme
 import { cn } from "@/app/lib/utils";
-import { Clipboard } from "lucide-react";
+import { Copy } from "lucide-react";
 import { toast } from "sonner";
 import React from "react";
 
@@ -55,11 +55,11 @@ const CustomCodeView: React.FC<CustomCodeViewProps> = ({ className, children }) 
         className="transition-all absolute top-1 right-1 text-sm bg-transparent hover:bg-stone-200 p-2 rounded-xl text-stone-500"
         aria-label="Copy to clipboard"
       >
-        <Clipboard strokeWidth={1.75} className='h-4 w-4' />
+        <Copy strokeWidth={1.75} className='h-4 w-4' />
       </button>
       {
         language !== 'plaintext' && (
-          <span className="absolute top-0 left-0 w-auto bg-transparent text-[11px] px-4 py-2 text-stone-500 text-sm">
+          <span className="absolute top-0 left-0 w-auto bg-transparent px-4 py-2 text-stone-500 text-xs font-mono">
             {language}
           </span>
         )
@@ -84,14 +84,14 @@ interface CustomLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> 
 const CustomLink: React.FC<CustomLinkProps> = ({ children, ...props }) => {
   // Ensure children is an array and get the first element as a string
   const content = Array.isArray(children) ? children[0] : children;
-  const contentWithoutBrackets = typeof content === 'string' ? content.replace(/^\[|\]$/g, '') : '';
+  const contentWithoutBrackets = typeof content === 'string' ? content.replace(/^\[|\]$/g, '') : "KB";
 
   return (
     <a
       href="#"
-      className="font-medium text-primary text-[10px] rounded-full bg-stone-200 px-2
-        inline-block text-center text-stone-700 font-light"
+      className="text-sky-600 inline-block rounded-full p-1 text-center bg-gray-100 font-mono hover:underline transition-all text-xs"
       {...props}
+      target="_blank"
     >
       {contentWithoutBrackets}
     </a>
@@ -111,13 +111,13 @@ const MarkdownView: React.FC<MarkdownViewProps> = ({ content }) => {
         remarkPlugins={[remarkMath, remarkGfm]}
         rehypePlugins={[rehypeKatex, rehypeHighlight]}
         components={{
-          h1: ({ ...props }) => <h1 className="mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0" {...props} />,
+          h1: ({ ...props }) => <h1 className="mt-10 scroll-m-20 border-b pb-2 text-3xl font-heading font-semibold tracking-tight transition-colors first:mt-0" {...props} />,
           h2: ({ ...props }) => <h2
-            className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight"
+            className="mt-8 scroll-m-20 text-2xl font-heading font-semibold tracking-tight"
             {...props}
           />,
-          h3: ({ ...props }) => <h3 className="mt-6 scroll-m-20 text-xl font-semibold tracking-tight" {...props} />,
-          h4: ({ ...props }) => <h4 className="mt-6 scroll-m-20 text-lg font-semibold tracking-tight" {...props} />,
+          h3: ({ ...props }) => <h3 className="mt-6 scroll-m-20 text-xl font-heading font-semibold tracking-tight" {...props} />,
+          h4: ({ ...props }) => <h4 className="mt-6 scroll-m-20 text-lg font-heading font-semibold tracking-tight" {...props} />,
           p: ({ ...props }) => <p className="leading-7 [&:not(:first-child)]:mt-6 text-base" {...props} />,
           blockquote: ({ ...props }) => <blockquote className="mt-4 border-l-2 pl-6 italic text-sm" {...props} />,
           ul: ({ ...props }) => <ul className="my-6 ml-6 list-disc [&>li]:mt-2" {...props} />,

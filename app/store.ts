@@ -61,7 +61,7 @@ export const useAppStore = create<AppState>()(
     inputType: 'nodeId',
     flowName: null,
     aiSettings: {
-      model: LLMEnum.GPT4O
+      model: LLMEnum.GPT4_1
     },
     data: null,
     loadingStatus: 'IDLE',

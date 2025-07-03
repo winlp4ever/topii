@@ -2,9 +2,9 @@
 import { useAgentStore } from '../store/agent';
 import { UserMessage } from './chat/user-message';
 import { ReasoningStepsView } from './chat/reasoning-steps';
-import TiptapMarkdownEditor from '@/app/components/editor/markdown-editor';
-import { isMessage, isTool } from '../types/message';
+import { isMessage } from '../types/message';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import MarkdownView from '@/app/components/markdown-view';
 
 
 // This is the response focus component
@@ -12,8 +12,6 @@ export const AgentView = () => {
   const isStreaming = useAgentStore((state) => state.isStreaming);
   const query = useAgentStore((state) => state.query);
   const answer = useAgentStore((state) => state.answer);
-
-  console.log('content', answer && answer.steps.length > 0 ? answer.steps[answer.steps.length - 1].content : 'No content');
 
   return (
     <>
@@ -37,9 +35,8 @@ export const AgentView = () => {
               {
                 answer && answer.steps.length > 0 && isMessage(answer.steps[answer.steps.length - 1].type) &&
                 <div className='w-full p-4'>
-                  <TiptapMarkdownEditor
-                    markdown={answer.steps[answer.steps.length - 1].content || ''}
-                    readonly={true}
+                  <MarkdownView
+                    content={answer.steps[answer.steps.length - 1].content || ''}
                   />
                 </div>
               }
