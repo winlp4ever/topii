@@ -51,13 +51,13 @@ export function filterSourceNodes(root_id: string, nodes: Node_[], edges: Edge_[
 
 export function cleanMarkdownLinks(markdown: string): string {
   // Step 1: Remove markdown links whose labels are not numeric (along with adjacent spaces)
-  markdown = markdown.replace(/ ?\[\[(.+?)\]\]\([^\)]+\)/g, (match, label) => {
+  markdown = markdown.replace(/ ?\[\[(.+?)\]\]\([^)]+\)/g, (match, label) => {
     return isNaN(Number(label)) ? '' : match;
   });
 
   // Step 2: Keep only the first occurrence of markdown links with numeric labels
   const seenLabels = new Set<string>();
-  markdown = markdown.replace(/ ?\[\[(\d+)\]\]\([^\)]+\)/g, (match, label) => {
+  markdown = markdown.replace(/ ?\[\[(\d+)\]\]\([^)]+\)/g, (match, label) => {
     if (seenLabels.has(label)) {
       return ''; // remove duplicates along with adjacent spaces
     } else {

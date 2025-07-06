@@ -19,7 +19,7 @@ import { all, createLowlight } from 'lowlight';
 import 'katex/dist/katex.min.css';
 
 import '@/app/styles/editor.css';
-import EditorMenu from './menu';
+import { EditorMenu } from './menu';
 import CodeBlockComponent from './code-block';
 import { IndentHandler } from './extensions/indent';
 

@@ -8,7 +8,7 @@ interface NodeLabelProps {
 }
 
 
-const NodeLabel: React.FC<NodeLabelProps> = ({ label }) => {
+const NodeLabel = ({ label }: NodeLabelProps) => {
   return (
     <div className="relative flex items-center bg-transparent">
       <div className="left-0 w-8 h-8 bg-transparent rounded-full z-0"></div>
