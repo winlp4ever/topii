@@ -1,6 +1,7 @@
 export enum LLMEnum {
   GPT4O = 'chatgpt-4o-latest',
   GPT4O_MINI = 'gpt-4o-mini',
+  GPT4_1 = 'gpt-4.1',
   MISTRAL_LARGE_LATEST = 'mistral-large-latest',
   GEMINI_2_FLASH = 'gemini-2.0-flash',
   Stellia_SM_2 = 'stellia/stellialm_small_qwen7b_9tasks',
@@ -8,6 +9,7 @@ export enum LLMEnum {
 
 
 export const LLMName: Record<LLMEnum, string> = {
+  [LLMEnum.GPT4_1]: 'GPT-4.1',
   [LLMEnum.GPT4O]: 'GPT-4o',
   [LLMEnum.GPT4O_MINI]: 'GPT-4o-mini',
   [LLMEnum.MISTRAL_LARGE_LATEST]: 'mistral-large',
@@ -17,6 +19,7 @@ export const LLMName: Record<LLMEnum, string> = {
 
 
 export const LLMDescription: Record<LLMEnum, string> = {
+  [LLMEnum.GPT4_1]: 'The latest version of GPT-4, offering improved performance and capabilities.',
   [LLMEnum.GPT4O]: 'Great for high-quality, reliable responses with minimal hallucination, making it a solid default choice.',
   [LLMEnum.GPT4O_MINI]: 'A more affordable option with similar reliability, suitable for less demanding tasks.',
   [LLMEnum.MISTRAL_LARGE_LATEST]: 'Best for those who prefer a French-based AI solution.',

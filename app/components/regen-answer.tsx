@@ -10,7 +10,7 @@ export interface CurrentAnswerRegenActionProps {
 }
 
 
-const CurrentAnswerRegenAction: React.FC<CurrentAnswerRegenActionProps> = ({ query }) => {
+const CurrentAnswerRegenAction = ({ query }: CurrentAnswerRegenActionProps) => {
   const searchQuery = useAppStore((state) => state.searchQuery);
   const regen = (value: LLMEnum) => {
     if (!query) {

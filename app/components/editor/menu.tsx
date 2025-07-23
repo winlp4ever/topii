@@ -6,12 +6,23 @@ import { Bold, Code, Italic, List, ListOrdered, Strikethrough, Terminal, Underli
 import { Separator } from '@/components/ui/separator';
 
 
+/**
+ * Props for the EditorMenu component.
+ * @property {Editor} [editor] - The Tiptap editor instance.
+ */
 export interface EditorMenuProps {
   editor: Editor | null;
 }
 
 
-const EditorMenu: React.FC<EditorMenuProps> = ({ editor }) => {
+/**
+ * EditorMenu component renders a bubble menu for text formatting options in the Tiptap editor.
+ * It includes buttons for bold, italic, underline, strikethrough, bullet list, ordered list, code, and code block.
+ *
+ * @param {EditorMenuProps} props - The props for the component.
+ * @returns {JSX.Element|null} The rendered bubble menu or null if no editor is provided.
+ */
+export const EditorMenu = ({ editor }: EditorMenuProps) => {
   if (!editor) {
     return null;
   }

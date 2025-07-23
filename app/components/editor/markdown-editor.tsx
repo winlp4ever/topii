@@ -19,7 +19,7 @@ import { all, createLowlight } from 'lowlight';
 import 'katex/dist/katex.min.css';
 
 import '@/app/styles/editor.css';
-import EditorMenu from './menu';
+import { EditorMenu } from './menu';
 import CodeBlockComponent from './code-block';
 import { IndentHandler } from './extensions/indent';
 
@@ -103,10 +103,7 @@ const TiptapMarkdownEditor: React.FC<TiptapMarkdownEditorProps> = ({ markdown, o
 
   // Load initial markdown
   useEffect(() => {
-    const load = async () => {
-      setInitialMd(markdown);
-    };
-    load();
+    setInitialMd(markdown);
   }, [markdown]);
 
   useEffect(() => {

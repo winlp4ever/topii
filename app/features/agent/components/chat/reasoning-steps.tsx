@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AgentPhaseState, AgentResponse, AgentSourceLabels, ReasoningStep } from "../../types/message";
+import { AgentPhaseState, AgentResponse, ReasoningStep } from "../../types/message";
 import { trimText } from "@/app/utils/common";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { extractReasoningMessage } from "@/app/utils/api";

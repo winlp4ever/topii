@@ -1,7 +1,7 @@
 /**
  * UserMessage component displays a message sent by the user in the chat interface.
  */
-export const UserMessage: React.FC<{ message: string }> = ({ message }) => {
+export const UserMessage = ({ message }: { message: string }) => {
   return (
     <div
       className={`

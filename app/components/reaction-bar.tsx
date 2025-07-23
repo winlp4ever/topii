@@ -18,7 +18,7 @@ export interface ReactionBarProps {
  * @param {ReactionBarProps} props - The properties for the component.
  * @returns {JSX.Element} The rendered component.
  */
-export const ReactionBar: React.FC<ReactionBarProps> = ({ copyToClipboard }) => {
+export const ReactionBar: React.FC<ReactionBarProps> = ({ copyToClipboard }: ReactionBarProps) => {
   const input = useAppStore((state) => state.input);
 
   return (
